@@ -1,0 +1,14 @@
+{
+  "id": "T7-002",
+  "targetAgent": "agent-wiring",
+  "stage": 7,
+  "dependsOn": [
+    "T6-002"
+  ],
+  "path": "src/app/features/routines/routines.routes.ts",
+  "kind": "route",
+  "layer": "features",
+  "feature": "routines",
+  "export": "ROUTINES_ROUTES",
+  "intent": "Export const ROUTINES_ROUTES: Routes = [{path: '', loadComponent: () => import('./feature/routines-page.component').then(m => m.RoutinesPageComponent)}]."
+}

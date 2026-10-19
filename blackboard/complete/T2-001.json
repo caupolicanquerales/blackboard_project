@@ -1,0 +1,12 @@
+{
+  "id": "T2-001",
+  "targetAgent": "agent-core",
+  "stage": 2,
+  "dependsOn": [],
+  "path": "src/app/core/auth/trainer-profile.store.ts",
+  "kind": "store",
+  "layer": "core",
+  "feature": null,
+  "export": "TrainerProfileStore",
+  "intent": "Root-provided signal store of the current trainer/athlete session profile. Public API: TrainerProfileStore.profile: Signal<TrainerProfile | null>; TrainerProfileStore.isAuthenticated: Signal<boolean>; TrainerProfileStore.setProfile(profile: TrainerProfile): void; TrainerProfileStore.clear(): void. Imports TrainerProfile from core/models/trainer-profile.model."
+}

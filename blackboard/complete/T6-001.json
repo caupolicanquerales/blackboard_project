@@ -1,0 +1,23 @@
+{
+  "id": "T6-001",
+  "targetAgent": "agent-container",
+  "stage": 6,
+  "dependsOn": [
+    "T1-001",
+    "T1-004",
+    "T1-005",
+    "T3-002",
+    "T4-001",
+    "T4-003",
+    "T5-001",
+    "T5-003",
+    "T5-005",
+    "T5-007"
+  ],
+  "path": "src/app/features/dashboard/feature/dashboard-page.component.ts",
+  "kind": "container",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "DashboardPageComponent",
+  "intent": "Route-target container (standalone OnPush) injecting only DashboardStore. On init calls DashboardStore.load() then DashboardStore.startLive(); on destroy DashboardStore.stopLive(). Template renders by DashboardStore.state (loading/empty/error with retry via load()/success) composing BiometricTilesComponent[metric], ComparisonBarsComponent[ratios], RadialGaugesComponent[gauges], ChevronStepperComponent[phases], ExerciseStepCardsComponent[steps], StatisticsBarComponent[intensity] in the dashboard grid areas (tiles,bars,gauges,timeline,steps,stats), and a reset button calling DashboardStore.resetRatios(). Consumes DashboardStore.state: Signal<ViewState>; DashboardStore.metric: Signal<BiometricMetric | null>; DashboardStore.ratios: Signal<TrainingRatio[]>; DashboardStore.steps: Signal<WorkoutStep[]>; DashboardStore.phases: Signal<PhaseProgress[]>; DashboardStore.gauges: Signal<GaugeValue[]>; DashboardStore.intensity: Signal<number>; DashboardStore.load(): void; DashboardStore.startLive(): void; DashboardStore.stopLive(): void; DashboardStore.resetRatios(): void."
+}

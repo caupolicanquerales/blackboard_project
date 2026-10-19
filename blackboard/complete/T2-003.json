@@ -1,0 +1,15 @@
+{
+  "id": "T2-003",
+  "targetAgent": "agent-wiring",
+  "stage": 2,
+  "dependsOn": [
+    "T1-003",
+    "T2-001"
+  ],
+  "path": "src/app/core/mock/dev-seed.providers.ts",
+  "kind": "provider",
+  "layer": "core",
+  "feature": null,
+  "export": "provideDevSeed",
+  "intent": "Export function provideDevSeed(): EnvironmentProviders using provideAppInitializer to inject TrainerProfileStore and call TrainerProfileStore.setProfile(profile: TrainerProfile): void with a seeded profile {id:'trainer-1', displayName:'Alex Carter', headline:'PERSONAL TRAINER', websiteUrl:'www.fitnesstrainer.com', avatarUrl:<inline SVG data URI>, role:'TRAINER'} so the header renders on first paint."
+}

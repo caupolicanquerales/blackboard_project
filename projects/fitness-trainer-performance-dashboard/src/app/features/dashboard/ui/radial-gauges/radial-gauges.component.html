@@ -1,0 +1,30 @@
+<section class="gauges" aria-label="Radial progress gauges">
+  @for (ring of rings(); track ring.id) {
+    <figure class="gauge">
+      <div
+        class="ring"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [attr.aria-valuenow]="ring.percentage"
+        [attr.aria-valuetext]="ring.percentage + '%'"
+        [attr.aria-label]="ring.label"
+      >
+        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <circle class="track" cx="50" cy="50" [attr.r]="radius" />
+          <circle
+            class="progress"
+            cx="50"
+            cy="50"
+            [attr.r]="radius"
+            [attr.stroke-dasharray]="circumference"
+            [attr.stroke-dashoffset]="ring.offset"
+            transform="rotate(-90 50 50)"
+          />
+          <text class="value" x="50" y="50" text-anchor="middle" dominant-baseline="central">{{ ring.percentage }}%</text>
+        </svg>
+      </div>
+      <figcaption>{{ ring.label }}</figcaption>
+    </figure>
+  }
+</section>

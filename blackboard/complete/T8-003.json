@@ -1,0 +1,15 @@
+{
+  "id": "T8-003",
+  "targetAgent": "agent-wiring",
+  "stage": 8,
+  "dependsOn": [
+    "T7-001",
+    "T7-002"
+  ],
+  "path": "src/app/app.routes.ts",
+  "kind": "route",
+  "layer": "root",
+  "feature": null,
+  "export": "routes",
+  "intent": "Export const routes: Routes = [{path:'', pathMatch:'full', redirectTo:'dashboard'}, {path:'dashboard', loadChildren: () => import('./features/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES)}, {path:'routines', loadChildren: () => import('./features/routines/routines.routes').then(m => m.ROUTINES_ROUTES)}, {path:'**', redirectTo:'dashboard'}]. References only feature routes files."
+}

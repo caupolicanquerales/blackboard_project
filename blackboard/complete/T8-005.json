@@ -1,0 +1,15 @@
+{
+  "id": "T8-005",
+  "targetAgent": "agent-wiring",
+  "stage": 8,
+  "dependsOn": [
+    "T8-001",
+    "T8-002"
+  ],
+  "path": "src/main.ts",
+  "kind": "config",
+  "layer": "root",
+  "feature": null,
+  "export": "bootstrap",
+  "intent": "Wire bootstrapApplication(AppComponent, appConfig).catch(err => console.error(err))."
+}

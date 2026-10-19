@@ -1,0 +1,17 @@
+{
+  "id": "T8-001",
+  "targetAgent": "agent-ui",
+  "stage": 8,
+  "dependsOn": [
+    "T7-003",
+    "T7-004",
+    "T7-005",
+    "T7-006"
+  ],
+  "path": "src/app/app.component.ts",
+  "kind": "ui",
+  "layer": "root",
+  "feature": null,
+  "export": "AppComponent",
+  "intent": "Spatial: display=grid; columns=1fr; rows=auto 1fr auto; gap=1rem; areas=\"header\" \"main\" \"toasts\"; regions=[trainer-header(area=header, content=Trainer header banner: athlete photo, 'PERSONAL TRAINER' headline, website URL, primary navigation arrow controls), main-outlet(area=main, content=Routed feature outlet (dashboard, routines)), toast-overlay(area=toasts, content=Toast notifications for biometric threshold alerts and completed exercise steps)]; responsive=[{name=tablet, maxWidth=1023px, columns=1fr, areas=\"header\" \"main\" \"toasts\"}, {name=mobile, maxWidth=639px, columns=1fr, areas=\"header\" \"main\" \"toasts\"}]. Root shell host (standalone OnPush) injecting ToastStore and TrainerProfileStore. Template: <app-trainer-header [profile]=\"profile()\"> in area header, <main> with <router-outlet> in area main, <app-toast-overlay [toasts]=\"toasts()\" (dismissed)=\"dismiss($event)\"> in area toasts; applies the global grid on host. Style: modern-corporate dark athletic design system (#121212 surface, neon orange/red accents, bold italic headings, custom iconography), AA+ high contrast, focus-visible, prefers-reduced-motion, fluid desktop/tablet and single-column mobile. Consumes ToastStore.toasts: Signal<Toast[]>; ToastStore.show(message: string, severity: ToastSeverity): string; ToastStore.dismiss(id: string): void; ToastStore.clear(): void; TrainerProfileStore.profile: Signal<TrainerProfile | null>; TrainerProfileStore.isAuthenticated: Signal<boolean>; TrainerProfileStore.setProfile(profile: TrainerProfile): void; TrainerProfileStore.clear(): void. Imports TrainerHeaderComponent, ToastOverlayComponent, RouterOutlet."
+}

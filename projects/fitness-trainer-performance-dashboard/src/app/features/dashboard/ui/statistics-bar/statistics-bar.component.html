@@ -1,0 +1,19 @@
+<section class="stats">
+  <header class="stats__header">
+    <h3 class="stats__title">Live intensity</h3>
+    <span class="stats__value" aria-hidden="true">{{ clamped() }}<small>%</small></span>
+  </header>
+  <div
+    class="meter"
+    role="meter"
+    tabindex="0"
+    aria-label="Workout intensity"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [attr.aria-valuenow]="clamped()"
+    [attr.aria-valuetext]="clamped() + ' percent'"
+  >
+    <div class="meter__layer meter__layer--base" [style.width.%]="clamped()"></div>
+    <div class="meter__layer meter__layer--overlay" [style.width.%]="clamped() * 0.6"></div>
+  </div>
+</section>

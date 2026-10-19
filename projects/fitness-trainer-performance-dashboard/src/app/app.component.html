@@ -1,0 +1,5 @@
+<app-trainer-header class="shell-header" [profile]="profile()" />
+<main class="shell-main" id="main-content" tabindex="-1">
+  <router-outlet />
+</main>
+<app-toast-overlay class="shell-toasts" [toasts]="toasts()" (dismissed)="dismiss($event)" />

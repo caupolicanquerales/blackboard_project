@@ -1,0 +1,14 @@
+{
+  "id": "T5-005",
+  "targetAgent": "agent-container",
+  "stage": 5,
+  "dependsOn": [
+    "T1-004"
+  ],
+  "path": "src/app/features/dashboard/ui/radial-gauges/radial-gauges.component.ts",
+  "kind": "ui",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "RadialGaugesComponent",
+  "intent": "Presentational standalone OnPush. Signal input `gauges = input<GaugeValue[]>([])` (features/dashboard/data/dashboard.model). Dual SVG circular progress rings with centered labels."
+}

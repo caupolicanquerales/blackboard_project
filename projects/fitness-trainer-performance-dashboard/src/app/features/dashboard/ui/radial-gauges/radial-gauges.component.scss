@@ -1,0 +1,116 @@
+:host {
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --radius-lg: 0.75rem;
+  --color-surface: #121212;
+  --color-surface-raised: #1c1c1e;
+  --color-border: color-mix(in srgb, #ffffff 12%, transparent);
+  --color-text: #f5f5f5;
+  --color-muted: #b8b8bd;
+  --color-track: #3a3a3e;
+  --color-accent: #ff5a1f;
+  --color-accent-end: #ff2d3d;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --text-caption: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
+  --motion-duration: 250ms;
+  --motion-ease: ease-out;
+
+  display: block;
+  grid-area: gauges;
+  min-width: 0;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  color-scheme: dark;
+}
+
+.gauges {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: center;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 16px color-mix(in srgb, #000 50%, transparent);
+}
+
+.gauge {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  padding: var(--space-3);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.ring {
+  inline-size: 100%;
+  max-inline-size: 10rem;
+  border-radius: 50%;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+}
+
+svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+
+.track,
+.progress {
+  fill: none;
+  stroke-width: 8;
+}
+
+.track {
+  stroke: var(--color-track);
+}
+
+.progress {
+  stroke: var(--color-accent);
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--motion-duration) var(--motion-ease);
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--color-accent-end) 60%, transparent));
+}
+
+.value {
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+  fill: var(--color-text);
+}
+
+figcaption {
+  max-inline-size: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-muted);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 639px) {
+  .gauges {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress {
+    transition: none;
+  }
+}

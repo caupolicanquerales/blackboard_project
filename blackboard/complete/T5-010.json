@@ -1,0 +1,14 @@
+{
+  "id": "T5-010",
+  "targetAgent": "agent-ui",
+  "stage": 5,
+  "dependsOn": [
+    "T5-009"
+  ],
+  "path": "src/app/features/routines/ui/step-detail/step-detail.component.ts",
+  "kind": "ux",
+  "layer": "features",
+  "feature": "routines",
+  "export": "StepDetailComponent",
+  "intent": "Spatial: display=grid; columns=repeat(3, minmax(0, 1fr)); rows=auto 1fr; gap=1rem; areas=\"stepper stepper stepper\" \"list list detail\"; regions=[phase-stepper(area=stepper, content=Chevron stepper of phases STEP 01 to STEP 04 with phase progress), step-list(area=list, content=Exercise step cards list with completion checkmarks), step-detail(area=detail, content=Detailed instructions for the selected step with complete and advance actions)]; responsive=[{name=tablet, maxWidth=1023px, columns=repeat(2, minmax(0, 1fr)), areas=\"stepper stepper\" \"list detail\"}, {name=mobile, maxWidth=639px, columns=1fr, areas=\"stepper\" \"list\" \"detail\"}]. Style: modern-corporate dark athletic design system (#121212 surface, neon orange/red accents, bold italic headings, custom iconography), AA+ high contrast, focus-visible, prefers-reduced-motion, fluid desktop/tablet and single-column mobile. A11y: buttons labelled, disabled state when completed, aria-live=polite on completion."
+}

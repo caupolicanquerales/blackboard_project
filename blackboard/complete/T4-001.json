@@ -1,0 +1,14 @@
+{
+  "id": "T4-001",
+  "targetAgent": "agent-container",
+  "stage": 4,
+  "dependsOn": [
+    "T1-005"
+  ],
+  "path": "src/app/shared/ui/chevron-stepper/chevron-stepper.component.ts",
+  "kind": "ui",
+  "layer": "shared",
+  "feature": null,
+  "export": "ChevronStepperComponent",
+  "intent": "Presentational standalone OnPush component. Signal input `phases = input.required<PhaseProgress[]>()` (from shared/models/workout.model). Renders 4-stage chevron timeline STEP 01-STEP 04 with status. Shared by dashboard and routines."
+}

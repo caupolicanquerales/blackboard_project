@@ -1,0 +1,32 @@
+<section class="step-detail-layout" aria-label="Step detail">
+  @if (step(); as s) {
+    <article class="step-detail" [class.is-done]="s.isCompleted" aria-labelledby="step-detail-title">
+      <p class="eyebrow">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M13 2 4 14h6l-1 8 9-12h-6z" />
+        </svg>
+        STEP {{ s.stepNumber < 10 ? '0' + s.stepNumber : s.stepNumber }}
+      </p>
+      <h3 id="step-detail-title">{{ s.title }}</h3>
+      <p class="description">{{ s.description }}</p>
+      <div class="status" role="status" aria-live="polite">
+        @if (s.isCompleted) {
+          <span class="badge">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="m5 12 5 5 9-10" />
+            </svg>
+            Step completed
+          </span>
+        }
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary" [disabled]="s.isCompleted" (click)="completed.emit()">
+          Complete step {{ s.stepNumber }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="advanced.emit()">Advance to next step</button>
+      </div>
+    </article>
+  } @else {
+    <p class="empty-hint">Select a step to see its instructions.</p>
+  }
+</section>

@@ -1,0 +1,18 @@
+{
+  "id": "T6-002",
+  "targetAgent": "agent-container",
+  "stage": 6,
+  "dependsOn": [
+    "T1-005",
+    "T3-004",
+    "T4-001",
+    "T4-003",
+    "T5-009"
+  ],
+  "path": "src/app/features/routines/feature/routines-page.component.ts",
+  "kind": "container",
+  "layer": "features",
+  "feature": "routines",
+  "export": "RoutinesPageComponent",
+  "intent": "Route-target container (standalone OnPush) injecting only RoutinesStore. On init calls RoutinesStore.load('default'). Template by RoutinesStore.state composing ChevronStepperComponent[phases] (area stepper), ExerciseStepCardsComponent[steps, selectedStepId] with (stepSelected) -> RoutinesStore.selectStep(stepId: string): void (area list), StepDetailComponent[step=selectedStep] with (completed) -> RoutinesStore.completeSelected(): void and (advanced) -> RoutinesStore.advance(): void (area detail). Consumes RoutinesStore.state: Signal<ViewState>; RoutinesStore.steps: Signal<WorkoutStep[]>; RoutinesStore.phases: Signal<PhaseProgress[]>; RoutinesStore.selectedStepId: Signal<string | null>; RoutinesStore.selectedStep: Signal<WorkoutStep | null>; RoutinesStore.load(routineId: string): void; RoutinesStore.selectStep(stepId: string): void; RoutinesStore.completeSelected(): void; RoutinesStore.advance(): void."
+}

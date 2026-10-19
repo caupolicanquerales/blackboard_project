@@ -1,0 +1,80 @@
+:host {
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --color-surface: #121212;
+  --color-text: #f2f2f2;
+  --color-accent: #ff5a1f;
+  --motion-fast: 150ms;
+  --max-width: 90rem;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'header'
+    'main'
+    'toasts';
+  gap: 1rem;
+  min-block-size: 100vh;
+  box-sizing: border-box;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  color: var(--color-text);
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+.shell-header {
+  grid-area: header;
+  min-width: 0;
+}
+
+.shell-main {
+  grid-area: main;
+  min-width: 0;
+  inline-size: 100%;
+  max-inline-size: var(--max-width);
+  margin-inline: auto;
+  overflow-x: auto;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+.shell-toasts {
+  grid-area: toasts;
+  min-width: 0;
+}
+
+@media (max-width: 1023px) {
+  :host {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'header'
+      'main'
+      'toasts';
+  }
+}
+
+@media (max-width: 639px) {
+  :host {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'header'
+      'main'
+      'toasts';
+    padding: var(--space-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host * {
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms;
+    scroll-behavior: auto;
+  }
+}

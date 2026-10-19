@@ -1,0 +1,12 @@
+{
+  "id": "T1-005",
+  "targetAgent": "agent-model",
+  "stage": 1,
+  "dependsOn": [],
+  "path": "src/app/shared/models/workout.model.ts",
+  "kind": "model",
+  "layer": "shared",
+  "feature": null,
+  "export": "WorkoutStep",
+  "intent": "Export interface WorkoutStep {id: string; stepNumber: number; title: string; description: string; isCompleted: boolean}; type PhaseStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'; interface PhaseProgress {id: string; phaseName: string; completionPercentage: number; status: PhaseStatus}; type ViewState = 'loading' | 'empty' | 'error' | 'success'."
+}

@@ -1,0 +1,14 @@
+{
+  "id": "T5-009",
+  "targetAgent": "agent-container",
+  "stage": 5,
+  "dependsOn": [
+    "T1-005"
+  ],
+  "path": "src/app/features/routines/ui/step-detail/step-detail.component.ts",
+  "kind": "ui",
+  "layer": "features",
+  "feature": "routines",
+  "export": "StepDetailComponent",
+  "intent": "Presentational standalone OnPush. Signal input `step = input<WorkoutStep | null>(null)` (shared/models/workout.model); outputs `completed = output<void>()`, `advanced = output<void>()`. Shows detailed instructions with Complete and Advance buttons; empty hint when step is null."
+}

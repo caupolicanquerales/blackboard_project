@@ -1,0 +1,14 @@
+{
+  "id": "T2-004",
+  "targetAgent": "agent-core",
+  "stage": 2,
+  "dependsOn": [
+    "T1-002"
+  ],
+  "path": "src/app/core/notifications/toast.store.ts",
+  "kind": "store",
+  "layer": "core",
+  "feature": null,
+  "export": "ToastStore",
+  "intent": "Root-provided signal store for toast notifications (auto-dismiss after ~5s, max 5 visible). Public API: ToastStore.toasts: Signal<Toast[]>; ToastStore.show(message: string, severity: ToastSeverity): string; ToastStore.dismiss(id: string): void; ToastStore.clear(): void. Imports Toast/ToastSeverity from core/models/toast.model."
+}

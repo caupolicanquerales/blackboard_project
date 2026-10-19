@@ -1,0 +1,14 @@
+{
+  "id": "T4-003",
+  "targetAgent": "agent-container",
+  "stage": 4,
+  "dependsOn": [
+    "T1-005"
+  ],
+  "path": "src/app/shared/ui/exercise-step-cards/exercise-step-cards.component.ts",
+  "kind": "ui",
+  "layer": "shared",
+  "feature": null,
+  "export": "ExerciseStepCardsComponent",
+  "intent": "Presentational standalone OnPush component. Signal inputs `steps = input.required<WorkoutStep[]>()`, `selectedStepId = input<string | null>(null)`; output `stepSelected = output<string>()`. Renders stacked STEP 0N cards with completion checkmark. Shared by dashboard and routines."
+}

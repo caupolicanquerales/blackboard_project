@@ -1,0 +1,12 @@
+{
+  "id": "T5-007",
+  "targetAgent": "agent-container",
+  "stage": 5,
+  "dependsOn": [],
+  "path": "src/app/features/dashboard/ui/statistics-bar/statistics-bar.component.ts",
+  "kind": "ui",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "StatisticsBarComponent",
+  "intent": "Presentational standalone OnPush. Signal input `intensity = input<number>(0)` (0-100). Dual-layered horizontal meter of live workout intensity."
+}

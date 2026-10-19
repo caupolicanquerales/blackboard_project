@@ -1,0 +1,12 @@
+{
+  "id": "T1-002",
+  "targetAgent": "agent-model",
+  "stage": 1,
+  "dependsOn": [],
+  "path": "src/app/core/models/toast.model.ts",
+  "kind": "model",
+  "layer": "core",
+  "feature": null,
+  "export": "Toast",
+  "intent": "Export type ToastSeverity = 'info' | 'success' | 'warning' | 'error'; interface Toast {id: string; message: string; severity: ToastSeverity; createdAt: number}."
+}

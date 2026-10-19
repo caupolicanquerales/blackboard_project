@@ -1,0 +1,16 @@
+{
+  "id": "T2-005",
+  "targetAgent": "agent-core",
+  "stage": 2,
+  "dependsOn": [
+    "T1-001",
+    "T1-002",
+    "T2-004"
+  ],
+  "path": "src/app/core/telemetry/telemetry.service.ts",
+  "kind": "service",
+  "layer": "core",
+  "feature": null,
+  "export": "TelemetryService",
+  "intent": "Root-provided biometric telemetry service using HttpClient. Public API: TelemetryService.getSnapshot(): Observable<BiometricMetric> (GET /api/telemetry/snapshot); TelemetryService.streamLive(intervalMs: number): Observable<BiometricMetric> (polls GET /api/telemetry/stream every intervalMs with timer+switchMap; for each metric exceeding DEFAULT_TELEMETRY_THRESHOLDS calls ToastStore.show(message: string, severity: ToastSeverity): string with severity 'warning', throttled per metric kind). Consumes ToastStore.show(message: string, severity: ToastSeverity): string."
+}

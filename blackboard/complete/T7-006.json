@@ -1,0 +1,14 @@
+{
+  "id": "T7-006",
+  "targetAgent": "agent-ui",
+  "stage": 7,
+  "dependsOn": [
+    "T7-005"
+  ],
+  "path": "src/app/layout/trainer-header/trainer-header.component.ts",
+  "kind": "ux",
+  "layer": "layout",
+  "feature": null,
+  "export": "TrainerHeaderComponent",
+  "intent": "Spatial: display=grid; columns=1fr; rows=auto 1fr auto; gap=1rem; areas=\"header\" \"main\" \"toasts\"; regions=[trainer-header(area=header, content=Trainer header banner: athlete photo, 'PERSONAL TRAINER' headline, website URL, primary navigation arrow controls), main-outlet(area=main, content=Routed feature outlet (dashboard, routines)), toast-overlay(area=toasts, content=Toast notifications for biometric threshold alerts and completed exercise steps)]; responsive=[{name=tablet, maxWidth=1023px, columns=1fr, areas=\"header\" \"main\" \"toasts\"}, {name=mobile, maxWidth=639px, columns=1fr, areas=\"header\" \"main\" \"toasts\"}]. Header internal grid: columns=auto 1fr auto; gap=1rem; align-items=center (avatar | headline+url | arrow nav); stack on mobile. Style: modern-corporate dark athletic design system (#121212 surface, neon orange/red accents, bold italic headings, custom iconography), AA+ high contrast, focus-visible, prefers-reduced-motion, fluid desktop/tablet and single-column mobile. A11y: nav with aria-label, arrow controls with aria-label, alt text on avatar."
+}

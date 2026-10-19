@@ -1,0 +1,15 @@
+{
+  "id": "T3-001",
+  "targetAgent": "agent-core",
+  "stage": 3,
+  "dependsOn": [
+    "T1-004",
+    "T1-005"
+  ],
+  "path": "src/app/features/dashboard/data/dashboard.api.ts",
+  "kind": "api",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "DashboardApi",
+  "intent": "HttpClient API. Public API: DashboardApi.getRatios(): Observable<TrainingRatio[]>; DashboardApi.getSteps(): Observable<WorkoutStep[]>; DashboardApi.getPhases(): Observable<PhaseProgress[]>. Endpoints: GET /api/dashboard/ratios; GET /api/routines/default/steps; GET /api/routines/default/phases."
+}

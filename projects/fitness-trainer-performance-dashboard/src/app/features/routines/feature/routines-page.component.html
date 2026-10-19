@@ -1,0 +1,32 @@
+@switch (store.state()) {
+  @case ('loading') {
+    <p class="routines-state" role="status">Loading routine…</p>
+  }
+  @case ('error') {
+    <p class="routines-state" role="alert">The routine could not be loaded.</p>
+  }
+  @case ('empty') {
+    <p class="routines-state">No routine steps available.</p>
+  }
+  @default {
+    <section class="routines-page">
+      <div class="routines-page__stepper">
+        <app-chevron-stepper [phases]="store.phases()" />
+      </div>
+      <div class="routines-page__list">
+        <app-exercise-step-cards
+          [steps]="store.steps()"
+          [selectedStepId]="store.selectedStepId()"
+          (stepSelected)="store.selectStep($event)"
+        />
+      </div>
+      <div class="routines-page__detail">
+        <app-step-detail
+          [step]="store.selectedStep()"
+          (completed)="store.completeSelected()"
+          (advanced)="store.advance()"
+        />
+      </div>
+    </section>
+  }
+}

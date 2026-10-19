@@ -1,0 +1,217 @@
+{
+  "project": {
+    "name": "fitness-trainer-performance-dashboard",
+    "description": "High-contrast dark athletic telemetry dashboard for trainers and athletes tracking biometrics, training ratios, phase progression and exercise routines.",
+    "target": "Angular 22 (Standalone, Signals, Zoneless)"
+  },
+  "global_requirements": {
+    "layout": "Dark theme (#121212) with neon orange/red accents, bold italic headings and custom iconography; trainer header banner on top with primary arrow navigation, routed main outlet below, toast overlay region; fluid across desktop and tablet, single-column on mobile; high contrast and ARIA labels on gauges and bars.",
+    "grid": {
+      "display": "grid",
+      "columns": "1fr",
+      "rows": "auto 1fr auto",
+      "gap": "1rem",
+      "areas": "\"header\" \"main\" \"toasts\"",
+      "regions": [
+        {
+          "name": "trainer-header",
+          "area": "header",
+          "content": "Trainer header banner: athlete photo, 'PERSONAL TRAINER' headline, website URL, primary navigation arrow controls"
+        },
+        {
+          "name": "main-outlet",
+          "area": "main",
+          "content": "Routed feature outlet (dashboard, routines)"
+        },
+        {
+          "name": "toast-overlay",
+          "area": "toasts",
+          "content": "Toast notifications for biometric threshold alerts and completed exercise steps"
+        }
+      ],
+      "responsive": [
+        {
+          "name": "tablet",
+          "maxWidth": "1023px",
+          "columns": "1fr",
+          "areas": "\"header\" \"main\" \"toasts\""
+        },
+        {
+          "name": "mobile",
+          "maxWidth": "639px",
+          "columns": "1fr",
+          "areas": "\"header\" \"main\" \"toasts\""
+        }
+      ]
+    },
+    "core_services": [
+      "Biometric Telemetry Service \u2014 ingests live streams of heart rate (bpm), respiratory/lung capacity and training load/weight volume",
+      "Toast & Notification Store \u2014 shows real-time alerts when biometrics exceed zone thresholds or exercise steps are completed",
+      "Auth & Trainer Profile Store \u2014 manages current trainer/athlete session profile and avatar media"
+    ],
+    "shared_ui": [
+      "Trainer Header Banner \u2014 shows hero athlete avatar, headline title, web link and quick action arrows. grid: columns=auto 1fr auto; gap=1rem; align=center",
+      "Biometric Telemetry Tiles \u2014 icon-driven status cards for heart rate (heart icon), respiratory rate (lungs icon) and weight volume (dumbbell icon) with detail labels. grid: columns=repeat(3, minmax(0, 1fr)); gap=1rem; align=stretch",
+      "Comparison Split Bars \u2014 horizontal progress bars showing percentage splits (e.g. 30%/70% vs 50%/50%) with aria-valuenow. grid: columns=repeat(2, minmax(0, 1fr)); gap=0.5rem; align=center",
+      "Radial Gauge Indicator \u2014 dual circular progress rings (e.g. 80% and 20%) with centered step labels and aria-valuenow. grid: columns=repeat(2, minmax(0, 1fr)); gap=1rem; align=center",
+      "Chevron Stepper Timeline \u2014 4-stage horizontal arrow progress bar (STEP 01 to STEP 04) of workout phases. grid: columns=repeat(4, minmax(0, 1fr)); gap=0.5rem; align=center",
+      "Exercise Step Cards \u2014 stacked vertical cards with sequential workout instructions (STEP 01, STEP 02), keyboard focusable. grid: columns=1fr; gap=1rem; align=stretch",
+      "Statistics Bar Widget \u2014 dual-layered horizontal meter of live workout intensity output. grid: columns=1fr; gap=0.5rem; align=center"
+    ]
+  },
+  "features": [
+    {
+      "name": "dashboard",
+      "route": "/dashboard",
+      "description": "Real-time athletic monitoring summary of live biometrics, comparative training split ratios, circular completion rings, workout phase progress and exercise step list. Views: dashboard. States: loading|empty|error|success. Feedback: toast on threshold overflow. A11y: high contrast, aria-valuenow on radial gauges. Responsive: 3-column desktop, single-column mobile stack.",
+      "grid": {
+        "display": "grid",
+        "columns": "repeat(3, minmax(0, 1fr))",
+        "rows": "auto auto auto auto auto",
+        "gap": "1rem",
+        "areas": "\"tiles tiles tiles\" \"bars bars gauges\" \"timeline timeline timeline\" \"steps steps steps\" \"stats stats stats\"",
+        "regions": [
+          {
+            "name": "biometric-tiles",
+            "area": "tiles",
+            "content": "Top-level biometric telemetry tiles (heart rate, respiratory rate, weight volume)"
+          },
+          {
+            "name": "comparison-bars",
+            "area": "bars",
+            "content": "Dual comparison split bars of training ratios"
+          },
+          {
+            "name": "radial-gauges",
+            "area": "gauges",
+            "content": "Dual radial progress gauges"
+          },
+          {
+            "name": "phase-timeline",
+            "area": "timeline",
+            "content": "4-step horizontal chevron process timeline"
+          },
+          {
+            "name": "exercise-steps",
+            "area": "steps",
+            "content": "Vertical exercise instruction cards"
+          },
+          {
+            "name": "statistics-bar",
+            "area": "stats",
+            "content": "Bottom statistics bar of live workout intensity"
+          }
+        ],
+        "responsive": [
+          {
+            "name": "tablet",
+            "maxWidth": "1023px",
+            "columns": "repeat(2, minmax(0, 1fr))",
+            "areas": "\"tiles tiles\" \"bars gauges\" \"timeline timeline\" \"steps steps\" \"stats stats\""
+          },
+          {
+            "name": "mobile",
+            "maxWidth": "639px",
+            "columns": "1fr",
+            "areas": "\"tiles\" \"bars\" \"gauges\" \"timeline\" \"steps\" \"stats\""
+          }
+        ]
+      },
+      "entities": [
+        {
+          "name": "BiometricMetric",
+          "fields": [
+            "id: string",
+            "heartRate: number",
+            "respiratoryRate: number",
+            "trainingLoad: number",
+            "updatedAt: string"
+          ]
+        },
+        {
+          "name": "TrainingRatio",
+          "fields": [
+            "id: string",
+            "primaryPercentage: number",
+            "secondaryPercentage: number",
+            "categoryLabel: string"
+          ]
+        }
+      ],
+      "actions": [
+        "Fetch current telemetry snapshot",
+        "Stream live heart rate and respiration updates",
+        "Reset comparative metrics"
+      ]
+    },
+    {
+      "name": "routines",
+      "route": "/routines",
+      "description": "Workout execution where users view and track multi-phase sessions (STEP 01 to STEP 04) and run step-by-step exercise routines. Views: list|detail|stepper. States: loading|empty|error|success. Feedback: inline completion checkmarks and phase transition feedback. A11y: keyboard focusable step cards. Responsive: stacked cards on smaller screens.",
+      "grid": {
+        "display": "grid",
+        "columns": "repeat(3, minmax(0, 1fr))",
+        "rows": "auto 1fr",
+        "gap": "1rem",
+        "areas": "\"stepper stepper stepper\" \"list list detail\"",
+        "regions": [
+          {
+            "name": "phase-stepper",
+            "area": "stepper",
+            "content": "Chevron stepper of phases STEP 01 to STEP 04 with phase progress"
+          },
+          {
+            "name": "step-list",
+            "area": "list",
+            "content": "Exercise step cards list with completion checkmarks"
+          },
+          {
+            "name": "step-detail",
+            "area": "detail",
+            "content": "Detailed instructions for the selected step with complete and advance actions"
+          }
+        ],
+        "responsive": [
+          {
+            "name": "tablet",
+            "maxWidth": "1023px",
+            "columns": "repeat(2, minmax(0, 1fr))",
+            "areas": "\"stepper stepper\" \"list detail\""
+          },
+          {
+            "name": "mobile",
+            "maxWidth": "639px",
+            "columns": "1fr",
+            "areas": "\"stepper\" \"list\" \"detail\""
+          }
+        ]
+      },
+      "entities": [
+        {
+          "name": "WorkoutStep",
+          "fields": [
+            "id: string",
+            "stepNumber: number",
+            "title: string",
+            "description: string",
+            "isCompleted: boolean"
+          ]
+        },
+        {
+          "name": "PhaseProgress",
+          "fields": [
+            "id: string",
+            "phaseName: string",
+            "completionPercentage: number",
+            "status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'"
+          ]
+        }
+      ],
+      "actions": [
+        "Fetch workout steps by routine ID",
+        "Mark step as completed",
+        "Advance to next workout phase"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "T7-001",
+  "targetAgent": "agent-wiring",
+  "stage": 7,
+  "dependsOn": [
+    "T6-001"
+  ],
+  "path": "src/app/features/dashboard/dashboard.routes.ts",
+  "kind": "route",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "DASHBOARD_ROUTES",
+  "intent": "Export const DASHBOARD_ROUTES: Routes = [{path: '', loadComponent: () => import('./feature/dashboard-page.component').then(m => m.DashboardPageComponent)}]."
+}

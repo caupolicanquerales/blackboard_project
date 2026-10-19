@@ -1,0 +1,12 @@
+{
+  "id": "T1-003",
+  "targetAgent": "agent-model",
+  "stage": 1,
+  "dependsOn": [],
+  "path": "src/app/core/models/trainer-profile.model.ts",
+  "kind": "model",
+  "layer": "core",
+  "feature": null,
+  "export": "TrainerProfile",
+  "intent": "Export interface TrainerProfile {id: string; displayName: string; headline: string; websiteUrl: string; avatarUrl: string; role: 'TRAINER' | 'ATHLETE'}."
+}

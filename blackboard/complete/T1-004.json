@@ -1,0 +1,12 @@
+{
+  "id": "T1-004",
+  "targetAgent": "agent-model",
+  "stage": 1,
+  "dependsOn": [],
+  "path": "src/app/features/dashboard/data/dashboard.model.ts",
+  "kind": "model",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "TrainingRatio",
+  "intent": "Export interface TrainingRatio {id: string; primaryPercentage: number; secondaryPercentage: number; categoryLabel: string}; interface GaugeValue {id: string; label: string; percentage: number}."
+}

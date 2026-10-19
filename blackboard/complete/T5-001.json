@@ -1,0 +1,14 @@
+{
+  "id": "T5-001",
+  "targetAgent": "agent-container",
+  "stage": 5,
+  "dependsOn": [
+    "T1-001"
+  ],
+  "path": "src/app/features/dashboard/ui/biometric-tiles/biometric-tiles.component.ts",
+  "kind": "ui",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "BiometricTilesComponent",
+  "intent": "Presentational standalone OnPush. Signal input `metric = input<BiometricMetric | null>(null)` (core/models/telemetry.model). Three icon tiles: heart (bpm), lungs (respiratory rate), dumbbell (weight volume) with detail labels."
+}

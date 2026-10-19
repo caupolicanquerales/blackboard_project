@@ -1,0 +1,33 @@
+<ol class="chevron-stepper" role="list" aria-label="Workout phases progress">
+  @for (step of steps(); track step.id) {
+    <li
+      class="chevron-stepper__item"
+      role="listitem"
+      [attr.data-status]="step.status"
+      [attr.aria-current]="step.status === 'IN_PROGRESS' ? 'step' : null"
+      [attr.aria-label]="step.phaseName + ', ' + step.status + ', ' + step.completionPercentage + '% complete'"
+    >
+      <span class="chevron-stepper__label">{{ step.label }}</span>
+      <span class="chevron-stepper__name">{{ step.phaseName }}</span>
+      <span class="chevron-stepper__status">
+        <svg class="chevron-stepper__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          @switch (step.status) {
+            @case ('COMPLETED') {
+              <path d="M3 8.5l3.2 3.2L13 5" />
+            }
+            @case ('IN_PROGRESS') {
+              <path d="M5 3l7 5-7 5z" />
+            }
+            @default {
+              <circle cx="8" cy="8" r="4.5" />
+            }
+          }
+        </svg>
+        {{ step.status }} · {{ step.completionPercentage }}%
+      </span>
+      <span class="chevron-stepper__bar" aria-hidden="true">
+        <span class="chevron-stepper__fill" [style.width.%]="step.completionPercentage"></span>
+      </span>
+    </li>
+  }
+</ol>

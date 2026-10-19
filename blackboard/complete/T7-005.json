@@ -1,0 +1,14 @@
+{
+  "id": "T7-005",
+  "targetAgent": "agent-container",
+  "stage": 7,
+  "dependsOn": [
+    "T1-003"
+  ],
+  "path": "src/app/layout/trainer-header/trainer-header.component.ts",
+  "kind": "ui",
+  "layer": "layout",
+  "feature": null,
+  "export": "TrainerHeaderComponent",
+  "intent": "Presentational standalone OnPush shell part. Signal input `profile = input<TrainerProfile | null>(null)` (core/models/trainer-profile.model). Shows athlete avatar, 'PERSONAL TRAINER' headline, website URL and primary navigation arrow controls using RouterLink/RouterLinkActive to '/dashboard' and '/routines'."
+}

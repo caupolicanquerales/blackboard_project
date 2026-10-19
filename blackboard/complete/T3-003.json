@@ -1,0 +1,14 @@
+{
+  "id": "T3-003",
+  "targetAgent": "agent-core",
+  "stage": 3,
+  "dependsOn": [
+    "T1-005"
+  ],
+  "path": "src/app/features/routines/data/routines.api.ts",
+  "kind": "api",
+  "layer": "features",
+  "feature": "routines",
+  "export": "RoutinesApi",
+  "intent": "HttpClient API. Public API: RoutinesApi.getSteps(routineId: string): Observable<WorkoutStep[]>; RoutinesApi.getPhases(routineId: string): Observable<PhaseProgress[]>; RoutinesApi.completeStep(routineId: string, stepId: string): Observable<WorkoutStep>; RoutinesApi.advancePhase(routineId: string): Observable<PhaseProgress[]>. Endpoints: GET /api/routines/:routineId/steps; GET /api/routines/:routineId/phases; POST /api/routines/:routineId/steps/:stepId/complete; POST /api/routines/:routineId/advance."
+}

@@ -1,0 +1,15 @@
+{
+  "id": "T8-002",
+  "targetAgent": "agent-wiring",
+  "stage": 8,
+  "dependsOn": [
+    "T2-002",
+    "T2-003"
+  ],
+  "path": "src/app/app.config.ts",
+  "kind": "config",
+  "layer": "root",
+  "feature": null,
+  "export": "appConfig",
+  "intent": "Export const appConfig: ApplicationConfig with provideZonelessChangeDetection(), provideRouter(routes) (routes exported by app.routes.ts as `export const routes: Routes`), provideHttpClient(withInterceptors([devApiInterceptor])) and provideDevSeed(). Mock layer registered only here."
+}

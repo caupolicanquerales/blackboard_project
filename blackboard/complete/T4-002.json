@@ -1,0 +1,14 @@
+{
+  "id": "T4-002",
+  "targetAgent": "agent-ui",
+  "stage": 4,
+  "dependsOn": [
+    "T4-001"
+  ],
+  "path": "src/app/shared/ui/chevron-stepper/chevron-stepper.component.ts",
+  "kind": "ux",
+  "layer": "shared",
+  "feature": null,
+  "export": "ChevronStepperComponent",
+  "intent": "Spatial: display=grid; columns=repeat(4, minmax(0, 1fr)); gap=0.5rem; align-items=center; responsive=[{name=mobile, maxWidth=639px, columns=1fr}] (chevron clip-path arrows, vertical on mobile). Style: modern-corporate dark athletic design system (#121212 surface, neon orange/red accents, bold italic headings, custom iconography), AA+ high contrast, focus-visible, prefers-reduced-motion, fluid desktop/tablet and single-column mobile. A11y: role=list, aria-current=step on IN_PROGRESS phase, aria-label with percentage."
+}

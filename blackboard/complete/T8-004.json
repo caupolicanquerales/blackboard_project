@@ -1,0 +1,14 @@
+{
+  "id": "T8-004",
+  "targetAgent": "agent-wiring",
+  "stage": 8,
+  "dependsOn": [
+    "T8-001"
+  ],
+  "path": "src/index.html",
+  "kind": "config",
+  "layer": "root",
+  "feature": null,
+  "export": "IndexHtml",
+  "intent": "Rewrite the document shell: <html lang=\"en\">, <title>Fitness Trainer Performance Dashboard</title>, meta charset/viewport/description/theme-color #121212, dark body background #121212, and the single <app-root></app-root> mount point."
+}

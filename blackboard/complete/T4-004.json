@@ -1,0 +1,14 @@
+{
+  "id": "T4-004",
+  "targetAgent": "agent-ui",
+  "stage": 4,
+  "dependsOn": [
+    "T4-003"
+  ],
+  "path": "src/app/shared/ui/exercise-step-cards/exercise-step-cards.component.ts",
+  "kind": "ux",
+  "layer": "shared",
+  "feature": null,
+  "export": "ExerciseStepCardsComponent",
+  "intent": "Spatial: display=grid; columns=1fr; gap=1rem; align-items=stretch. Style: modern-corporate dark athletic design system (#121212 surface, neon orange/red accents, bold italic headings, custom iconography), AA+ high contrast, focus-visible, prefers-reduced-motion, fluid desktop/tablet and single-column mobile. A11y: each card tabindex=0 button-like with Enter/Space selection, aria-pressed for selected, visible completion checkmark with aria-label."
+}

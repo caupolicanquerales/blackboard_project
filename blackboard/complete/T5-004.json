@@ -1,0 +1,14 @@
+{
+  "id": "T5-004",
+  "targetAgent": "agent-ui",
+  "stage": 5,
+  "dependsOn": [
+    "T5-003"
+  ],
+  "path": "src/app/features/dashboard/ui/comparison-bars/comparison-bars.component.ts",
+  "kind": "ux",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "ComparisonBarsComponent",
+  "intent": "Spatial: display=grid; columns=repeat(3, minmax(0, 1fr)); rows=auto auto auto auto auto; gap=1rem; areas=\"tiles tiles tiles\" \"bars bars gauges\" \"timeline timeline timeline\" \"steps steps steps\" \"stats stats stats\"; regions=[biometric-tiles(area=tiles, content=Top-level biometric telemetry tiles (heart rate, respiratory rate, weight volume)), comparison-bars(area=bars, content=Dual comparison split bars of training ratios), radial-gauges(area=gauges, content=Dual radial progress gauges), phase-timeline(area=timeline, content=4-step horizontal chevron process timeline), exercise-steps(area=steps, content=Vertical exercise instruction cards), statistics-bar(area=stats, content=Bottom statistics bar of live workout intensity)]; responsive=[{name=tablet, maxWidth=1023px, columns=repeat(2, minmax(0, 1fr)), areas=\"tiles tiles\" \"bars gauges\" \"timeline timeline\" \"steps steps\" \"stats stats\"}, {name=mobile, maxWidth=639px, columns=1fr, areas=\"tiles\" \"bars\" \"gauges\" \"timeline\" \"steps\" \"stats\"}]. Widget grid: columns=repeat(2, minmax(0, 1fr)); gap=0.5rem; align=center. Style: modern-corporate dark athletic design system (#121212 surface, neon orange/red accents, bold italic headings, custom iconography), AA+ high contrast, focus-visible, prefers-reduced-motion, fluid desktop/tablet and single-column mobile. A11y: role=progressbar with aria-valuenow/min/max and aria-label."
+}

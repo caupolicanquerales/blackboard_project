@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-areas:
+    'tiles tiles'
+    'bars gauges'
+    'timeline timeline'
+    'steps steps'
+    'stats stats';
+  gap: 1rem;
+}
+
+.area-tiles { grid-area: tiles; }
+.area-bars { grid-area: bars; }
+.area-gauges { grid-area: gauges; }
+.area-timeline { grid-area: timeline; }
+.area-steps { grid-area: steps; }
+.area-stats { grid-area: stats; }

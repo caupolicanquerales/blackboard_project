@@ -1,0 +1,21 @@
+<header class="trainer-header">
+  @if (profile(); as p) {
+    <img class="trainer-header__avatar" [src]="p.avatarUrl" [alt]="p.displayName" />
+    <div class="trainer-header__info">
+      <h1 class="trainer-header__headline">PERSONAL TRAINER</h1>
+      <a class="trainer-header__url" [href]="p.websiteUrl">{{ p.websiteUrl }}</a>
+    </div>
+  } @else {
+    <div class="trainer-header__info">
+      <h1 class="trainer-header__headline">PERSONAL TRAINER</h1>
+    </div>
+  }
+  <nav class="trainer-header__nav" aria-label="Primary navigation">
+    <a class="trainer-header__arrow" routerLink="/dashboard" routerLinkActive="active" aria-label="Dashboard">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a class="trainer-header__arrow" routerLink="/routines" routerLinkActive="active" aria-label="Routines">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </nav>
+</header>
