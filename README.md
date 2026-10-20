@@ -96,7 +96,8 @@ condition is a single file on disk that implements the task `intent`.
 | `agent-wiring` | Authors routing (`loadChildren`/`loadComponent`), providers, `app.config.ts`, and the document shell (`main.ts`, `index.html`). |
 
 Tasks parallelize safely because **no two tasks can ever touch the same file**, and the dependency
-graph makes illegal orderings impossible — the reference build enqueued 42 tasks across all 9 stages.
+graph makes illegal orderings impossible — the reference build enqueued 50 tasks across all 9 stages,
+all of which now sit in `blackboard/complete/`.
 
 ---
 
@@ -109,7 +110,7 @@ Work is decomposed into nine stages with hard prerequisites:
 | `0` | project bootstrap (`ng new … --directory .`) | — |
 | `1` | `*.model.ts`, `shared/models/**` | — |
 | `2` | `core/**` | 1 |
-| `3` | `features/<f>/data/**` | 1, 2 |
+| `3` | `features/<f>/data/**` (incl. `*.model.ts`) | 1, 2 |
 | `4` | rest of `shared/**` | 1 |
 | `5` | `features/<f>/ui/**` | 1, 4 |
 | `6` | `features/<f>/feature/**` (route targets) | 1, 2, 3, 5 |
@@ -154,13 +155,16 @@ determines `stage`, `targetAgent`, `kind`, and `layer`; a `features` layer requi
 `projects/fitness-trainer-performance-dashboard/` is a real, working build produced by the pipeline:
 
 - **Angular 22** standalone, signals, zoneless, SCSS, Vitest.
-- **Shell** (`layout/`): trainer header banner + toast overlay host.
-- **Feature — Dashboard** (`/dashboard`): biometric tiles, comparison split bars, radial gauges,
-  chevron phase timeline, statistics bar.
-- **Feature — Routines** (`/routines`): phase stepper, exercise step cards, step detail with
-  complete/advance actions.
-- **Core** (`core/`): telemetry stream service, toast store, trainer-profile store, and a mock HTTP
-  interceptor + seed provider (Rule 6 data provisioning).
+- **Shell** (`layout/`): `trainer-header` banner (hero `trainer-avatar` + headline + nav), a
+  standalone `trainer-avatar` component, and a `toast-host` overlay.
+- **Feature — Dashboard** (`/dashboard`): `biometric-tiles`, `comparison-split-bars`,
+  `radial-gauges`, and a `statistics-bar`.
+- **Feature — Routines** (`/routines`): a `chevron-stepper` timeline, `step-card-list`, and a
+  `step-detail` panel with complete/advance actions.
+- **Shared** (`shared/ui/`): `chevron-stepper`, `step-card-list`, and `icon`.
+- **Core** (`core/`): telemetry service (`biometrics/`), toast store (`alerts/`), trainer-profile
+  store (`profile/`), a mock HTTP `api/` + interceptor (`mock/`), and dev-seed providers
+  (`providers/`) — the Rule 6 data-provisioning seam.
 - **Lazy routing**: `app.routes.ts` → `loadChildren` per feature → `loadComponent` per page.
 
 Run it:
@@ -240,6 +244,7 @@ python3 runner_github.py --translate seed/001_description.md --watch
 ├── .github/agents/               # mirrored Copilot agent profiles (*.agent.md)
 └── projects/
     └── fitness-trainer-performance-dashboard/   # generated Angular 22 application
+        └── src/app/                              # core · shared · features/{dashboard,routines} · layout
 ```
 
 ---
@@ -276,7 +281,9 @@ docker compose -f arize_phoenix.yml up -d
 # OTLP:    4317 (gRPC) · 4318 (HTTP)
 ```
 
-Set `OTEL_EXPORTER_OTLP_ENDPOINT` in `.env` (defaults to `http://localhost:4318/v1/traces`).
+Set `OTEL_EXPORTER_OTLP_ENDPOINT` in `.env` (the collector **base** URL — the exporter appends
+`/v1/traces` itself; shipped default `http://localhost:6006`). The resource also carries an
+`openinference.project.name` attribute so Phoenix groups spans under the service name.
 
 ---
 
