@@ -5,10 +5,10 @@
   "dependsOn": [
     "T1-002"
   ],
-  "path": "src/app/layout/toast-overlay/toast-overlay.component.ts",
+  "path": "src/app/layout/toast-host/toast-host.component.ts",
   "kind": "ui",
   "layer": "layout",
   "feature": null,
-  "export": "ToastOverlayComponent",
-  "intent": "Presentational standalone OnPush shell part. Signal input `toasts = input<Toast[]>([])` (core/models/toast.model); output `dismissed = output<string>()` (toast id). Renders toast list for threshold alerts and completed steps."
+  "export": "ToastHostComponent",
+  "intent": "Presentational standalone OnPush toast stack (role=status, aria-live=polite); click on toast emits dismissed(id). Public API exactly: ToastHostComponent selector app-toast-host { toasts = input.required<readonly Notification[]>(); dismissed = output<string>() }. Imports Notification from core/models/notification.model.ts."
 }

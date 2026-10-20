@@ -4,6 +4,6 @@ export const ROUTINES_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./feature/routines-page.component').then((m) => m.RoutinesPageComponent),
+      import('./feature/routines-page.component').then(m => m.RoutinesPageComponent),
   },
 ];

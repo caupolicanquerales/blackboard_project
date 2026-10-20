@@ -1,0 +1,16 @@
+<div class="toast-stack" role="status" aria-live="polite" [attr.aria-label]="'Notifications'">
+  @for (toast of toasts(); track toast.id) {
+    <button
+      type="button"
+      class="toast"
+      [class]="'toast toast--' + toast.severity"
+      [attr.aria-label]="'Dismiss ' + toast.severity + ' notification: ' + toast.message"
+      (click)="dismissed.emit(toast.id)"
+    >
+      <span class="toast__bar" aria-hidden="true"></span>
+      <span class="toast__severity">{{ toast.severity }}</span>
+      <span class="toast__message">{{ toast.message }}</span>
+      <span class="toast__close" aria-hidden="true">&times;</span>
+    </button>
+  }
+</div>

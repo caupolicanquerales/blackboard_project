@@ -1,0 +1,48 @@
+@switch (state()) {
+  @case ('loading') {
+    <div class="step-state" role="status" aria-live="polite" aria-busy="true">
+      <span class="step-skeleton"></span>
+      <span class="step-skeleton"></span>
+      <span class="step-state__text">Loading steps…</span>
+    </div>
+  }
+  @case ('error') {
+    <div class="step-state step-state--error" role="alert">Unable to load workout steps.</div>
+  }
+  @case ('empty') {
+    <div class="step-state" role="status">No workout steps available.</div>
+  }
+  @default {
+<div class="step-list" role="list">
+  @for (step of steps(); track step.id) {
+    <div
+      class="step-card"
+      role="listitem"
+      tabindex="0"
+      [class.step-card--selected]="step.id === selectedStepId()"
+      [class.step-card--completed]="step.isCompleted"
+      [attr.aria-current]="step.id === selectedStepId() ? 'true' : null"
+      (click)="stepSelected.emit(step.id)"
+      (keydown.enter)="onKey($event, step.id)"
+      (keydown.space)="onKey($event, step.id)"
+    >
+      <div class="step-card__header">
+        <span class="step-card__label">STEP {{ step.stepNumber < 10 ? '0' + step.stepNumber : step.stepNumber }}</span>
+        @if (step.isCompleted) {
+          <span class="step-card__check" role="img" aria-label="Completed">
+            <app-icon name="check" [size]="16" />
+          </span>
+        }
+      </div>
+      <h3 class="step-card__title">{{ step.title }}</h3>
+      <p class="step-card__description">{{ step.description }}</p>
+      @if (showActions() && !step.isCompleted) {
+        <button type="button" class="step-card__action" (click)="onComplete($event, step.id)">
+          Mark step as completed
+        </button>
+      }
+    </div>
+  }
+</div>
+  }
+}

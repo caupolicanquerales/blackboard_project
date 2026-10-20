@@ -1,5 +1,16 @@
-<app-trainer-header class="shell-header" [profile]="profile()" />
-<main class="shell-main" id="main-content" tabindex="-1">
-  <router-outlet />
-</main>
-<app-toast-overlay class="shell-toasts" [toasts]="toasts()" (dismissed)="dismiss($event)" />
+<div class="app-shell">
+  <div class="app-shell__header">
+    <app-trainer-header
+      [profile]="profile()"
+      [state]="headerState()"
+      (previousRequested)="previous()"
+      (nextRequested)="next()"
+    />
+  </div>
+  <main class="app-shell__main" role="main">
+    <router-outlet />
+  </main>
+  <div class="app-shell__toasts">
+    <app-toast-host [toasts]="toasts()" (dismissed)="dismiss($event)" />
+  </div>
+</div>

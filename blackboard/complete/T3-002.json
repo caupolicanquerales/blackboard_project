@@ -3,16 +3,16 @@
   "targetAgent": "agent-core",
   "stage": 3,
   "dependsOn": [
-    "T1-001",
+    "T3-001",
+    "T2-001",
     "T1-004",
-    "T1-005",
-    "T2-005",
-    "T3-001"
+    "T1-006",
+    "T1-008"
   ],
   "path": "src/app/features/dashboard/data/dashboard.store.ts",
   "kind": "store",
   "layer": "features",
   "feature": "dashboard",
   "export": "DashboardStore",
-  "intent": "Signal store for dashboard. Public API: DashboardStore.state: Signal<ViewState>; DashboardStore.metric: Signal<BiometricMetric | null>; DashboardStore.ratios: Signal<TrainingRatio[]>; DashboardStore.steps: Signal<WorkoutStep[]>; DashboardStore.phases: Signal<PhaseProgress[]>; DashboardStore.gauges: Signal<GaugeValue[]>; DashboardStore.intensity: Signal<number>; DashboardStore.load(): void; DashboardStore.startLive(): void; DashboardStore.stopLive(): void; DashboardStore.resetRatios(): void. load() sets state 'loading', fetches snapshot/ratios/steps/phases (forkJoin), state 'empty' when no data, 'error' on failure, else 'success'. startLive() subscribes to streamLive(3000) updating metric; stopLive() unsubscribes. intensity = clamp(trainingLoad/10,0,100). gauges: two GaugeValue (completed steps % and remaining %). resetRatios() reloads ratios. Consumes TelemetryService.getSnapshot(): Observable<BiometricMetric>; TelemetryService.streamLive(intervalMs: number): Observable<BiometricMetric>; DashboardApi.getRatios(): Observable<TrainingRatio[]>; DashboardApi.getSteps(): Observable<WorkoutStep[]>; DashboardApi.getPhases(): Observable<PhaseProgress[]>."
+  "intent": "Feature signal store. Injects DashboardApi and ToastStore. load() fetches ratios, phases and steps (routineId 'default') with forkJoin; resetRatios() calls resetTrainingRatios and shows toast 'Comparative metrics reset' ('info'). API contract: DashboardApi (providedIn root) { getTrainingRatios(): Observable<TrainingRatio[]>; resetTrainingRatios(): Observable<TrainingRatio[]>; getPhases(): Observable<PhaseProgress[]>; getSteps(routineId: string): Observable<WorkoutStep[]> } ; ToastStore (providedIn root) { readonly toasts: Signal<readonly Notification[]>; show(message: string, severity: ToastSeverity): string; dismiss(id: string): void; clear(): void }. Public API exactly: DashboardStore (providedIn root) { readonly ratios: Signal<readonly TrainingRatio[]>; readonly phases: Signal<readonly PhaseProgress[]>; readonly steps: Signal<readonly WorkoutStep[]>; readonly loading: Signal<boolean>; readonly error: Signal<string | null>; load(): void; resetRatios(): void }."
 }

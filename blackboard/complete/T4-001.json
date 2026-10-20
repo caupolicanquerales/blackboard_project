@@ -3,12 +3,13 @@
   "targetAgent": "agent-container",
   "stage": 4,
   "dependsOn": [
-    "T1-005"
+    "T1-006",
+    "T1-007"
   ],
   "path": "src/app/shared/ui/chevron-stepper/chevron-stepper.component.ts",
   "kind": "ui",
   "layer": "shared",
   "feature": null,
   "export": "ChevronStepperComponent",
-  "intent": "Presentational standalone OnPush component. Signal input `phases = input.required<PhaseProgress[]>()` (from shared/models/workout.model). Renders 4-stage chevron timeline STEP 01-STEP 04 with status. Shared by dashboard and routines."
+  "intent": "Presentational standalone OnPush 4-stage chevron timeline. Public API exactly: ChevronStepperComponent selector app-chevron-stepper { phases = input.required<readonly PhaseProgress[]>(); state = input<ViewState>('success'); activePhaseId = input<string | null>(null); phaseSelected = output<string>() }. Imports PhaseProgress (shared/models/phase-progress.model.ts) and ViewState (shared/models/view-state.model.ts). Renders states loading|empty|error|success; active chevron = activePhaseId or the IN_PROGRESS phase. Imported by dashboard and routines (shared per Rule 1 cond. 3)."
 }

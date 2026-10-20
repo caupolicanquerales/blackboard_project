@@ -1,15 +1,20 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { WorkoutStep } from '../../../../shared/models/workout.model';
+import { ViewState } from '../../../../shared/models/view-state.model';
+import { WorkoutStep } from '../../../../shared/models/workout-step.model';
 
 @Component({
   imports: [],
   selector: 'app-step-detail',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './step-detail.component.scss',
   templateUrl: './step-detail.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepDetailComponent {
-  readonly step = input<WorkoutStep | null>(null);
-  readonly completed = output<void>();
-  readonly advanced = output<void>();
+  step = input.required<WorkoutStep | null>();
+  state = input<ViewState>('success');
+  completeRequested = output<string>();
+
+  onComplete(step: WorkoutStep): void {
+    this.completeRequested.emit(step.id);
+  }
 }

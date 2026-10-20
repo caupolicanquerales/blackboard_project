@@ -1,0 +1,23 @@
+.routines-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, auto);
+  grid-template-areas:
+    'phases phases'
+    'steps detail';
+  gap: 1rem;
+}
+
+.routines-grid__phases { grid-area: phases; }
+.routines-grid__steps { grid-area: steps; }
+.routines-grid__detail { grid-area: detail; }
+
+@media (max-width: 639px) {
+  .routines-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'phases'
+      'steps'
+      'detail';
+  }
+}

@@ -4,18 +4,48 @@
 
 .dashboard-grid {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(5, auto);
   grid-template-areas:
-    'tiles tiles'
-    'bars gauges'
-    'timeline timeline'
-    'steps steps'
-    'stats stats';
+    'tiles tiles tiles'
+    'bars bars gauges'
+    'timeline timeline timeline'
+    'steps steps steps'
+    'stats stats stats';
   gap: 1rem;
 }
 
-.area-tiles { grid-area: tiles; }
-.area-bars { grid-area: bars; }
-.area-gauges { grid-area: gauges; }
-.area-timeline { grid-area: timeline; }
-.area-steps { grid-area: steps; }
-.area-stats { grid-area: stats; }
+.region {
+  min-width: 0;
+}
+.region--tiles { grid-area: tiles; }
+.region--bars { grid-area: bars; }
+.region--gauges { grid-area: gauges; }
+.region--timeline { grid-area: timeline; }
+.region--steps { grid-area: steps; }
+.region--stats { grid-area: stats; }
+
+@media (max-width: 1023px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'tiles tiles'
+      'bars gauges'
+      'timeline timeline'
+      'steps steps'
+      'stats stats';
+  }
+}
+
+@media (max-width: 639px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'tiles'
+      'bars'
+      'gauges'
+      'timeline'
+      'steps'
+      'stats';
+  }
+}

@@ -1,37 +1,29 @@
 :host {
-  --space-1: 0.25rem;
   --space-2: 0.5rem;
-  --space-3: 1rem;
-  --space-4: 1.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
   --radius-md: 0.75rem;
-  --color-surface: #121212;
-  --color-card: #1c1c1e;
-  --color-text: #f5f5f5;
-  --color-muted: #b8b8bd;
+  --color-surface: #1c1c1e;
+  --color-surface-hover: #262628;
+  --color-border: color-mix(in srgb, #ffffff 12%, transparent);
+  --color-text: #f2f2f3;
+  --color-text-muted: #b4b4ba;
   --color-accent: #ff5a1f;
-  --color-accent-2: #ff2e3b;
-  --shadow-card: 0 4px 16px rgb(0 0 0 / 0.45);
-  --motion-fast: 180ms ease-out;
-  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --color-accent-strong: #ff3d2e;
+  --color-danger: #ff8a80;
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-glow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 60%, transparent), 0 6px 20px rgb(255 90 31 / 18%);
+  --motion: 180ms ease;
 
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: auto auto auto auto auto;
-  grid-template-areas:
-    'tiles tiles tiles'
-    'bars bars gauges'
-    'timeline timeline timeline'
-    'steps steps steps'
-    'stats stats stats';
-  gap: 1rem;
+  display: block;
+  min-width: 0;
   color-scheme: dark;
-  font-family: var(--font-body);
   color: var(--color-text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 .tiles {
-  grid-area: tiles;
-  min-width: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
@@ -39,20 +31,27 @@
 }
 
 .tile {
-  min-width: 0;
   display: grid;
-  gap: var(--space-1);
-  padding: var(--space-4);
-  background: linear-gradient(160deg, var(--color-card), var(--color-surface));
-  border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    'icon label'
+    'value value'
+    'detail detail';
+  align-items: center;
+  column-gap: var(--space-3);
+  row-gap: var(--space-2);
+  min-width: 0;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  transition: transform var(--motion-fast), border-color var(--motion-fast);
+  box-shadow: var(--shadow-1);
+  transition: background var(--motion), box-shadow var(--motion), transform var(--motion);
 
-  &:hover,
-  &:focus-within {
+  &:hover {
+    background: var(--color-surface-hover);
+    box-shadow: var(--shadow-glow);
     transform: translateY(-2px);
-    border-color: var(--color-accent);
   }
 
   &:focus-visible {
@@ -62,80 +61,114 @@
 }
 
 .tile__icon {
-  inline-size: 2rem;
-  block-size: 2rem;
-  fill: none;
-  stroke: var(--color-accent);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.tile--heart .tile__icon {
-  fill: color-mix(in srgb, var(--color-accent-2) 30%, transparent);
-  stroke: var(--color-accent-2);
+  grid-area: icon;
+  display: inline-grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: 50%;
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 16%, transparent);
 }
 
 .tile__label {
-  font-size: 0.8125rem;
+  grid-area: label;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.875rem;
   font-weight: 700;
   font-style: italic;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--color-muted);
+  color: var(--color-text-muted);
 }
 
 .tile__value {
-  font-size: clamp(2rem, 4vw, 3rem);
+  grid-area: value;
+  font-size: clamp(1.75rem, 2.5vw, 2.5rem);
   font-weight: 800;
   font-style: italic;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-strong));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.tile__unit {
+  margin-inline-start: var(--space-2);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-style: normal;
+  color: var(--color-text-muted);
+  -webkit-text-fill-color: var(--color-text-muted);
 }
 
 .tile__detail {
-  font-size: 0.875rem;
-  color: var(--color-muted);
+  grid-area: detail;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.message {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: var(--space-5);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+
+  &--error {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+  }
+}
+
+.tile--skeleton {
+  min-block-size: 8rem;
+  pointer-events: none;
+}
+
+.skeleton {
+  display: block;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2a2a2d 25%, #38383c 50%, #2a2a2d 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+
+  &--icon { grid-area: icon; inline-size: 2.75rem; block-size: 2.75rem; }
+  &--label { grid-area: label; block-size: 0.75rem; inline-size: 60%; }
+  &--value { grid-area: value; block-size: 1.75rem; inline-size: 40%; }
+}
+
+.sr-only {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
 }
 
 @media (max-width: 1023px) {
-  :host {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-areas:
-      'tiles tiles'
-      'bars gauges'
-      'timeline timeline'
-      'steps steps'
-      'stats stats';
-  }
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 639px) {
-  :host {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      'tiles'
-      'bars'
-      'gauges'
-      'timeline'
-      'steps'
-      'stats';
-  }
-
-  .tiles {
-    grid-template-columns: 1fr;
-  }
+  .tiles { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tile {
-    transition: none;
-
-    &:hover,
-    &:focus-within {
-      transform: none;
-    }
-  }
+  .tile { transition: none; &:hover { transform: none; } }
+  .skeleton { animation: none; }
 }

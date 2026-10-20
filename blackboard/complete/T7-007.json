@@ -1,0 +1,17 @@
+{
+  "id": "T7-007",
+  "targetAgent": "agent-container",
+  "stage": 7,
+  "dependsOn": [
+    "T1-003",
+    "T1-007",
+    "T7-005",
+    "T4-003"
+  ],
+  "path": "src/app/layout/trainer-header/trainer-header.component.ts",
+  "kind": "ui",
+  "layer": "layout",
+  "feature": null,
+  "export": "TrainerHeaderComponent",
+  "intent": "Presentational standalone OnPush banner (role=banner): app-trainer-avatar (TrainerAvatarComponent selector app-trainer-avatar { avatar = input.required<string | null>(); displayName = input<string>(''); state = input<ViewState>('success') }) hero slot, headline 'PERSONAL TRAINER', website link (profile.websiteUrl, rel=noopener, target=_blank), previous/next arrow buttons (aria-label 'Previous page' / 'Next page') using app-icon (IconComponent selector app-icon { name = input.required<IconName>(); size = input<number>(24) }) emitting previousRequested/nextRequested. Public API exactly: TrainerHeaderComponent selector app-trainer-header { profile = input.required<TrainerProfile | null>(); state = input<ViewState>('success'); previousRequested = output<void>(); nextRequested = output<void>() }. Imports TrainerProfile, ViewState, TrainerAvatarComponent, IconComponent."
+}

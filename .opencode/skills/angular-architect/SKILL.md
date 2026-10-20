@@ -52,6 +52,8 @@ Features are closed boxes: other layers reach them only through their routes.
 | One feature | `features/<f>/data/<name>.store.ts` |
 | ≥2 features | `core/` |
 
+**One producer per type.** Every type, union, status enum, or DTO is declared in exactly one file and imported everywhere else. A cross-cutting union (e.g. a toast/severity or load-status type) lives in a single `shared/models/` (or `core/models/`) file — never a second, parallel definition, and never a copy carried next to each consumer. Before finalizing the plan, scan every assigned type name: two producers for one name is a rule violation (report to `blackboard/error/`).
+
 ## Rule 5 — Wiring
 
 - `app.routes.ts` may reference only `<f>.routes.ts` files, loaded via `loadChildren`.

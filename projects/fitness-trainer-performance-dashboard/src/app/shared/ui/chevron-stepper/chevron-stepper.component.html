@@ -1,33 +1,33 @@
-<ol class="chevron-stepper" role="list" aria-label="Workout phases progress">
-  @for (step of steps(); track step.id) {
-    <li
-      class="chevron-stepper__item"
-      role="listitem"
-      [attr.data-status]="step.status"
-      [attr.aria-current]="step.status === 'IN_PROGRESS' ? 'step' : null"
-      [attr.aria-label]="step.phaseName + ', ' + step.status + ', ' + step.completionPercentage + '% complete'"
-    >
-      <span class="chevron-stepper__label">{{ step.label }}</span>
-      <span class="chevron-stepper__name">{{ step.phaseName }}</span>
-      <span class="chevron-stepper__status">
-        <svg class="chevron-stepper__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-          @switch (step.status) {
-            @case ('COMPLETED') {
-              <path d="M3 8.5l3.2 3.2L13 5" />
-            }
-            @case ('IN_PROGRESS') {
-              <path d="M5 3l7 5-7 5z" />
-            }
-            @default {
-              <circle cx="8" cy="8" r="4.5" />
-            }
-          }
-        </svg>
-        {{ step.status }} · {{ step.completionPercentage }}%
-      </span>
-      <span class="chevron-stepper__bar" aria-hidden="true">
-        <span class="chevron-stepper__fill" [style.width.%]="step.completionPercentage"></span>
-      </span>
-    </li>
+@switch (state()) {
+  @case ('loading') {
+    <div class="stepper stepper--loading" role="status" aria-busy="true">Loading phases…</div>
   }
-</ol>
+  @case ('empty') {
+    <div class="stepper stepper--empty" role="status">No phases available.</div>
+  }
+  @case ('error') {
+    <div class="stepper stepper--error" role="alert">Unable to load phases.</div>
+  }
+  @default {
+    <ol class="stepper" role="list" aria-label="Workout phases">
+      @for (phase of phases(); track phase.id; let i = $index) {
+        <li class="stepper__item">
+          <button
+            type="button"
+            class="chevron"
+            [class.chevron--active]="phase.id === currentId()"
+            [class.chevron--completed]="phase.status === 'COMPLETED'"
+            [class.chevron--first]="i === 0"
+            [attr.aria-label]="'Step ' + (i + 1) + ': ' + phase.phaseName + ', ' + phase.completionPercentage + '% complete, ' + (phase.status === 'COMPLETED' ? 'completed' : phase.status === 'IN_PROGRESS' ? 'in progress' : 'pending')"
+            [attr.aria-current]="phase.id === currentId() ? 'step' : null"
+            (click)="select(phase.id)"
+          >
+            <span class="chevron__step" aria-hidden="true">STEP {{ i + 1 < 10 ? '0' : '' }}{{ i + 1 }}</span>
+            <span class="chevron__name">{{ phase.phaseName }}</span>
+            <span class="chevron__pct">{{ phase.completionPercentage }}%</span>
+          </button>
+        </li>
+      }
+    </ol>
+  }
+}

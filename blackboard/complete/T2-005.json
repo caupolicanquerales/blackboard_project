@@ -3,14 +3,13 @@
   "targetAgent": "agent-core",
   "stage": 2,
   "dependsOn": [
-    "T1-001",
-    "T1-002",
-    "T2-004"
+    "T2-002",
+    "T1-003"
   ],
-  "path": "src/app/core/telemetry/telemetry.service.ts",
-  "kind": "service",
+  "path": "src/app/core/profile/trainer-profile.store.ts",
+  "kind": "store",
   "layer": "core",
   "feature": null,
-  "export": "TelemetryService",
-  "intent": "Root-provided biometric telemetry service using HttpClient. Public API: TelemetryService.getSnapshot(): Observable<BiometricMetric> (GET /api/telemetry/snapshot); TelemetryService.streamLive(intervalMs: number): Observable<BiometricMetric> (polls GET /api/telemetry/stream every intervalMs with timer+switchMap; for each metric exceeding DEFAULT_TELEMETRY_THRESHOLDS calls ToastStore.show(message: string, severity: ToastSeverity): string with severity 'warning', throttled per metric kind). Consumes ToastStore.show(message: string, severity: ToastSeverity): string."
+  "export": "TrainerProfileStore",
+  "intent": "Signal store of the current trainer/athlete session profile. Injects TrainerProfileApi. API contract: TrainerProfileApi (providedIn root) { getProfile(): Observable<TrainerProfile> }. Public API exactly: TrainerProfileStore (providedIn root) { readonly profile: Signal<TrainerProfile | null>; readonly loading: Signal<boolean>; readonly error: Signal<string | null>; load(): void }. load() sets loading, then profile or error message."
 }

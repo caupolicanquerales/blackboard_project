@@ -12,6 +12,7 @@ describe('BiometricTilesComponent', () => {
 
     fixture = TestBed.createComponent(BiometricTilesComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('metric', null);
     await fixture.whenStable();
   });
 

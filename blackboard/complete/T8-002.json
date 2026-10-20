@@ -3,13 +3,13 @@
   "targetAgent": "agent-wiring",
   "stage": 8,
   "dependsOn": [
-    "T2-002",
-    "T2-003"
+    "T2-004",
+    "T2-006"
   ],
   "path": "src/app/app.config.ts",
   "kind": "config",
   "layer": "root",
   "feature": null,
   "export": "appConfig",
-  "intent": "Export const appConfig: ApplicationConfig with provideZonelessChangeDetection(), provideRouter(routes) (routes exported by app.routes.ts as `export const routes: Routes`), provideHttpClient(withInterceptors([devApiInterceptor])) and provideDevSeed(). Mock layer registered only here."
+  "intent": "Export `appConfig: ApplicationConfig` with providers: provideZonelessChangeDetection(), provideRouter(routes) where `routes: Routes` is exported by ./app.routes (same stage; signature: `export const routes: Routes`), provideHttpClient(withInterceptors([devBackendInterceptor])) (devBackendInterceptor: HttpInterceptorFn from core/mock/dev-backend.interceptor.ts), provideDevSeed() (`provideDevSeed(): EnvironmentProviders` from core/providers/dev-seed.providers.ts)."
 }

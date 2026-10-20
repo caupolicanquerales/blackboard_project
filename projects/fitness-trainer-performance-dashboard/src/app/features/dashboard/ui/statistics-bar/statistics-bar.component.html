@@ -1,19 +1,28 @@
-<section class="stats">
-  <header class="stats__header">
-    <h3 class="stats__title">Live intensity</h3>
-    <span class="stats__value" aria-hidden="true">{{ clamped() }}<small>%</small></span>
-  </header>
-  <div
-    class="meter"
-    role="meter"
-    tabindex="0"
-    aria-label="Workout intensity"
-    aria-valuemin="0"
-    aria-valuemax="100"
-    [attr.aria-valuenow]="clamped()"
-    [attr.aria-valuetext]="clamped() + ' percent'"
-  >
-    <div class="meter__layer meter__layer--base" [style.width.%]="clamped()"></div>
-    <div class="meter__layer meter__layer--overlay" [style.width.%]="clamped() * 0.6"></div>
+<div class="statistics-bar" [attr.data-state]="state()">
+  <div class="statistics-bar__header">
+    <span class="statistics-bar__label" id="workout-intensity-label">Workout Intensity</span>
+    @if (state() === 'success' && metric()) {
+      <span class="statistics-bar__value">{{ percent() }}%</span>
+    }
   </div>
-</section>
+  @if (state() === 'success' && metric()) {
+    <div
+      class="statistics-bar__track"
+      role="meter"
+      aria-labelledby="workout-intensity-label"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [attr.aria-valuenow]="percent()"
+      [attr.aria-valuetext]="percent() + ' percent'"
+      tabindex="0"
+    >
+      <div class="statistics-bar__fill" [style.width.%]="percent()"></div>
+    </div>
+  } @else {
+    <div class="statistics-bar__track statistics-bar__track--idle" aria-hidden="true"></div>
+    <span
+      class="statistics-bar__message"
+      [attr.role]="state() === 'error' ? 'alert' : 'status'"
+    >{{ state() === 'loading' ? 'Loading…' : state() === 'error' ? 'Unable to load' : 'No data' }}</span>
+  }
+</div>

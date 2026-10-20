@@ -3,10 +3,10 @@
   "targetAgent": "agent-model",
   "stage": 1,
   "dependsOn": [],
-  "path": "src/app/core/models/toast.model.ts",
+  "path": "src/app/core/models/notification.model.ts",
   "kind": "model",
   "layer": "core",
   "feature": null,
-  "export": "Toast",
-  "intent": "Export type ToastSeverity = 'info' | 'success' | 'warning' | 'error'; interface Toast {id: string; message: string; severity: ToastSeverity; createdAt: number}."
+  "export": "Notification",
+  "intent": "Declare and export exactly: interface Notification { id: string; message: string; severity: ToastSeverity; createdAt: string } ; type ToastSeverity = 'info' | 'success' | 'warning' | 'error'. Single producer for toast types."
 }

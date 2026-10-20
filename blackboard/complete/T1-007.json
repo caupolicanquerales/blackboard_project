@@ -1,0 +1,12 @@
+{
+  "id": "T1-007",
+  "targetAgent": "agent-model",
+  "stage": 1,
+  "dependsOn": [],
+  "path": "src/app/shared/models/view-state.model.ts",
+  "kind": "model",
+  "layer": "shared",
+  "feature": null,
+  "export": "ViewState",
+  "intent": "Declare and export exactly: type ViewState = 'loading' | 'empty' | 'error' | 'success'. Single producer of the UI state union."
+}

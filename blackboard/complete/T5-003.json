@@ -3,12 +3,13 @@
   "targetAgent": "agent-container",
   "stage": 5,
   "dependsOn": [
-    "T1-004"
+    "T1-004",
+    "T1-007"
   ],
-  "path": "src/app/features/dashboard/ui/comparison-bars/comparison-bars.component.ts",
+  "path": "src/app/features/dashboard/ui/comparison-split-bars/comparison-split-bars.component.ts",
   "kind": "ui",
   "layer": "features",
   "feature": "dashboard",
-  "export": "ComparisonBarsComponent",
-  "intent": "Presentational standalone OnPush. Signal input `ratios = input<TrainingRatio[]>([])` (features/dashboard/data/dashboard.model). Horizontal split bars showing primary/secondary percentages."
+  "export": "ComparisonSplitBarsComponent",
+  "intent": "Presentational standalone OnPush split bars (role=progressbar per segment) plus a 'Reset comparative metrics' button emitting resetRequested. Public API exactly: ComparisonSplitBarsComponent selector app-comparison-split-bars { ratios = input.required<readonly TrainingRatio[]>(); state = input<ViewState>('success'); resetRequested = output<void>() }. Imports TrainingRatio, ViewState."
 }

@@ -1,8 +1,6 @@
 export interface TrainerProfile {
   id: string;
   displayName: string;
-  headline: string;
+  avatar: string | null;
   websiteUrl: string;
-  avatarUrl: string;
-  role: 'TRAINER' | 'ATHLETE';
 }

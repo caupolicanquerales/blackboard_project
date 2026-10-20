@@ -1,32 +1,30 @@
-<section class="step-detail-layout" aria-label="Step detail">
-  @if (step(); as s) {
-    <article class="step-detail" [class.is-done]="s.isCompleted" aria-labelledby="step-detail-title">
-      <p class="eyebrow">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M13 2 4 14h6l-1 8 9-12h-6z" />
-        </svg>
-        STEP {{ s.stepNumber < 10 ? '0' + s.stepNumber : s.stepNumber }}
-      </p>
-      <h3 id="step-detail-title">{{ s.title }}</h3>
-      <p class="description">{{ s.description }}</p>
-      <div class="status" role="status" aria-live="polite">
-        @if (s.isCompleted) {
-          <span class="badge">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="m5 12 5 5 9-10" />
-            </svg>
-            Step completed
-          </span>
-        }
-      </div>
-      <div class="actions">
-        <button type="button" class="btn btn-primary" [disabled]="s.isCompleted" (click)="completed.emit()">
-          Complete step {{ s.stepNumber }}
-        </button>
-        <button type="button" class="btn btn-secondary" (click)="advanced.emit()">Advance to next step</button>
-      </div>
-    </article>
+<section class="panel" role="region" aria-labelledby="step-detail-title" [attr.aria-busy]="state() === 'loading'">
+  @if (state() === 'loading') {
+    <h2 id="step-detail-title" class="visually-hidden">Step detail</h2>
+    <div class="skeleton" role="status" aria-live="polite">
+      <span class="visually-hidden">Loading step…</span>
+      <span class="bar bar--short"></span>
+      <span class="bar bar--title"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  } @else if (state() === 'error') {
+    <h2 id="step-detail-title" class="visually-hidden">Step detail</h2>
+    <p class="message message--error" role="alert">Unable to load step.</p>
+  } @else if (state() === 'empty' || !step()) {
+    <h2 id="step-detail-title" class="visually-hidden">Step detail</h2>
+    <p class="message">No step selected.</p>
   } @else {
-    <p class="empty-hint">Select a step to see its instructions.</p>
+    @let s = step()!;
+    <p class="step-number">Step {{ s.stepNumber }}</p>
+    <h2 id="step-detail-title" class="title">{{ s.title }}</h2>
+    <p class="step-description">{{ s.description }}</p>
+    <p class="step-status" [class.completed]="s.isCompleted">
+      <span class="dot" aria-hidden="true"></span>
+      {{ s.isCompleted ? 'Completed' : 'Not completed' }}
+    </p>
+    <button type="button" class="action" [disabled]="s.isCompleted" (click)="onComplete(s)">
+      Mark step as completed
+    </button>
   }
 </section>

@@ -77,7 +77,9 @@ def init_telemetry(service_name=None):
         print("[otel] endpoint set but the OpenTelemetry SDK is not installed; tracing disabled")
         return None
     name = service_name or os.environ.get("OTEL_SERVICE_NAME", DEFAULT_SERVICE_NAME)
-    _PROVIDER = TracerProvider(resource=Resource.create({"service.name": name}))
+    _PROVIDER = TracerProvider(
+        resource=Resource.create({"service.name": name, "openinference.project.name": name})
+    )
     _PROVIDER.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
     trace.set_tracer_provider(_PROVIDER)
     _TRACER = trace.get_tracer("blackboard.runner")

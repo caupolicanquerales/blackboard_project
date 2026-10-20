@@ -12,6 +12,7 @@ describe('StepDetailComponent', () => {
 
     fixture = TestBed.createComponent(StepDetailComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('step', null);
     await fixture.whenStable();
   });
 

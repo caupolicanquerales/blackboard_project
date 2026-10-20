@@ -1,23 +1,27 @@
+import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { PhaseProgress, WorkoutStep } from '../../../shared/models/workout.model';
-import { TrainingRatio } from './dashboard.model';
+import { TrainingRatio } from './training-ratio.model';
+import { PhaseProgress } from '../../../shared/models/phase-progress.model';
+import { WorkoutStep } from '../../../shared/models/workout-step.model';
 
 @Service()
 export class DashboardApi {
   private readonly http = inject(HttpClient);
 
-  getRatios(): Observable<TrainingRatio[]> {
-    return this.http.get<TrainingRatio[]>('/api/dashboard/ratios');
+  getTrainingRatios(): Observable<TrainingRatio[]> {
+    return this.http.get<TrainingRatio[]>('/api/training-ratios');
   }
 
-  getSteps(): Observable<WorkoutStep[]> {
-    return this.http.get<WorkoutStep[]>('/api/routines/default/steps');
+  resetTrainingRatios(): Observable<TrainingRatio[]> {
+    return this.http.post<TrainingRatio[]>('/api/training-ratios/reset', {});
   }
 
   getPhases(): Observable<PhaseProgress[]> {
-    return this.http.get<PhaseProgress[]>('/api/routines/default/phases');
+    return this.http.get<PhaseProgress[]>('/api/phases');
+  }
+
+  getSteps(routineId: string): Observable<WorkoutStep[]> {
+    return this.http.get<WorkoutStep[]>(`/api/routines/${encodeURIComponent(routineId)}/steps`);
   }
 }

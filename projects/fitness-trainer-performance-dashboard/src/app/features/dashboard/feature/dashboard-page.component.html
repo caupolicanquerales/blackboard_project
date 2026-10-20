@@ -1,27 +1,24 @@
-@switch (store.state()) {
-  @case ('loading') {
-    <p class="dashboard-status" role="status">Loading…</p>
-  }
-  @case ('empty') {
-    <p class="dashboard-status">No data available.</p>
-  }
-  @case ('error') {
-    <div class="dashboard-status" role="alert">
-      <p>Something went wrong.</p>
-      <button type="button" (click)="store.load()">Retry</button>
-    </div>
-  }
-  @default {
-    <div class="dashboard-grid">
-      <section class="area-tiles"><app-biometric-tiles [metric]="store.metric()" /></section>
-      <section class="area-bars">
-        <app-comparison-bars [ratios]="store.ratios()" />
-        <button type="button" (click)="store.resetRatios()">Reset</button>
-      </section>
-      <section class="area-gauges"><app-radial-gauges [gauges]="store.gauges()" /></section>
-      <section class="area-timeline"><app-chevron-stepper [phases]="store.phases()" /></section>
-      <section class="area-steps"><app-exercise-step-cards [steps]="store.steps()" /></section>
-      <section class="area-stats"><app-statistics-bar [intensity]="store.intensity()" /></section>
-    </div>
-  }
-}
+<div class="dashboard-grid">
+  <section class="region region--tiles">
+    <app-biometric-tiles [metric]="telemetry.metric()" [state]="metricState()" />
+  </section>
+  <section class="region region--bars">
+    <app-comparison-split-bars
+      [ratios]="store.ratios()"
+      [state]="ratiosState()"
+      (resetRequested)="store.resetRatios()"
+    />
+  </section>
+  <section class="region region--gauges">
+    <app-radial-gauges [phases]="store.phases()" [state]="phasesState()" />
+  </section>
+  <section class="region region--timeline">
+    <app-chevron-stepper [phases]="store.phases()" [state]="phasesState()" />
+  </section>
+  <section class="region region--steps">
+    <app-step-card-list [steps]="store.steps()" [state]="stepsState()" />
+  </section>
+  <section class="region region--stats">
+    <app-statistics-bar [metric]="telemetry.metric()" [state]="metricState()" />
+  </section>
+</div>

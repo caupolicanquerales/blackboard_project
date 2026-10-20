@@ -1,30 +1,34 @@
-<section class="gauges" aria-label="Radial progress gauges">
-  @for (ring of rings(); track ring.id) {
-    <figure class="gauge">
-      <div
-        class="ring"
-        role="progressbar"
-        aria-valuemin="0"
-        aria-valuemax="100"
-        [attr.aria-valuenow]="ring.percentage"
-        [attr.aria-valuetext]="ring.percentage + '%'"
-        [attr.aria-label]="ring.label"
-      >
-        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+@if (state() === 'success' && gauges().length > 0) {
+  <div class="gauges" role="group" aria-label="Phase progress gauges">
+    @for (gauge of gauges(); track gauge.id) {
+      <div class="gauge" tabindex="0" [attr.title]="gauge.name + ': ' + gauge.percent + '%'">
+        <svg
+          viewBox="0 0 100 100"
+          role="meter"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          [attr.aria-valuenow]="gauge.percent"
+          [attr.aria-valuetext]="gauge.percent + '%'"
+          [attr.aria-label]="gauge.name"
+        >
           <circle class="track" cx="50" cy="50" [attr.r]="radius" />
           <circle
-            class="progress"
+            class="value"
             cx="50"
             cy="50"
             [attr.r]="radius"
             [attr.stroke-dasharray]="circumference"
-            [attr.stroke-dashoffset]="ring.offset"
+            [attr.stroke-dashoffset]="gauge.offset"
             transform="rotate(-90 50 50)"
           />
-          <text class="value" x="50" y="50" text-anchor="middle" dominant-baseline="central">{{ ring.percentage }}%</text>
+          <text class="percent" x="50" y="56" text-anchor="middle">{{ gauge.percent }}%</text>
         </svg>
+        <span class="name">{{ gauge.name }}</span>
       </div>
-      <figcaption>{{ ring.label }}</figcaption>
-    </figure>
-  }
-</section>
+    }
+  </div>
+} @else {
+  <p class="status" [class.error]="state() === 'error'" [attr.role]="state() === 'error' ? 'alert' : 'status'" [attr.aria-busy]="state() === 'loading'">
+    {{ state() === 'loading' ? 'Loading…' : state() === 'error' ? 'Error' : 'No data' }}
+  </p>
+}

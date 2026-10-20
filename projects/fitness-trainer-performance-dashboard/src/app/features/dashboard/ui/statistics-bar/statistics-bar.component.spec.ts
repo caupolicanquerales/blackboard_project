@@ -12,7 +12,7 @@ describe('StatisticsBarComponent', () => {
 
     fixture = TestBed.createComponent(StatisticsBarComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('intensity', 50);
+    fixture.componentRef.setInput('metric', null);
     await fixture.whenStable();
   });
 

@@ -9,6 +9,6 @@
   "kind": "config",
   "layer": "root",
   "feature": null,
-  "export": "IndexHtml",
-  "intent": "Rewrite the document shell: <html lang=\"en\">, <title>Fitness Trainer Performance Dashboard</title>, meta charset/viewport/description/theme-color #121212, dark body background #121212, and the single <app-root></app-root> mount point."
+  "export": "index.html",
+  "intent": "Document shell: lang=en, title 'Fitness Trainer Performance Dashboard', base href=/, viewport meta, theme-color #121212, body background #121212, mount <app-root></app-root>."
 }

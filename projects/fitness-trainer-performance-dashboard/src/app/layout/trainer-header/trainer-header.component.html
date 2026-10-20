@@ -1,21 +1,25 @@
-<header class="trainer-header">
-  @if (profile(); as p) {
-    <img class="trainer-header__avatar" [src]="p.avatarUrl" [alt]="p.displayName" />
-    <div class="trainer-header__info">
-      <h1 class="trainer-header__headline">PERSONAL TRAINER</h1>
-      <a class="trainer-header__url" [href]="p.websiteUrl">{{ p.websiteUrl }}</a>
-    </div>
-  } @else {
-    <div class="trainer-header__info">
-      <h1 class="trainer-header__headline">PERSONAL TRAINER</h1>
-    </div>
-  }
-  <nav class="trainer-header__nav" aria-label="Primary navigation">
-    <a class="trainer-header__arrow" routerLink="/dashboard" routerLinkActive="active" aria-label="Dashboard">
-      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-    <a class="trainer-header__arrow" routerLink="/routines" routerLinkActive="active" aria-label="Routines">
-      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+<header class="header" role="banner" [attr.aria-busy]="state() === 'loading'">
+  <div class="header__avatar">
+    <app-trainer-avatar
+      [avatar]="profile()?.avatar ?? null"
+      [displayName]="profile()?.displayName ?? ''"
+      [state]="state()"
+    />
+  </div>
+  <div class="header__text">
+    <h1 class="header__title">PERSONAL TRAINER</h1>
+    @if (profile(); as p) {
+      <a class="header__link" [href]="p.websiteUrl" target="_blank" rel="noopener">{{ p.websiteUrl }}</a>
+    } @else if (state() === 'loading') {
+      <span class="header__skeleton" aria-hidden="true"></span>
+    }
+  </div>
+  <nav class="header__actions" aria-label="Trainer navigation">
+    <button class="header__arrow" type="button" aria-label="Previous page" (click)="previousRequested.emit()">
+      <app-icon name="arrow-left" />
+    </button>
+    <button class="header__arrow" type="button" aria-label="Next page" (click)="nextRequested.emit()">
+      <app-icon name="arrow-right" />
+    </button>
   </nav>
 </header>

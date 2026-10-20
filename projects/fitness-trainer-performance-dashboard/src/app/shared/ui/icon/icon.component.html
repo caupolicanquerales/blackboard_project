@@ -1,0 +1,35 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  [attr.width]="size()"
+  [attr.height]="size()"
+>
+  @switch (name()) {
+    @case ('heart') {
+      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" />
+    }
+    @case ('lungs') {
+      <path d="M12 4v8" />
+      <path d="M12 8c-1.5 0-3 1-3.5 2.5L5 17a3 3 0 0 0 3 3c2 0 4-1.5 4-4" />
+      <path d="M12 8c1.5 0 3 1 3.5 2.5L19 17a3 3 0 0 1-3 3c-2 0-4-1.5-4-4" />
+    }
+    @case ('dumbbell') {
+      <path d="M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12" />
+    }
+    @case ('arrow-left') {
+      <path d="M19 12H5M11 6l-6 6 6 6" />
+    }
+    @case ('arrow-right') {
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    }
+    @case ('check') {
+      <path d="M20 6L9 17l-5-5" />
+    }
+  }
+</svg>

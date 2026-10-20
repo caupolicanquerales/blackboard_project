@@ -3,15 +3,15 @@
   "targetAgent": "agent-core",
   "stage": 3,
   "dependsOn": [
-    "T1-002",
-    "T1-005",
-    "T2-004",
-    "T3-003"
+    "T3-003",
+    "T2-001",
+    "T1-006",
+    "T1-008"
   ],
   "path": "src/app/features/routines/data/routines.store.ts",
   "kind": "store",
   "layer": "features",
   "feature": "routines",
   "export": "RoutinesStore",
-  "intent": "Signal store for routines. Public API: RoutinesStore.state: Signal<ViewState>; RoutinesStore.steps: Signal<WorkoutStep[]>; RoutinesStore.phases: Signal<PhaseProgress[]>; RoutinesStore.selectedStepId: Signal<string | null>; RoutinesStore.selectedStep: Signal<WorkoutStep | null>; RoutinesStore.load(routineId: string): void; RoutinesStore.selectStep(stepId: string): void; RoutinesStore.completeSelected(): void; RoutinesStore.advance(): void. load fetches steps+phases (state loading/empty/error/success) and selects first incomplete step; completeSelected() calls completeStep then shows ToastStore.show(message: string, severity: ToastSeverity): string success; advance() calls advancePhase and shows ToastStore.show(message: string, severity: ToastSeverity): string info for phase transition. Consumes RoutinesApi.getSteps(routineId: string): Observable<WorkoutStep[]>; RoutinesApi.getPhases(routineId: string): Observable<PhaseProgress[]>; RoutinesApi.completeStep(routineId: string, stepId: string): Observable<WorkoutStep>; RoutinesApi.advancePhase(routineId: string): Observable<PhaseProgress[]>."
+  "intent": "Feature signal store. Injects RoutinesApi and ToastStore. load(routineId) fetches steps+phases (forkJoin) and selects the first step; completeStep shows toast `Step ${stepNumber} completed` ('success'); advancePhase sets phaseFeedback ('Advanced to STEP NN') and a toast; selectedStep is computed from selectedStepId. Contracts: RoutinesApi (providedIn root) { getSteps(routineId: string): Observable<WorkoutStep[]>; completeStep(routineId: string, stepId: string): Observable<WorkoutStep>; getPhases(): Observable<PhaseProgress[]>; advancePhase(): Observable<PhaseProgress[]> } ; ToastStore (providedIn root) { readonly toasts: Signal<readonly Notification[]>; show(message: string, severity: ToastSeverity): string; dismiss(id: string): void; clear(): void }. Public API exactly: RoutinesStore (providedIn root) { readonly steps: Signal<readonly WorkoutStep[]>; readonly phases: Signal<readonly PhaseProgress[]>; readonly selectedStep: Signal<WorkoutStep | null>; readonly phaseFeedback: Signal<string | null>; readonly loading: Signal<boolean>; readonly error: Signal<string | null>; load(routineId: string): void; selectStep(stepId: string): void; completeStep(stepId: string): void; advancePhase(): void }."
 }

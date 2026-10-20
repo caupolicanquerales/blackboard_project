@@ -5,10 +5,10 @@
   "dependsOn": [
     "T1-005"
   ],
-  "path": "src/app/shared/ui/exercise-step-cards/exercise-step-cards.component.ts",
+  "path": "src/app/shared/ui/icon/icon.component.ts",
   "kind": "ui",
   "layer": "shared",
   "feature": null,
-  "export": "ExerciseStepCardsComponent",
-  "intent": "Presentational standalone OnPush component. Signal inputs `steps = input.required<WorkoutStep[]>()`, `selectedStepId = input<string | null>(null)`; output `stepSelected = output<string>()`. Renders stacked STEP 0N cards with completion checkmark. Shared by dashboard and routines."
+  "export": "IconComponent",
+  "intent": "Presentational standalone OnPush component rendering inline custom SVG icons by name. Public API exactly: IconComponent selector app-icon { name = input.required<IconName>(); size = input<number>(24) }. Imports IconName from shared/models/icon-name.model.ts. Provide SVG for heart, lungs, dumbbell, arrow-left, arrow-right, check; aria-hidden=true; stroke=currentColor."
 }

@@ -1,0 +1,40 @@
+<section class="split" aria-label="Comparative training metrics" [attr.aria-busy]="state() === 'loading'">
+  @switch (state()) {
+    @case ('loading') {
+      <p class="split__state" role="status">Loading comparative metrics…</p>
+      <div class="split__skeleton" aria-hidden="true"></div>
+      <div class="split__skeleton" aria-hidden="true"></div>
+    }
+    @case ('error') {
+      <p class="split__state split__state--error" role="alert">Unable to load comparative metrics.</p>
+    }
+    @default {
+      @if (ratios().length === 0) {
+        <p class="split__state" role="status">No comparative metrics available.</p>
+      } @else {
+        @for (ratio of ratios(); track ratio.id) {
+          <div class="split__row">
+            <span class="split__label">{{ ratio.categoryLabel }}</span>
+            <div class="split__bar">
+              <div class="split__segment split__segment--primary" role="progressbar"
+                tabindex="0"
+                [style.width.%]="ratio.primaryPercentage" aria-valuemin="0" aria-valuemax="100"
+                [attr.aria-valuenow]="ratio.primaryPercentage"
+                [attr.aria-valuetext]="ratio.primaryPercentage + '%'"
+                [attr.title]="ratio.categoryLabel + ' primary: ' + ratio.primaryPercentage + '%'"
+                [attr.aria-label]="ratio.categoryLabel + ' primary'">{{ ratio.primaryPercentage }}%</div>
+              <div class="split__segment split__segment--secondary" role="progressbar"
+                tabindex="0"
+                [style.width.%]="ratio.secondaryPercentage" aria-valuemin="0" aria-valuemax="100"
+                [attr.aria-valuenow]="ratio.secondaryPercentage"
+                [attr.aria-valuetext]="ratio.secondaryPercentage + '%'"
+                [attr.title]="ratio.categoryLabel + ' secondary: ' + ratio.secondaryPercentage + '%'"
+                [attr.aria-label]="ratio.categoryLabel + ' secondary'">{{ ratio.secondaryPercentage }}%</div>
+            </div>
+          </div>
+        }
+      }
+    }
+  }
+  <button type="button" class="split__reset" (click)="resetRequested.emit()">Reset comparative metrics</button>
+</section>

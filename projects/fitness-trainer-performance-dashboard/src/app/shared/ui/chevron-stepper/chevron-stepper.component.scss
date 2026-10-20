@@ -2,155 +2,171 @@
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
-  --space-4: 1rem;
-  --color-surface: #121212;
-  --color-surface-2: #1e1e1e;
-  --color-text: #f5f5f5;
-  --color-text-muted: #c4c4c4;
-  --color-accent: #ff6b1a;
+  --color-surface: #1e1e1e;
+  --color-surface-hover: #2a2a2a;
+  --color-border: #3a3a3a;
+  --color-text: #f2f2f2;
+  --color-muted: #b8b8b8;
+  --color-accent: #ff5a1f;
   --color-accent-strong: #ff3d2e;
-  --color-success: #3ddc84;
-  --color-hairline: color-mix(in srgb, #ffffff 16%, transparent);
-  --chevron-point: 1.25rem;
-  --motion-duration: 200ms;
-  --motion-easing: ease-out;
-  --font-stack: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --color-on-accent: #121212;
+  --color-success: #4ade80;
+  --color-danger: #ff8a80;
+  --motion-fast: 180ms ease;
+  --chevron-point: 0.875rem;
 
   display: block;
+  min-width: 0;
+  color: var(--color-text);
   color-scheme: dark;
-  font-family: var(--font-stack);
 }
 
-.chevron-stepper {
+.stepper {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: center;
   gap: 0.5rem;
+  align-items: center;
   margin: 0;
   padding: 0;
   list-style: none;
-}
 
-.chevron-stepper__item {
-  position: relative;
-  display: grid;
-  gap: var(--space-1);
-  min-width: 0;
-  min-block-size: 5.5rem;
-  padding: var(--space-3) calc(var(--chevron-point) + var(--space-2)) var(--space-3) calc(var(--chevron-point) + var(--space-1));
-  color: var(--color-text);
-  background: var(--color-surface-2);
-  clip-path: polygon(0 0, calc(100% - var(--chevron-point)) 0, 100% 50%, calc(100% - var(--chevron-point)) 100%, 0 100%, var(--chevron-point) 50%);
-  transition: background var(--motion-duration) var(--motion-easing);
-
-  &:first-child {
-    clip-path: polygon(0 0, calc(100% - var(--chevron-point)) 0, 100% 50%, calc(100% - var(--chevron-point)) 100%, 0 100%);
-    padding-inline-start: var(--space-4);
+  &__item {
+    min-width: 0;
   }
 
-  &[data-status='COMPLETED'] {
-    background: color-mix(in srgb, var(--color-success) 16%, var(--color-surface-2));
-    --fill: var(--color-success);
+  &--loading,
+  &--empty,
+  &--error {
+    display: block;
+    padding: var(--space-3);
+    border: 1px dashed var(--color-border);
+    border-radius: 0.5rem;
+    color: var(--color-muted);
+    text-align: center;
   }
 
-  &[data-status='IN_PROGRESS'] {
-    background: linear-gradient(120deg, var(--color-accent-strong), var(--color-accent));
-    color: #121212;
-    --fill: #121212;
+  &--error {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
   }
 
-  &[data-status='PENDING'] {
-    --fill: var(--color-accent);
+  &--loading {
+    animation: pulse 1.4s ease-in-out infinite;
   }
 }
 
-.chevron-stepper__label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-.chevron-stepper__name {
-  overflow: hidden;
-  font-size: clamp(0.95rem, 1.4vw, 1.2rem);
-  font-weight: 800;
-  font-style: italic;
-  line-height: 1.2;
-  text-transform: uppercase;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.chevron-stepper__status {
+.chevron {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: var(--space-1);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
+  inline-size: 100%;
+  min-block-size: 3.5rem;
+  padding: var(--space-2) calc(var(--chevron-point) + var(--space-2));
+  border: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--chevron-point)) 0,
+    100% 50%,
+    calc(100% - var(--chevron-point)) 100%,
+    0 100%,
+    var(--chevron-point) 50%
+  );
+  transition: background var(--motion-fast), color var(--motion-fast);
 
-.chevron-stepper__icon {
-  flex: none;
-  inline-size: 1rem;
-  block-size: 1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  &--first {
+    clip-path: polygon(
+      0 0,
+      calc(100% - var(--chevron-point)) 0,
+      100% 50%,
+      calc(100% - var(--chevron-point)) 100%,
+      0 100%
+    );
+  }
 
-  path[d^='M5'] {
-    fill: currentColor;
+  &:hover {
+    background: var(--color-surface-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    background: var(--color-surface-hover);
+  }
+
+  &:active {
+    background: var(--color-border);
+  }
+
+  &__step {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+  }
+
+  &__name {
+    max-inline-size: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 0.9375rem;
+  }
+
+  &__pct {
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-muted);
+  }
+
+  &--completed {
+    box-shadow: inset 0 -3px 0 var(--color-success);
+
+    .chevron__pct {
+      color: var(--color-success);
+    }
+  }
+
+  &--active,
+  &--active:hover {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
+    color: var(--color-on-accent);
+
+    .chevron__step,
+    .chevron__pct {
+      color: var(--color-on-accent);
+    }
+  }
+
+  &--active:focus-visible {
+    outline-color: var(--color-text);
   }
 }
 
-.chevron-stepper__bar {
-  display: block;
-  block-size: 0.25rem;
-  overflow: hidden;
-  border-radius: 999px;
-  background: color-mix(in srgb, currentColor 22%, transparent);
-}
-
-.chevron-stepper__fill {
-  display: block;
-  block-size: 100%;
-  background: var(--fill);
-  transition: width var(--motion-duration) var(--motion-easing);
-}
-
-.chevron-stepper__item[data-status='IN_PROGRESS'] .chevron-stepper__label {
-  color: #121212;
-}
-
-.chevron-stepper__item:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+@keyframes pulse {
+  50% {
+    opacity: 0.55;
+  }
 }
 
 @media (max-width: 639px) {
-  .chevron-stepper {
-    grid-template-columns: 1fr;
-  }
-
-  .chevron-stepper__item,
-  .chevron-stepper__item:first-child {
-    padding: var(--space-3) var(--space-4) calc(var(--space-3) + var(--chevron-point)) var(--space-4);
-    clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--chevron-point)), 50% 100%, 0 calc(100% - var(--chevron-point)));
-  }
-
-  .chevron-stepper__item:not(:first-child) {
-    margin-block-start: calc(var(--chevron-point) * -0.5);
-    padding-block-start: calc(var(--space-3) + var(--chevron-point) * 0.5);
+  .stepper:not(.stepper--loading, .stepper--empty, .stepper--error) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chevron-stepper__item,
-  .chevron-stepper__fill {
+  .chevron,
+  .stepper--loading {
     transition: none;
+    animation: none;
   }
 }

@@ -5,10 +5,10 @@
   "dependsOn": [
     "T4-003"
   ],
-  "path": "src/app/shared/ui/exercise-step-cards/exercise-step-cards.component.ts",
+  "path": "src/app/shared/ui/icon/icon.component.ts",
   "kind": "ux",
   "layer": "shared",
   "feature": null,
-  "export": "ExerciseStepCardsComponent",
-  "intent": "Spatial: display=grid; columns=1fr; gap=1rem; align-items=stretch. Style: modern-corporate dark athletic design system (#121212 surface, neon orange/red accents, bold italic headings, custom iconography), AA+ high contrast, focus-visible, prefers-reduced-motion, fluid desktop/tablet and single-column mobile. A11y: each card tabindex=0 button-like with Enter/Space selection, aria-pressed for selected, visible completion checkmark with aria-label."
+  "export": "IconComponent",
+  "intent": "UX/UI only. Spatial: display=inline-flex; width/height from size input (default 24px); stroke=currentColor, stroke-width 2, rounded caps. Contract: IconComponent selector app-icon { name = input.required<IconName>(); size = input<number>(24) }. Theme: {\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"neon orange/red\", \"headingStyle\": \"bold italic\", \"iconography\": \"custom iconography (heart, lungs, dumbbell, arrows)\", \"notes\": \"High contrast ratio compliance required\"}. Style: modern-corporate dark tokens (CSS custom properties), neon orange/red accent, AA+ contrast, visible focus-visible ring, prefers-reduced-motion respected, styles only in the component .scss. A11y and states (loading|empty|error|success) per region content above."
 }

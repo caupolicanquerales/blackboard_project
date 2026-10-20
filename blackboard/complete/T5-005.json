@@ -3,12 +3,13 @@
   "targetAgent": "agent-container",
   "stage": 5,
   "dependsOn": [
-    "T1-004"
+    "T1-006",
+    "T1-007"
   ],
   "path": "src/app/features/dashboard/ui/radial-gauges/radial-gauges.component.ts",
   "kind": "ui",
   "layer": "features",
   "feature": "dashboard",
   "export": "RadialGaugesComponent",
-  "intent": "Presentational standalone OnPush. Signal input `gauges = input<GaugeValue[]>([])` (features/dashboard/data/dashboard.model). Dual SVG circular progress rings with centered labels."
+  "intent": "Presentational standalone OnPush dual SVG radial rings (role=meter) for the first two phases' completionPercentage with centered percent and phaseName. Public API exactly: RadialGaugesComponent selector app-radial-gauges { phases = input.required<readonly PhaseProgress[]>(); state = input<ViewState>('success') }. Imports PhaseProgress, ViewState."
 }

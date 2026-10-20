@@ -3,12 +3,14 @@
   "targetAgent": "agent-container",
   "stage": 5,
   "dependsOn": [
-    "T1-001"
+    "T4-003",
+    "T1-001",
+    "T1-007"
   ],
   "path": "src/app/features/dashboard/ui/biometric-tiles/biometric-tiles.component.ts",
   "kind": "ui",
   "layer": "features",
   "feature": "dashboard",
   "export": "BiometricTilesComponent",
-  "intent": "Presentational standalone OnPush. Signal input `metric = input<BiometricMetric | null>(null)` (core/models/telemetry.model). Three icon tiles: heart (bpm), lungs (respiratory rate), dumbbell (weight volume) with detail labels."
+  "intent": "Presentational standalone OnPush three icon tiles (heart bpm, lungs, dumbbell) using app-icon (IconComponent selector app-icon { name = input.required<IconName>(); size = input<number>(24) }). Public API exactly: BiometricTilesComponent selector app-biometric-tiles { metric = input.required<BiometricMetric | null>(); state = input<ViewState>('success') }. Imports BiometricMetric (core/models/biometric-metric.model.ts), ViewState, IconComponent."
 }

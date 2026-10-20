@@ -1,32 +1,32 @@
-@switch (store.state()) {
-  @case ('loading') {
-    <p class="routines-state" role="status">Loading routine…</p>
-  }
-  @case ('error') {
-    <p class="routines-state" role="alert">The routine could not be loaded.</p>
-  }
-  @case ('empty') {
-    <p class="routines-state">No routine steps available.</p>
-  }
-  @default {
-    <section class="routines-page">
-      <div class="routines-page__stepper">
-        <app-chevron-stepper [phases]="store.phases()" />
-      </div>
-      <div class="routines-page__list">
-        <app-exercise-step-cards
-          [steps]="store.steps()"
-          [selectedStepId]="store.selectedStepId()"
-          (stepSelected)="store.selectStep($event)"
-        />
-      </div>
-      <div class="routines-page__detail">
-        <app-step-detail
-          [step]="store.selectedStep()"
-          (completed)="store.completeSelected()"
-          (advanced)="store.advance()"
-        />
-      </div>
-    </section>
-  }
-}
+<section class="routines-grid">
+  <div class="routines-grid__phases">
+    <app-chevron-stepper
+      [phases]="store.phases()"
+      [state]="state()"
+      [activePhaseId]="activePhaseId()"
+    />
+    <button type="button" class="routines-grid__advance" (click)="store.advancePhase()">
+      Advance to next phase
+    </button>
+    @if (store.phaseFeedback(); as feedback) {
+      <p class="routines-grid__feedback" role="status" aria-live="polite">{{ feedback }}</p>
+    }
+  </div>
+  <div class="routines-grid__steps">
+    <app-step-card-list
+      [steps]="store.steps()"
+      [state]="state()"
+      [selectedStepId]="selectedStepId()"
+      [showActions]="true"
+      (stepSelected)="store.selectStep($event)"
+      (stepCompleted)="store.completeStep($event)"
+    />
+  </div>
+  <div class="routines-grid__detail">
+    <app-step-detail
+      [step]="store.selectedStep()"
+      [state]="state()"
+      (completeRequested)="store.completeStep($event)"
+    />
+  </div>
+</section>

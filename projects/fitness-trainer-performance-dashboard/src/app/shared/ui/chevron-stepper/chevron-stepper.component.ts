@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { PhaseProgress } from '../../models/workout.model';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { PhaseProgress } from '../../models/phase-progress.model';
+import { ViewState } from '../../models/view-state.model';
 
 @Component({
   imports: [],
@@ -9,14 +10,20 @@ import { PhaseProgress } from '../../models/workout.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChevronStepperComponent {
-  readonly phases = input.required<PhaseProgress[]>();
+  readonly phases = input.required<readonly PhaseProgress[]>();
+  readonly state = input<ViewState>('success');
+  readonly activePhaseId = input<string | null>(null);
+  readonly phaseSelected = output<string>();
 
-  protected readonly steps = computed(() =>
-    this.phases()
-      .slice(0, 4)
-      .map((phase, index) => ({
-        ...phase,
-        label: `STEP ${String(index + 1).padStart(2, '0')}`,
-      })),
-  );
+  protected readonly currentId = computed<string | null>(() => {
+    const explicit = this.activePhaseId();
+    if (explicit !== null) {
+      return explicit;
+    }
+    return this.phases().find((p) => p.status === 'IN_PROGRESS')?.id ?? null;
+  });
+
+  protected select(id: string): void {
+    this.phaseSelected.emit(id);
+  }
 }

@@ -1,8 +1,8 @@
+import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Service } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { PhaseProgress, WorkoutStep } from '../../../shared/models/workout.model';
+import { PhaseProgress } from '../../../shared/models/phase-progress.model';
+import { WorkoutStep } from '../../../shared/models/workout-step.model';
 
 @Service()
 export class RoutinesApi {
@@ -12,15 +12,15 @@ export class RoutinesApi {
     return this.http.get<WorkoutStep[]>(`/api/routines/${routineId}/steps`);
   }
 
-  getPhases(routineId: string): Observable<PhaseProgress[]> {
-    return this.http.get<PhaseProgress[]>(`/api/routines/${routineId}/phases`);
-  }
-
   completeStep(routineId: string, stepId: string): Observable<WorkoutStep> {
     return this.http.post<WorkoutStep>(`/api/routines/${routineId}/steps/${stepId}/complete`, {});
   }
 
-  advancePhase(routineId: string): Observable<PhaseProgress[]> {
-    return this.http.post<PhaseProgress[]>(`/api/routines/${routineId}/advance`, {});
+  getPhases(): Observable<PhaseProgress[]> {
+    return this.http.get<PhaseProgress[]>('/api/phases');
+  }
+
+  advancePhase(): Observable<PhaseProgress[]> {
+    return this.http.post<PhaseProgress[]>('/api/phases/advance', {});
   }
 }

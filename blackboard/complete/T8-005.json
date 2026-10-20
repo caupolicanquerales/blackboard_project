@@ -10,6 +10,6 @@
   "kind": "config",
   "layer": "root",
   "feature": null,
-  "export": "bootstrap",
-  "intent": "Wire bootstrapApplication(AppComponent, appConfig).catch(err => console.error(err))."
+  "export": "main",
+  "intent": "bootstrapApplication(AppComponent, appConfig).catch(console.error) importing AppComponent from ./app/app.component and appConfig from ./app/app.config."
 }

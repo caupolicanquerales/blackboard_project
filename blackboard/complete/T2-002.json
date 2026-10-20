@@ -3,12 +3,12 @@
   "targetAgent": "agent-core",
   "stage": 2,
   "dependsOn": [
-    "T1-001"
+    "T1-003"
   ],
-  "path": "src/app/core/mock/dev-api.interceptor.ts",
-  "kind": "interceptor",
+  "path": "src/app/core/api/trainer-profile.api.ts",
+  "kind": "api",
   "layer": "core",
   "feature": null,
-  "export": "devApiInterceptor",
-  "intent": "Functional HttpInterceptorFn `devApiInterceptor` answering with in-memory fixtures (HttpResponse, ~300ms delay via delay()), no network. Endpoints: GET /api/telemetry/snapshot -> BiometricMetric {id,heartRate,respiratoryRate,trainingLoad,updatedAt}; GET /api/telemetry/stream -> BiometricMetric with random drift (heartRate 120-190, respiratoryRate 20-45, trainingLoad 400-950); GET /api/dashboard/ratios -> TrainingRatio[] [{id:'r1',primaryPercentage:30,secondaryPercentage:70,categoryLabel:'Strength vs Cardio'},{id:'r2',primaryPercentage:50,secondaryPercentage:50,categoryLabel:'Push vs Pull'}]; GET /api/routines/:routineId/steps (any id, incl. 'default') -> WorkoutStep[] of 4 steps (stepNumber 1-4, titles/descriptions, isCompleted false); GET /api/routines/:routineId/phases -> PhaseProgress[] of 4 phases 'STEP 01'..'STEP 04' (first IN_PROGRESS 80, rest PENDING 0); POST /api/routines/:routineId/steps/:stepId/complete -> updated WorkoutStep with isCompleted true (state kept in memory); POST /api/routines/:routineId/advance -> PhaseProgress[] with current phase COMPLETED 100 and next IN_PROGRESS. Unknown URLs pass through via next(req). Define shapes inline (core must not import shared/features)."
+  "export": "TrainerProfileApi",
+  "intent": "HttpClient API. Public API exactly: TrainerProfileApi (providedIn root) { getProfile(): Observable<TrainerProfile> }. Endpoint: GET /api/trainer/profile."
 }

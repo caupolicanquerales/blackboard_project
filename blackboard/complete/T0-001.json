@@ -3,10 +3,10 @@
   "targetAgent": "agent-container",
   "stage": 0,
   "dependsOn": [],
-  "path": "project-bootstrap/ng-new",
+  "path": "project-bootstrap",
   "kind": "config",
   "layer": "root",
   "feature": null,
-  "export": "BootstrapProject",
-  "intent": "Run from the project root: ng new fitness-trainer-performance-dashboard --directory . --style=scss --routing --ssr=false --skip-git --defaults"
+  "export": "project-bootstrap",
+  "intent": "Run from the project root (absolute generated project root) the exact non-interactive command: ng new fitness-trainer-performance-dashboard --directory . --style=scss --routing --ssr=false --skip-git --defaults . Angular 22, standalone, signals, zoneless. Do not create other files."
 }

@@ -34,6 +34,8 @@ You are a blackboard worker. The orchestrator hands you exactly ONE task as JSON
 - Modern Angular only: `inject()` (never constructor injection), signals for state (`signal()`/`computed()`), functional guards/interceptors/resolvers, `providedIn: 'root'` or feature-provided as the layer implies.
 - Respect `layer`: files under `core/` are app-wide singletons with no UI; feature `data/` files stay inside their feature and import nothing from other features.
 - Never read or write `blackboard/**`. Never touch files outside this task.
+- **No undeclared files (mandatory).** Create **only** the file at `<projectRoot>/<path>`. Never create another `.ts` file — no extra model, another store, a parallel `core/models/**`, or any helper — and never leave a second definition of a type that already exists. If you need a type, import it from its single producer; never re-declare it.
+- **Never compile against a file no task declared.** If an import path resolves to a file that is **not** your task `path` and is not on disk (or exists but no task produced it), do not read, extend, or "fix" it. Use the producer's declared public API from the task `intent`; if that contract is absent, **stop and report it to `blackboard/error/`** — never edit the undeclared file to make your import type-check.
 - Success condition: the file at `<projectRoot>/<path>` exists and implements the task `intent`.
 
 ## Consuming other artifacts (no invented APIs)

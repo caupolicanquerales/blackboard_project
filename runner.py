@@ -494,8 +494,8 @@ def emit_tasks(paths):
                 reason = f"{source}: {reason}"
                 telemetry.mark_error(current, reason)
                 return reason
-            if (QUEUE_DIR / f"{task['id']}.json").exists():
-                reason = f"{task['id']}: already queued"
+            if task["id"] in index:
+                reason = f"{task['id']}: id already exists in queue or complete"
                 telemetry.mark_error(current, reason)
                 return reason
             index[task["id"]] = task

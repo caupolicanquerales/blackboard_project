@@ -1,0 +1,16 @@
+{
+  "id": "T4-005",
+  "targetAgent": "agent-container",
+  "stage": 4,
+  "dependsOn": [
+    "T4-003",
+    "T1-008",
+    "T1-007"
+  ],
+  "path": "src/app/shared/ui/step-card-list/step-card-list.component.ts",
+  "kind": "ui",
+  "layer": "shared",
+  "feature": null,
+  "export": "StepCardListComponent",
+  "intent": "Presentational standalone OnPush stacked step cards (role=list, cards role=listitem tabindex=0, Enter/Space selects). Public API exactly: StepCardListComponent selector app-step-card-list { steps = input.required<readonly WorkoutStep[]>(); state = input<ViewState>('success'); selectedStepId = input<string | null>(null); showActions = input<boolean>(false); stepSelected = output<string>(); stepCompleted = output<string>() }. When showActions() is true each card shows a 'Mark step as completed' button emitting stepCompleted; completed cards show an inline check using app-icon (IconComponent selector app-icon { name = input.required<IconName>(); size = input<number>(24) }). Imports WorkoutStep, ViewState, IconComponent. Imported by dashboard and routines (shared per Rule 1 cond. 3)."
+}

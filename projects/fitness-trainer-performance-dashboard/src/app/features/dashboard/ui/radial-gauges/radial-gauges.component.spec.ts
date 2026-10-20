@@ -12,6 +12,7 @@ describe('RadialGaugesComponent', () => {
 
     fixture = TestBed.createComponent(RadialGaugesComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('phases', []);
     await fixture.whenStable();
   });
 

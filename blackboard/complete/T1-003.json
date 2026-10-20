@@ -8,5 +8,5 @@
   "layer": "core",
   "feature": null,
   "export": "TrainerProfile",
-  "intent": "Export interface TrainerProfile {id: string; displayName: string; headline: string; websiteUrl: string; avatarUrl: string; role: 'TRAINER' | 'ATHLETE'}."
+  "intent": "Declare and export exactly: interface TrainerProfile { id: string; displayName: string; avatar: string | null; websiteUrl: string }."
 }

@@ -10,5 +10,5 @@
   "layer": "features",
   "feature": "routines",
   "export": "ROUTINES_ROUTES",
-  "intent": "Export const ROUTINES_ROUTES: Routes = [{path: '', loadComponent: () => import('./feature/routines-page.component').then(m => m.RoutinesPageComponent)}]."
+  "intent": "Export `ROUTINES_ROUTES: Routes` = [{ path: '', loadComponent: () => import('./feature/routines-page.component').then(m => m.RoutinesPageComponent) }]."
 }

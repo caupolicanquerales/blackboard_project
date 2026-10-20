@@ -1,26 +1,41 @@
-<div class="tiles">
-  <div class="tile tile--heart" role="group" aria-label="Heart rate">
-    <svg class="tile__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 21s-7.5-4.6-9.6-9.3C1 8.4 2.9 5 6.2 5c2.1 0 3.7 1.2 5.8 3.4C14.1 6.2 15.7 5 17.8 5 21.1 5 23 8.4 21.6 11.7 19.5 16.4 12 21 12 21z" />
-    </svg>
-    <span class="tile__label">Heart rate</span>
-    <span class="tile__value">{{ metric()?.heartRate ?? '--' }}</span>
-    <span class="tile__detail">bpm</span>
-  </div>
-  <div class="tile tile--lungs" role="group" aria-label="Respiratory rate">
-    <svg class="tile__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 3v9M12 12c-1 3-3 4-5 4-2.5 0-3.5 2-3.5 3.5S5 21 7 21c3 0 5-3 5-9zm0 0c1 3 3 4 5 4 2.5 0 3.5 2 3.5 3.5S19 21 17 21c-3 0-5-3-5-9z" />
-    </svg>
-    <span class="tile__label">Respiratory rate</span>
-    <span class="tile__value">{{ metric()?.respiratoryRate ?? '--' }}</span>
-    <span class="tile__detail">breaths/min</span>
-  </div>
-  <div class="tile tile--weight" role="group" aria-label="Weight volume">
-    <svg class="tile__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M2 9v6M5 6v12M19 6v12M22 9v6M5 12h14" />
-    </svg>
-    <span class="tile__label">Weight volume</span>
-    <span class="tile__value">{{ metric()?.trainingLoad ?? '--' }}</span>
-    <span class="tile__detail">kg lifted</span>
-  </div>
+<div class="tiles" [attr.data-state]="state()" [attr.aria-busy]="state() === 'loading'">
+  @switch (state()) {
+    @case ('loading') {
+      @for (n of [1, 2, 3]; track n) {
+        <div class="tile tile--skeleton" aria-hidden="true">
+          <span class="skeleton skeleton--icon"></span>
+          <span class="skeleton skeleton--label"></span>
+          <span class="skeleton skeleton--value"></span>
+        </div>
+      }
+      <span class="sr-only" role="status">Loading biometric data</span>
+    }
+    @case ('error') {
+      <p class="message message--error" role="alert">Biometric data could not be loaded.</p>
+    }
+    @default {
+      @if (metric(); as m) {
+        <div class="tile" role="group" [attr.aria-label]="'Heart Rate: ' + m.heartRate + ' bpm'" tabindex="0">
+          <span class="tile__icon"><app-icon name="heart" [size]="24" /></span>
+          <span class="tile__label">Heart Rate</span>
+          <span class="tile__value">{{ m.heartRate }}<small class="tile__unit">bpm</small></span>
+          <span class="tile__detail">Beats per minute</span>
+        </div>
+        <div class="tile" role="group" [attr.aria-label]="'Respiratory Rate: ' + m.respiratoryRate + ' breaths per minute'" tabindex="0">
+          <span class="tile__icon"><app-icon name="lungs" [size]="24" /></span>
+          <span class="tile__label">Respiratory Rate</span>
+          <span class="tile__value">{{ m.respiratoryRate }}<small class="tile__unit">resp/min</small></span>
+          <span class="tile__detail">Breaths per minute</span>
+        </div>
+        <div class="tile" role="group" [attr.aria-label]="'Weight Volume: ' + m.trainingLoad" tabindex="0">
+          <span class="tile__icon"><app-icon name="dumbbell" [size]="24" /></span>
+          <span class="tile__label">Weight Volume</span>
+          <span class="tile__value">{{ m.trainingLoad }}<small class="tile__unit">load</small></span>
+          <span class="tile__detail">Total training load</span>
+        </div>
+      } @else {
+        <p class="message" role="status">No biometric data available.</p>
+      }
+    }
+  }
 </div>
