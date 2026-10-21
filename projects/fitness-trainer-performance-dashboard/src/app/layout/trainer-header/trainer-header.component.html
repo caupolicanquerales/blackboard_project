@@ -9,7 +9,9 @@
   <div class="header__text">
     <h1 class="header__title">PERSONAL TRAINER</h1>
     @if (profile(); as p) {
-      <a class="header__link" [href]="p.websiteUrl" target="_blank" rel="noopener">{{ p.websiteUrl }}</a>
+      @if (p.websiteUrl) {
+        <a class="header__link" [href]="p.websiteUrl" target="_blank" rel="noopener">{{ p.websiteUrl }}</a>
+      }
     } @else if (state() === 'loading') {
       <span class="header__skeleton" aria-hidden="true"></span>
     }

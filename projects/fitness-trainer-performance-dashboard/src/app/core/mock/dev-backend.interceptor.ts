@@ -9,10 +9,10 @@ const initialRatios = () => [
 ];
 
 const initialPhases = () => [
-  { id: 'p1', phaseName: 'STEP 01', completionPercentage: 80, status: 'IN_PROGRESS' },
-  { id: 'p2', phaseName: 'STEP 02', completionPercentage: 20, status: 'PENDING' },
-  { id: 'p3', phaseName: 'STEP 03', completionPercentage: 0, status: 'PENDING' },
-  { id: 'p4', phaseName: 'STEP 04', completionPercentage: 0, status: 'PENDING' },
+  { id: 'p1', phaseName: 'Warm-up Sprint', completionPercentage: 80, status: 'IN_PROGRESS' },
+  { id: 'p2', phaseName: 'Dumbbell Press', completionPercentage: 20, status: 'PENDING' },
+  { id: 'p3', phaseName: 'Core Circuit', completionPercentage: 0, status: 'PENDING' },
+  { id: 'p4', phaseName: 'Cool-down Stretch', completionPercentage: 0, status: 'PENDING' },
 ];
 
 const initialSteps = () => [
@@ -92,7 +92,7 @@ export const devBackendInterceptor: HttpInterceptorFn = (req, next) => {
           id: 't1',
           displayName: 'Alex Carter',
           avatar: null,
-          websiteUrl: 'https://www.example-trainer.com',
+          websiteUrl: '',
         });
       case '/api/telemetry/snapshot':
         return respond(snapshot());
