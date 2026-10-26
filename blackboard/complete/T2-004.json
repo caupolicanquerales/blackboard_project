@@ -2,11 +2,16 @@
   "id": "T2-004",
   "targetAgent": "agent-core",
   "stage": 2,
-  "dependsOn": [],
-  "path": "src/app/core/mock/dev-backend.interceptor.ts",
-  "kind": "interceptor",
+  "dependsOn": [
+    "T1-001",
+    "T1-004",
+    "T2-001",
+    "T2-002"
+  ],
+  "path": "src/app/core/state/workout.store.ts",
+  "kind": "store",
   "layer": "core",
   "feature": null,
-  "export": "devBackendInterceptor",
-  "intent": "Functional HttpInterceptorFn `devBackendInterceptor` answering with in-memory fixtures (HttpResponse, ~150 ms delay, no model imports; plain object literals) exactly: GET /api/trainer/profile -> {id:'t1',displayName:'Alex Carter',avatar:null,websiteUrl:'https://www.example-trainer.com'}; GET /api/telemetry/snapshot and GET /api/telemetry/live -> {id:'m1',heartRate,respiratoryRate,trainingLoad,updatedAt: ISO now} starting 128/24/72 with random walk (live) occasionally exceeding 180 bpm; GET /api/training-ratios -> [{id:'r1',primaryPercentage:30,secondaryPercentage:70,categoryLabel:'Strength vs Cardio'},{id:'r2',primaryPercentage:50,secondaryPercentage:50,categoryLabel:'Push vs Pull'}]; POST /api/training-ratios/reset -> the same array reset to initial values; GET /api/phases -> [{id:'p1',phaseName:'STEP 01',completionPercentage:80,status:'IN_PROGRESS'},{id:'p2',phaseName:'STEP 02',completionPercentage:20,status:'PENDING'},{id:'p3',phaseName:'STEP 03',completionPercentage:0,status:'PENDING'},{id:'p4',phaseName:'STEP 04',completionPercentage:0,status:'PENDING'}]; POST /api/phases/advance -> marks current IN_PROGRESS phase COMPLETED/100 and next one IN_PROGRESS, returns the array; GET /api/routines/:routineId/steps -> [{id:'s1',stepNumber:1,title:'Warm-up Sprint',description:'Jog in place for two minutes then accelerate to a controlled sprint.',isCompleted:false},{id:'s2',stepNumber:2,title:'Dumbbell Press',description:'Press the dumbbells overhead for 3 sets of 10 reps with controlled tempo.',isCompleted:false}]; POST /api/routines/:routineId/steps/:stepId/complete -> that step with isCompleted:true (state kept in memory). Unmatched requests call next(req)."
+  "export": "WorkoutStore",
+  "intent": "Signal store (root) shared by dashboard and routines (>=2 features): steps, phases, selectedStepId, status 'loading'|'empty'|'error'|'success' signals; computed completedCount, activeStep, gauge percentages (completed vs remaining); actions loadRoutine(routineId) (via WorkoutApi), selectStep(id), completeStep(id) (emit success toast via ToastStore), advancePhase() (phase transition toast). Injects WorkoutApi and ToastStore only."
 }

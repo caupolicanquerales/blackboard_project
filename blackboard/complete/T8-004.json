@@ -2,13 +2,11 @@
   "id": "T8-004",
   "targetAgent": "agent-wiring",
   "stage": 8,
-  "dependsOn": [
-    "T8-001"
-  ],
+  "dependsOn": [],
   "path": "src/index.html",
   "kind": "config",
   "layer": "root",
   "feature": null,
-  "export": "index.html",
-  "intent": "Document shell: lang=en, title 'Fitness Trainer Performance Dashboard', base href=/, viewport meta, theme-color #121212, body background #121212, mount <app-root></app-root>."
+  "export": "index",
+  "intent": "Document shell: lang en, title 'Fitness Trainer Performance Dashboard', <app-root>, dark meta theme-color #121212."
 }

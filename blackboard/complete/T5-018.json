@@ -1,0 +1,15 @@
+{
+  "id": "T5-018",
+  "targetAgent": "agent-ui",
+  "stage": 5,
+  "dependsOn": [
+    "T4-002",
+    "T5-017"
+  ],
+  "path": "src/app/features/workout-progression-routines/ui/step-list.component.ts",
+  "kind": "ux",
+  "layer": "features",
+  "feature": "workout-progression-routines",
+  "export": "StepListComponent",
+  "intent": "Spatial layoutSpec (verbatim): {\"paradigm\": \"grid\", \"grid\": {\"display\": \"grid\", \"columns\": \"1fr 2fr\", \"rows\": \"auto 1fr\", \"gap\": \"16px\", \"areas\": \"\\\"stepper stepper\\\" \\\"steps detail\\\"\", \"matrix\": [[\"stepper\", \"stepper\"], [\"steps\", \"detail\"]], \"regions\": [{\"name\": \"phase-stepper\", \"area\": \"stepper\", \"type\": \"stepper\", \"chart\": \"chevron-timeline\", \"layout\": \"stack-h\", \"content\": \"elements: 4-phase chevron stepper; data: PhaseProgress; states: loading | success; interactions: advance to next phase; a11y: aria-current on active phase\"}, {\"name\": \"step-list\", \"area\": \"steps\", \"type\": \"card-list\", \"chart\": \"none\", \"layout\": \"stack-v\", \"content\": \"elements: keyboard focusable workout step cards with completion checkmarks; data: WorkoutStep; states: loading | empty | error | success; interactions: select, mark completed; a11y: focusable cards\"}, {\"name\": \"step-detail\", \"area\": \"detail\", \"type\": \"detail-panel\", \"chart\": \"none\", \"layout\": \"stack-v\", \"content\": \"elements: selected step title, description, complete button; data: WorkoutStep; states: empty | success; interactions: mark step completed; a11y: labelled region\"}], \"responsive\": [{\"name\": \"mobile\", \"maxWidth\": \"768px\", \"columns\": \"1fr\", \"areas\": \"\\\"stepper\\\" \\\"steps\\\" \\\"detail\\\"\", \"matrix\": [[\"stepper\"], [\"steps\"], [\"detail\"]]}]}}. Platform=web; layoutParadigm=grid; framework=angular (Angular 22 (Standalone, Signals, Zoneless)). Theme tokens: {\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"neon orange/red\", \"headingStyle\": \"bold italic\", \"iconography\": \"custom icons (heart, lungs, dumbbell, chevron arrows)\"}. Style: focusable cards, selected state in accent, completion checkmark. Dark #121212 background, neon orange/red accent, bold italic headings, AA+ contrast, focus-visible rings, prefers-reduced-motion respected, SCSS component-scoped, responsive per layoutSpec.responsive."
+}

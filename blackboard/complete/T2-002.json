@@ -3,12 +3,12 @@
   "targetAgent": "agent-core",
   "stage": 2,
   "dependsOn": [
-    "T1-003"
+    "T1-002"
   ],
-  "path": "src/app/core/api/trainer-profile.api.ts",
-  "kind": "api",
+  "path": "src/app/core/state/toast.store.ts",
+  "kind": "store",
   "layer": "core",
   "feature": null,
-  "export": "TrainerProfileApi",
-  "intent": "HttpClient API. Public API exactly: TrainerProfileApi (providedIn root) { getProfile(): Observable<TrainerProfile> }. Endpoint: GET /api/trainer/profile."
+  "export": "ToastStore",
+  "intent": "Signal store (root): toasts = readonly signal<Toast[]>; show(message, severity, durationMs?) with auto-dismiss via setTimeout; dismiss(id); clear(). Consumed by toast-host, dashboard telemetry and workout store."
 }

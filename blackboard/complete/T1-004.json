@@ -3,10 +3,10 @@
   "targetAgent": "agent-model",
   "stage": 1,
   "dependsOn": [],
-  "path": "src/app/features/dashboard/data/training-ratio.model.ts",
+  "path": "src/app/core/models/workout-step.model.ts",
   "kind": "model",
-  "layer": "features",
-  "feature": "dashboard",
-  "export": "TrainingRatio",
-  "intent": "Declare and export exactly: interface TrainingRatio { id: string; primaryPercentage: number; secondaryPercentage: number; categoryLabel: string }."
+  "layer": "core",
+  "feature": null,
+  "export": "WorkoutStep",
+  "intent": "interface WorkoutStep {id: string; stepNumber: number; title: string; description: string; isCompleted: boolean}."
 }

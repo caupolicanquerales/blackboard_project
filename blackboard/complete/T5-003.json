@@ -3,13 +3,12 @@
   "targetAgent": "agent-container",
   "stage": 5,
   "dependsOn": [
-    "T1-004",
-    "T1-007"
+    "T1-006"
   ],
-  "path": "src/app/features/dashboard/ui/comparison-split-bars/comparison-split-bars.component.ts",
-  "kind": "ui",
+  "path": "src/app/features/performance-telemetry-dashboard/ui/comparison-split-bars.component.ts",
+  "kind": "component",
   "layer": "features",
-  "feature": "dashboard",
+  "feature": "performance-telemetry-dashboard",
   "export": "ComparisonSplitBarsComponent",
-  "intent": "Presentational standalone OnPush split bars (role=progressbar per segment) plus a 'Reset comparative metrics' button emitting resetRequested. Public API exactly: ComparisonSplitBarsComponent selector app-comparison-split-bars { ratios = input.required<readonly TrainingRatio[]>(); state = input<ViewState>('success'); resetRequested = output<void>() }. Imports TrainingRatio, ViewState."
+  "intent": "Presentational (region 'comparison-bars', area 'bars'): input ratios (TrainingRatio[]), input status; output resetRequested; two split bars (primary/secondary segments, labels) with role=progressbar aria-valuenow/min/max; reset button."
 }

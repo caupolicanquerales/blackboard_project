@@ -4,12 +4,13 @@
   "stage": 8,
   "dependsOn": [
     "T7-001",
-    "T7-002"
+    "T7-002",
+    "T7-008"
   ],
   "path": "src/app/app.routes.ts",
   "kind": "route",
   "layer": "root",
   "feature": null,
   "export": "routes",
-  "intent": "Export `routes: Routes`: { path: '', pathMatch: 'full', redirectTo: 'dashboard' }, { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES) }, { path: 'routines', loadChildren: () => import('./features/routines/routines.routes').then(m => m.ROUTINES_ROUTES) }, { path: '**', redirectTo: 'dashboard' }. Only <f>.routes.ts files referenced."
+  "intent": "Routes: { path: '', component: MainLayoutComponent, children: [ { path: '', pathMatch: 'full', redirectTo: 'dashboard' }, { path: 'dashboard', loadChildren: () => import('./features/performance-telemetry-dashboard/performance-telemetry-dashboard.routes').then(m => m.PERFORMANCE_TELEMETRY_DASHBOARD_ROUTES) }, { path: 'routines', loadChildren: () => import('./features/workout-progression-routines/workout-progression-routines.routes').then(m => m.WORKOUT_PROGRESSION_ROUTINES_ROUTES) } ] }, { path: '**', redirectTo: 'dashboard' }."
 }

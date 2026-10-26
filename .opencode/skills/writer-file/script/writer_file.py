@@ -296,6 +296,116 @@ def validate_shared_ui(shared_ui):
     return None
 
 
+def validate_theme(theme):
+    if not isinstance(theme, dict):
+        return "global_requirements.theme must be an object with mode/background/accent/headingStyle"
+    for key in THEME_KEYS:
+        if not is_non_empty_str(theme.get(key)):
+            return f"global_requirements.theme.{key} must be a non-empty string"
+    return None
+
+
+def validate_shared_ui(shared_ui, paradigm):
+    if not isinstance(shared_ui, list) or not shared_ui:
+        return "global_requirements.shared_ui must be a non-empty list"
+    for index, item in enumerate(shared_ui):
+        label = f"global_requirements.shared_ui[{index}]"
+        if not isinstance(item, dict):
+            return f"{label} must be an object with name/purpose/type/content/a11y"
+        for key in ("name", "purpose", "content", "a11y"):
+            if not is_non_empty_str(item.get(key)):
+                return f"{label}.{key} must be a non-empty string"
+        # type may be flexible for mobile
+        if item.get("type") not in REGION_TYPES and paradigm == "grid":
+            return f"{label}.type must be one of {sorted(REGION_TYPES)} (got {item.get('type')!r})"
+        if "elements:" not in item["content"].lower():
+            return f"{label}.content must be a structured spec including an 'elements:' facet"
+        if paradigm == "grid":
+            grid = item.get("grid")
+            if not isinstance(grid, dict):
+                return f"{label}.grid must be an object with columns/gap/align"
+            for key in WIDGET_GRID_KEYS:
+                if not is_non_empty_str(grid.get(key)):
+                    return f"{label}.grid.{key} must be a non-empty string"
+        else:
+            # For non-grid, require some layout spec
+            has_layout = any(k in item for k in ("layoutSpec", "flex", "stack", "constraints"))
+            if not has_layout:
+                return f"{label} must have a layoutSpec/flex/stack/constraints for paradigm {paradigm}"
+    return None
+
+
+def validate_skills(skills):
+    if skills is None:
+        return None  # skills optional but encouraged
+    if not isinstance(skills, list):
+        return "skills must be a list of objects"
+    for i, s in enumerate(skills):
+        if not isinstance(s, dict):
+            return f"skills[{i}] must be an object"
+        if not is_non_empty_str(s.get("name")):
+            return f"skills[{i}].name must be a non-empty string"
+        if not is_non_empty_str(s.get("invocation")):
+            return f"skills[{i}].invocation must be a non-empty string"
+    return None
+
+
+def validate_theme(theme):
+    if not isinstance(theme, dict):
+        return "global_requirements.theme must be an object with mode/background/accent/headingStyle"
+    for key in THEME_KEYS:
+        if not is_non_empty_str(theme.get(key)):
+            return f"global_requirements.theme.{key} must be a non-empty string"
+    return None
+
+
+def validate_shared_ui(shared_ui, paradigm, layout_paradigm):
+    if not isinstance(shared_ui, list) or not shared_ui:
+        return "global_requirements.shared_ui must be a non-empty list"
+    for index, item in enumerate(shared_ui):
+        label = f"global_requirements.shared_ui[{index}]"
+        if not isinstance(item, dict):
+            return f"{label} must be an object with name/purpose/type/content/a11y/layoutSpec"
+        for key in ("name", "purpose", "content", "a11y"):
+            if not is_non_empty_str(item.get(key)):
+                return f"{label}.{key} must be a non-empty string"
+        if item.get("type") not in REGION_TYPES and layout_paradigm == "grid":
+            return f"{label}.type must be one of {sorted(REGION_TYPES)} (got {item.get('type')!r})"
+        if "elements:" not in item["content"].lower():
+            return f"{label}.content must be a structured spec including an 'elements:' facet"
+        layout_spec = item.get("layoutSpec")
+        if not isinstance(layout_spec, dict):
+            return f"{label}.layoutSpec must be an object"
+        if layout_spec.get("paradigm") != layout_paradigm:
+            return f"{label}.layoutSpec.paradigm must equal project.layoutParadigm ({layout_paradigm})"
+        if layout_paradigm == "grid":
+            if not isinstance(layout_spec.get("grid"), dict):
+                return f"{label}.layoutSpec.grid required for grid paradigm"
+        elif layout_paradigm == "flexbox":
+            if not isinstance(layout_spec.get("flex"), dict):
+                return f"{label}.layoutSpec.flex required for flexbox paradigm"
+        elif layout_paradigm == "stack":
+            if not isinstance(layout_spec.get("stack"), dict):
+                return f"{label}.layoutSpec.stack required for stack paradigm"
+        elif layout_paradigm == "constraints":
+            if not isinstance(layout_spec.get("constraints"), dict):
+                return f"{label}.layoutSpec.constraints required for constraints paradigm"
+    return None
+
+
+def validate_skills(skills):
+    if not isinstance(skills, list) or not skills:
+        return "skills must be a non-empty list with skill invocations"
+    for i, s in enumerate(skills):
+        if not isinstance(s, dict):
+            return f"skills[{i}] must be an object"
+        if not is_non_empty_str(s.get("name")):
+            return f"skills[{i}].name must be a non-empty string"
+        if not is_non_empty_str(s.get("invocation")):
+            return f"skills[{i}].invocation must be a non-empty string"
+    return None
+
+
 def validate_seed(data):
     if not isinstance(data, dict):
         return "seed must be a JSON object"
@@ -305,6 +415,8 @@ def validate_seed(data):
     for key in ("name", "description", "target"):
         if not isinstance(project.get(key), str) or not project[key].strip():
             return f"project.{key} must be a non-empty string"
+    platform = project.get("platform") or "web"
+    layout_paradigm = project.get("layoutParadigm") or ("grid" if platform == "web" else "flexbox")
     global_requirements = data.get("global_requirements")
     if not isinstance(global_requirements, dict):
         return "global_requirements must be an object"
@@ -313,13 +425,36 @@ def validate_seed(data):
     reason = validate_theme(global_requirements.get("theme"))
     if reason:
         return reason
-    reason = validate_grid(global_requirements.get("grid"), "global_requirements.grid")
+    # enforce layoutSpec wrapper
+    layout_spec = global_requirements.get("layoutSpec")
+    if not isinstance(layout_spec, dict):
+        return "global_requirements.layoutSpec must be an object wrapper"
+    if layout_spec.get("paradigm") != layout_paradigm:
+        return f"global_requirements.layoutSpec.paradigm must equal project.layoutParadigm ({layout_paradigm})"
+    if layout_paradigm == "grid":
+        reason = validate_grid(layout_spec.get("grid"), "global_requirements.layoutSpec.grid")
+        if reason:
+            return reason
+    elif layout_paradigm == "flexbox":
+        if not isinstance(layout_spec.get("flex"), dict):
+            return "global_requirements.layoutSpec.flex required for flexbox paradigm"
+    elif layout_paradigm == "stack":
+        if not isinstance(layout_spec.get("stack"), dict):
+            return "global_requirements.layoutSpec.stack required for stack paradigm"
+    elif layout_paradigm == "constraints":
+        if not isinstance(layout_spec.get("constraints"), dict):
+            return "global_requirements.layoutSpec.constraints required for constraints paradigm"
+    # no top-level layout keys
+    for forbidden in ("grid", "flex", "stack", "constraints"):
+        if forbidden in global_requirements:
+            return f"global_requirements.{forbidden} must be inside layoutSpec, not at top level"
+    reason = validate_skills(data.get("skills"))
     if reason:
         return reason
     core_services = global_requirements.get("core_services")
     if not isinstance(core_services, list) or not all(isinstance(item, str) for item in core_services):
         return "global_requirements.core_services must be a list of strings"
-    reason = validate_shared_ui(global_requirements.get("shared_ui"))
+    reason = validate_shared_ui(global_requirements.get("shared_ui"), layout_paradigm, layout_paradigm)
     if reason:
         return reason
     features = data.get("features")
@@ -332,11 +467,37 @@ def validate_seed(data):
             value = feature.get(key)
             if not isinstance(value, str) or not value.strip():
                 return f"features[{index}].{key} must be a non-empty string"
-        if not feature["route"].startswith("/"):
-            return f"features[{index}].route must start with '/'"
-        reason = validate_grid(feature.get("grid"), f"features[{index}].grid")
-        if reason:
-            return reason
+        route = feature["route"]
+        if platform == "web":
+            if not route.startswith("/"):
+                return f"features[{index}].route must start with '/' for web platform"
+        else:  # mobile/native
+            if route.startswith("/"):
+                return f"features[{index}].route must be screen name without leading '/' for mobile platform"
+            if not re.match(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', route):
+                return f"features[{index}].route must be kebab-case screen name for mobile platform (got {route!r})"
+        # layoutSpec required
+        f_layout = feature.get("layoutSpec")
+        if not isinstance(f_layout, dict):
+            return f"features[{index}].layoutSpec must be an object wrapper"
+        if f_layout.get("paradigm") != layout_paradigm:
+            return f"features[{index}].layoutSpec.paradigm must equal project.layoutParadigm"
+        for forbidden in ("grid", "flex", "stack", "constraints"):
+            if forbidden in feature:
+                return f"features[{index}].{forbidden} must be inside layoutSpec"
+        if layout_paradigm == "grid":
+            reason = validate_grid(f_layout.get("grid"), f"features[{index}].layoutSpec.grid")
+            if reason:
+                return reason
+        elif layout_paradigm == "flexbox":
+            if not isinstance(f_layout.get("flex"), dict):
+                return f"features[{index}].layoutSpec.flex required for flexbox paradigm"
+        elif layout_paradigm == "stack":
+            if not isinstance(f_layout.get("stack"), dict):
+                return f"features[{index}].layoutSpec.stack required for stack paradigm"
+        elif layout_paradigm == "constraints":
+            if not isinstance(f_layout.get("constraints"), dict):
+                return f"features[{index}].layoutSpec.constraints required for constraints paradigm"
         entities = feature.get("entities")
         if not isinstance(entities, list) or not entities:
             return f"features[{index}].entities must be a non-empty list"
@@ -356,7 +517,6 @@ def validate_seed(data):
         if actions is not None and (not isinstance(actions, list) or not all(isinstance(item, str) for item in actions)):
             return f"features[{index}].actions must be a list of strings when present"
     return None
-
 
 def read_source(source):
     if source == "-":

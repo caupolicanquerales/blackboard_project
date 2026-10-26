@@ -1,0 +1,12 @@
+{
+  "id": "T5-011",
+  "targetAgent": "agent-container",
+  "stage": 5,
+  "dependsOn": [],
+  "path": "src/app/features/performance-telemetry-dashboard/ui/statistics-bar-widget.component.ts",
+  "kind": "component",
+  "layer": "features",
+  "feature": "performance-telemetry-dashboard",
+  "export": "StatisticsBarWidgetComponent",
+  "intent": "Presentational (region 'statistics-bar', area 'stats'): inputs intensity (number 0-100) and target (number); dual overlaid horizontal bar layers with labels; role=meter aria-valuenow/min/max."
+}

@@ -1,1 +1,8 @@
-export type IconName = 'heart' | 'lungs' | 'dumbbell' | 'arrow-left' | 'arrow-right' | 'check';
+export type IconName =
+  | 'heart'
+  | 'lungs'
+  | 'dumbbell'
+  | 'chevron-left'
+  | 'chevron-right'
+  | 'chevron-step'
+  | 'check';

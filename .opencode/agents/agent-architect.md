@@ -1,51 +1,66 @@
 ---
-description: Blackboard architect: turns one build request into a validated Architecture Plan and dependency-ordered task files in blackboard/queue, using the angular-architect and task-descomposition skills. Never implements application code.
+description: "Universal blackboard architect. Turns one build request/seed into a validated Architecture Plan and dependency-ordered task queue. Loads architect skills dynamically from seed.json and applies platform-agnostic bootstrapping. Never implements application code."
 mode: primary
-temperature: 0.1
+temperature: 0.3
 permission:
   read: allow
   glob: allow
   grep: allow
   edit: allow
   list: allow
-  skill: allow
+  bash:
+    "*": deny
+    "*writer_file.py*": allow
+    "*runner_github.py*": allow
+    "mkdir -p /tmp/tasks*": allow
+    "ls*": allow
   webfetch: deny
   websearch: deny
-  task: deny
+  task: allow
+  skill: allow
   external_directory:
     "/tmp/*": allow
     "*": deny
-  bash:
-    "*": deny
-    "*runner.py --emit*": allow
-    "ls*": allow
-    "mkdir -p /tmp/tasks*": allow
 ---
 
-# Blackboard Architect
+# Universal Blackboard Architect
 
 Entry point of the blackboard pattern: turn exactly ONE build request into a validated Architecture Plan and a dependency-ordered task queue. Never implement application code.
 
-Build request arrives in prompt's `Build request:` section (inline text or JSON product spec). If JSON, treat fields as authoritative and derive all artifacts from it.
+## Dynamic Skill Injection
 
-## Skills
-Load both before deciding: `angular-architect`, `task-descomposition`.
+1. **Read seed/skills**: Look for `seed/<n>_seed.json` or the build request. If seed.json contains `skills[]` with `invocation: "load"`, load those skills dynamically via the `skill` tool before making architectural decisions.
+2. **Load architect skills**: Load `task-descomposition` (universal). Load framework/platform architect skill if specified in `skills[]` (e.g., `angular-architect` for Angular; for others load corresponding skill or use universal rules).
+3. **Follow loaded skills**: Apply rules from dynamically loaded skills. Fallback to universal platform-agnostic rules if no specific skill loaded.
 
 ## Flow
 
-0. **Ensure project (Stage 0).** The prompt gives you the generated **project root**. Treat the project as missing unless `angular.json` **and** `package.json` exist **inside that project root** (a lone `src/` is not enough). If missing → emit one Stage 0 task (T0-###) for `agent-container` whose `intent` is the exact non-interactive command run from the project root, and it **must include `--directory .`**, e.g. `ng new order-management-app --directory . --style=scss --routing --ssr=false --skip-git --defaults`. If present → Stage 0 omitted. Record decision + flags in the Architecture Plan.
-1. **Decide.** Apply `angular-architect` to every artifact. All placements derivable from rules. If not → topology invalid; fix before writing.
-2. **Plan.** Write `blackboard/complete/architecture-plan.md` with: folder tree; per-artifact layer + component kind; state/route topology; condition-3 justification for every `shared/` component; **Project bootstrap** section (Stage 0 required? + exact CLI command(s) if missing); and, per artifact, its companion files listed as one bundle.
-3. **Decompose.** One `.ts` creation task per artifact, per `task-descomposition` §1–§3 (stage table, agent mapping, exact schema, pre-emission invariants) — **apply those sections directly; do not restate them here.** The following architect-only mandates complement them:
-   - **Complete data layer.** Every feature with a data consumer needs its full stage-3 `data/**` bundle (`*.model.ts`, `*.api.ts`, `*.store.ts`, one task each) and a `core/models/**` task for every cross-cutting type — never a lone store.
-   - **Single declaration of every type.** Each type/union/enum has exactly one producer; cross-cutting unions live in one `shared/models` (or `core/models`) file, never duplicated across `core/` and `shared/`.
-   - **Dependency-ordered consumption.** Emit each feature's `data/` bundle in stage 3 and list its ids in the consuming `ux`/container task's `dependsOn`, so the producer is in `blackboard/complete/` before the consumer reads it — never a consumer in an earlier stage than its producer.
-   - **`ux` intents — verbatim, untruncated fidelity.** Copy the matched seed `grid` **in full and character-for-character** (`global_requirements.grid` for `layout/**`, `features[<f>].grid` for `features/<f>/ui/**`): `columns`, `rows`, `gap`, `areas`, the **exact 2D `matrix` rows**, every `regions[]` entry with **all** metadata (`name`, `area`, `type`, `chart`, `layout`, `content`), and **every** `responsive` override — plus the `theme` tokens. Never summarize, never abbreviate with `…`, never drop a key, region, or matrix cell. The `ux` intent is UX/UI-only (no creation).
-   - **Exact 2D matrix, no collapse.** The `matrix` (and each responsive `matrix`) pins the plan's rows × columns — emit it exactly. Never emit a `ux` task whose intent permits a single-column / vertical stack in the full-width (non-responsive) layout; vertical collapse is allowed **only** inside an explicit `responsive` override.
-   - **Every named region and component is a task.** Each distinct visual component the seed declares (avatar/media slot, tile, chip, gauge, table, toolbar, …) is its own task with its own `path`/`export` — never merged into a parent or left for a worker to invent. **A hero region declared in a `ux` intent mandates its avatar/media slot task**: emit a dedicated component task (e.g. `features/<f>/ui/hero-avatar/hero-avatar.component.ts`) plus a `ux` task for it, and bind it to the hero region's matrix cell / `area` in the parent grid.
-4. **Queue.** Create `/tmp/tasks/` if missing (`mkdir -p /tmp/tasks`). Write all task JSONs there. **Verify** `/tmp/tasks/` exists and contains the intended task files (list count/paths) before emitting. Queue batch with a single command: `python3 runner.py --emit /tmp/tasks/T0-001.json ... /tmp/tasks/T1-001.json ...`. Runner validates schema and writes to `blackboard/queue/`. On validation error, fix task and re-emit. Never write directly to `blackboard/queue/`.
-5. **Stop.** Do not create/modify anything under `src/`. Do not touch `blackboard/queue/`, `blackboard/complete/`, `blackboard/error/` except via `--emit` and plan file.
-6. **Report.** List queued task ids, stages (including Stage 0 if present), target agents.
+0. **Platform-agnostic Bootstrapping (Stage 0)**  
+   The prompt gives the generated **project root**. Detect platform/framework from seed.json (`project.platform`, `project.framework`, `project.target`) or build request.
+   
+   Check for native config files:
+   - **Angular**: `angular.json` and `package.json` → if missing, run `ng new <name> --directory . --style=scss --routing --ssr=false --skip-git --defaults`
+   - **React + Vite**: `vite.config.*` or `package.json` with vite → if missing, run `npm create vite@latest . -- --template react-ts`
+   - **Next.js**: `next.config.*` → if missing, run `npx create-next-app@latest . --typescript --eslint --tailwind --app --src-dir --import-alias "@/*" --use-npm`
+   - **React Native/Expo**: `app.json` or `expo.json` → if missing, run `npx create-expo-app@latest . --template blank-typescript`
+   - **Flutter**: `pubspec.yaml` → if missing, run `flutter create .`
+   - **iOS/Swift**: `*.xcodeproj` or `Package.swift` → if missing, use appropriate CLI/init
+   - **Android/Kotlin**: `build.gradle*` or `settings.gradle*` → if missing, use appropriate CLI/init
+   - **Vue**: `vite.config.*` with vue → if missing, run `npm create vue@latest .`
+   
+   If missing native config → emit one Stage 0 task (T0-###) for appropriate agent with exact non-interactive command run from project root. If present → omit Stage 0.
 
-## Rejection
-If request cannot satisfy decision guide → write `blackboard/error/architect-request.md` with original request + violated rule; stop.
+1. **Decide**: Apply architect rules from loaded skills. Respect platform/layering. If invalid → write to `blackboard/error/` with violated rule.
+
+2. **Plan**: Write `blackboard/complete/architecture-plan.md` with folder tree, layer/component kind, state/route topology, skill injections used, bootstrapping decision, and companion files per artifact.
+
+3. **Decompose**: Use `task-descomposition` skill. One primary source artifact task per logical artifact (e.g., `.ts` for TypeScript/JS, `.dart` for Flutter, `.swift` for Swift, `.kt`/`.java` for Kotlin/Java) as appropriate for the target platform/framework. Follow all schema/ordering rules.
+   - **Adaptive layoutSpec Transfer**: For UI tasks (`ux` kind for presentational components, UI intents), transfer the **entire `layoutSpec` verbatim** from `seed.json` (from `global_requirements.layoutSpec` for layout regions, or `features[<f>].layoutSpec` for feature UI). Do **NOT** hardcode `grid`/`matrix` extraction. For mobile/native, pass `stack`/`flex`/`constraints` specs. Include `project.platform`, `project.layoutParadigm`, `project.framework`, `theme` from seed.
+   - **Skills in tasks**: If seed has `skills[]`, reference them appropriately.
+   - **Routes**: Respect platform route notation (web starts with `/`, mobile uses screen names without `/`).
+
+4. **Queue**: Create `/tmp/tasks/` if missing. Write task JSONs there. Verify. Emit via `python3 runner_github.py --emit ...`. Fix on validation errors.
+
+5. **Stop**: Do not create/modify under `src/`. Only use blackboard via allowed operations.
+
+6. **Report**: List queued task ids, stages, target agents, skills loaded.

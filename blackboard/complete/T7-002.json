@@ -3,12 +3,12 @@
   "targetAgent": "agent-wiring",
   "stage": 7,
   "dependsOn": [
-    "T6-002"
+    "T6-003"
   ],
-  "path": "src/app/features/routines/routines.routes.ts",
+  "path": "src/app/features/workout-progression-routines/workout-progression-routines.routes.ts",
   "kind": "route",
   "layer": "features",
-  "feature": "routines",
-  "export": "ROUTINES_ROUTES",
-  "intent": "Export `ROUTINES_ROUTES: Routes` = [{ path: '', loadComponent: () => import('./feature/routines-page.component').then(m => m.RoutinesPageComponent) }]."
+  "feature": "workout-progression-routines",
+  "export": "WORKOUT_PROGRESSION_ROUTINES_ROUTES",
+  "intent": "Routes: { path: '', loadComponent: () => import('./feature/routines-page.component').then(m => m.RoutinesPageComponent) }."
 }

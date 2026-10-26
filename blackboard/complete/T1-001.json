@@ -3,10 +3,10 @@
   "targetAgent": "agent-model",
   "stage": 1,
   "dependsOn": [],
-  "path": "src/app/core/models/biometric-metric.model.ts",
+  "path": "src/app/core/models/phase-progress.model.ts",
   "kind": "model",
   "layer": "core",
   "feature": null,
-  "export": "BiometricMetric",
-  "intent": "Declare and export exactly: interface BiometricMetric { id: string; heartRate: number; respiratoryRate: number; trainingLoad: number; updatedAt: string }. Single producer; imported by core telemetry service and dashboard feature."
+  "export": "PhaseProgress",
+  "intent": "interface PhaseProgress {id: string; phaseName: string; completionPercentage: number; status: PhaseStatus}; also export type PhaseStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' in this file only (single producer). Consumed by core and both features, hence core."
 }

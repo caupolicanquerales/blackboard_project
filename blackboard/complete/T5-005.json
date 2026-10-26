@@ -3,13 +3,13 @@
   "targetAgent": "agent-container",
   "stage": 5,
   "dependsOn": [
-    "T1-006",
-    "T1-007"
+    "T1-004",
+    "T4-001"
   ],
-  "path": "src/app/features/dashboard/ui/radial-gauges/radial-gauges.component.ts",
-  "kind": "ui",
+  "path": "src/app/features/performance-telemetry-dashboard/ui/exercise-step-cards.component.ts",
+  "kind": "component",
   "layer": "features",
-  "feature": "dashboard",
-  "export": "RadialGaugesComponent",
-  "intent": "Presentational standalone OnPush dual SVG radial rings (role=meter) for the first two phases' completionPercentage with centered percent and phaseName. Public API exactly: RadialGaugesComponent selector app-radial-gauges { phases = input.required<readonly PhaseProgress[]>(); state = input<ViewState>('success') }. Imports PhaseProgress, ViewState."
+  "feature": "performance-telemetry-dashboard",
+  "export": "ExerciseStepCardsComponent",
+  "intent": "Presentational (region 'exercise-cards', area 'cards'): input steps (WorkoutStep[]), input status; output stepCompleted(id); cards titled STEP 0N with instructions and completion check, tabindex=0; states loading|empty|error|success."
 }

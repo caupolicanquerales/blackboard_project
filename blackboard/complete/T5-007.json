@@ -4,12 +4,12 @@
   "stage": 5,
   "dependsOn": [
     "T1-001",
-    "T1-007"
+    "T4-001"
   ],
-  "path": "src/app/features/dashboard/ui/statistics-bar/statistics-bar.component.ts",
-  "kind": "ui",
+  "path": "src/app/features/performance-telemetry-dashboard/ui/phase-timeline.component.ts",
+  "kind": "component",
   "layer": "features",
-  "feature": "dashboard",
-  "export": "StatisticsBarComponent",
-  "intent": "Presentational standalone OnPush 'Workout Intensity' dual-layer meter (role=meter) bound to metric.trainingLoad. Public API exactly: StatisticsBarComponent selector app-statistics-bar { metric = input.required<BiometricMetric | null>(); state = input<ViewState>('success') }. Imports BiometricMetric, ViewState."
+  "feature": "performance-telemetry-dashboard",
+  "export": "PhaseTimelineComponent",
+  "intent": "Presentational (region 'phase-timeline', area 'timeline'): input phases (PhaseProgress[]); ordered list (ol) of 4 chevron steps STEP 01-04, aria-current='step' on IN_PROGRESS phase; statuses pending|in-progress|completed."
 }

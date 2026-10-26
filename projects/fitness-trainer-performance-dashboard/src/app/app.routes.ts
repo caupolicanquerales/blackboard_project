@@ -1,16 +1,27 @@
 import { Routes } from '@angular/router';
+import { MainLayoutComponent } from './layout/workspace/main-layout.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   {
-    path: 'dashboard',
-    loadChildren: () =>
-      import('./features/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES),
-  },
-  {
-    path: 'routines',
-    loadChildren: () =>
-      import('./features/routines/routines.routes').then(m => m.ROUTINES_ROUTES),
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./features/performance-telemetry-dashboard/performance-telemetry-dashboard.routes').then(
+            m => m.PERFORMANCE_TELEMETRY_DASHBOARD_ROUTES
+          ),
+      },
+      {
+        path: 'routines',
+        loadChildren: () =>
+          import('./features/workout-progression-routines/workout-progression-routines.routes').then(
+            m => m.WORKOUT_PROGRESSION_ROUTINES_ROUTES
+          ),
+      },
+    ],
   },
   { path: '**', redirectTo: 'dashboard' },
 ];

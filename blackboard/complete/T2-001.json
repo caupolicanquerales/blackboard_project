@@ -3,12 +3,13 @@
   "targetAgent": "agent-core",
   "stage": 2,
   "dependsOn": [
-    "T1-002"
+    "T1-001",
+    "T1-004"
   ],
-  "path": "src/app/core/alerts/toast.store.ts",
-  "kind": "store",
+  "path": "src/app/core/api/workout.api.ts",
+  "kind": "service",
   "layer": "core",
   "feature": null,
-  "export": "ToastStore",
-  "intent": "Signal-based global toast store, auto-dismiss after 5000 ms, imports Notification/ToastSeverity from core/models/notification.model.ts. Public API exactly: ToastStore (providedIn root) { readonly toasts: Signal<readonly Notification[]>; show(message: string, severity: ToastSeverity): string; dismiss(id: string): void; clear(): void }. show() generates a unique id and returns it."
+  "export": "WorkoutApi",
+  "intent": "Injectable root service (inject(HttpClient)). Methods returning Observables: getSteps(routineId): GET /api/routines/:id/steps -> WorkoutStep[]; getPhases(): GET /api/phases -> PhaseProgress[]; completeStep(id): POST /api/steps/:id/complete -> WorkoutStep; advancePhase(): POST /api/phases/advance -> PhaseProgress[]. Import models from core/models only."
 }

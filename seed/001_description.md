@@ -1,5 +1,8 @@
 # Fitness & Trainer Performance Dashboard
 
+## Framework
+Angular
+
 ## Executive Summary
 
 We need a high-impact, athletic performance and telemetry web application called Fitness & Trainer Performance Dashboard. Designed for personal trainers, endurance athletes, and fitness enthusiasts, the dashboard provides a high-contrast dark UI for tracking real-time biometric metrics, workout completion ratios, phase progression, and step-by-step exercise execution.

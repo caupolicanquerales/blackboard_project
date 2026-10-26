@@ -3,12 +3,13 @@
   "targetAgent": "agent-container",
   "stage": 7,
   "dependsOn": [
-    "T1-002"
+    "T2-003",
+    "T4-001"
   ],
-  "path": "src/app/layout/toast-host/toast-host.component.ts",
-  "kind": "ui",
+  "path": "src/app/layout/header/trainer-header.component.ts",
+  "kind": "component",
   "layer": "layout",
   "feature": null,
-  "export": "ToastHostComponent",
-  "intent": "Presentational standalone OnPush toast stack (role=status, aria-live=polite); click on toast emits dismissed(id). Public API exactly: ToastHostComponent selector app-toast-host { toasts = input.required<readonly Notification[]>(); dismissed = output<string>() }. Imports Notification from core/models/notification.model.ts."
+  "export": "TrainerHeaderComponent",
+  "intent": "Shell region 'trainer-header' (area header): injects TrainerProfileStore and Router (2 deps). Header landmark with avatar img (alt), headline 'PERSONAL TRAINER', website link, prev/next arrow buttons (app-icon chevrons, aria-labels) navigating between /dashboard and /routines; states loading|success."
 }

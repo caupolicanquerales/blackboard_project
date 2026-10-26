@@ -13,7 +13,6 @@ from runner import (
     QUEUE_DIR,
     COMPLETE_DIR,
     ERROR_DIR,
-    PROMPT_KEYS,
     VERIFY_MODES,
     ARCHITECT_PROMPT,
     TRANSLATOR_PROMPT,
@@ -34,6 +33,7 @@ from runner import (
     get_project_root,
 )
 
+PROMPT_KEYS = ("id", "path", "kind", "layer", "feature", "export", "intent", "dependsOn")
 GITHUB_AGENTS_DIR = ROOT / ".github" / "agents"
 RUNNER_SCRIPT = "runner_github.py"
 DEFAULT_COPILOT_BIN = os.environ.get("COPILOT_BIN", "copilot")
@@ -197,13 +197,22 @@ def main():
     parser.add_argument("--watch", action="store_true", help="poll the queue continuously")
     parser.add_argument("--interval", type=int, default=5, help="seconds between polls in watch mode")
     parser.add_argument("--timeout", type=int, default=900, help="seconds before a copilot run is aborted")
-    parser.add_argument("--verify", choices=VERIFY_MODES, default="typecheck", help="post-task compile gate run in the project root: 'typecheck' (tsc --noEmit), 'build' (ng build), or 'none'")
+    parser.add_argument(
+        "--verify",
+        choices=VERIFY_MODES,
+        default="typecheck",
+        help="post-task compile/check gate run in the project root (framework-agnostic auto-detection)",
+    )
     parser.add_argument("--verify-scope", choices=("task", "global"), default="task", help="'task' fails a task only when its own file has compile errors; 'global' fails on any compile error in the project")
     parser.add_argument("--verify-timeout", type=int, default=300, help="seconds before the verification command is aborted")
     parser.add_argument("--limit", type=int, default=0, help="stop after N tasks (0 = no limit)")
     parser.add_argument("--copilot-bin", default=DEFAULT_COPILOT_BIN, help="copilot binary (or COPILOT_BIN)")
     parser.add_argument("--allow-tool", default=DEFAULT_ALLOW_TOOL, help="comma-separated tools granted to workers")
-    parser.add_argument("--output", metavar="DIR", help="directory where the Angular project is generated (default: projects/<seed name> inside this repo; external paths require external_directory access in the agent configs)")
+    parser.add_argument(
+        "--output",
+        metavar="DIR",
+        help="directory where the target project is generated (default: projects/<seed name> inside this repo; external paths require external_directory access in the agent configs)",
+    )
     request_group = parser.add_mutually_exclusive_group()
     request_group.add_argument("--architect", metavar="REQUEST", help="invoke the architect agent with this inline build request before processing the queue")
     request_group.add_argument("--seed", metavar="FILE", help="path to a JSON file containing the product specification; the architect agent starts from it before processing the queue")

@@ -2,14 +2,11 @@
   "id": "T5-009",
   "targetAgent": "agent-container",
   "stage": 5,
-  "dependsOn": [
-    "T1-008",
-    "T1-007"
-  ],
-  "path": "src/app/features/routines/ui/step-detail/step-detail.component.ts",
-  "kind": "ui",
+  "dependsOn": [],
+  "path": "src/app/features/performance-telemetry-dashboard/ui/radial-gauge-indicator.component.ts",
+  "kind": "component",
   "layer": "features",
-  "feature": "routines",
-  "export": "StepDetailComponent",
-  "intent": "Presentational standalone OnPush detail panel (role=region, aria-labelledby) with step number, title, description, completion indicator and 'Mark step as completed' button emitting completeRequested(step.id). Public API exactly: StepDetailComponent selector app-step-detail { step = input.required<WorkoutStep | null>(); state = input<ViewState>('success'); completeRequested = output<string>() }. Imports WorkoutStep, ViewState."
+  "feature": "performance-telemetry-dashboard",
+  "export": "RadialGaugeIndicatorComponent",
+  "intent": "Presentational (region 'radial-gauges', area 'gauges'): input values (array of {label, percentage}) e.g. 80% and 20%; two SVG rings with role=progressbar aria-valuenow and aria-label; centered step labels."
 }

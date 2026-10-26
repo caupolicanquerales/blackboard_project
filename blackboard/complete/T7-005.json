@@ -3,12 +3,12 @@
   "targetAgent": "agent-container",
   "stage": 7,
   "dependsOn": [
-    "T1-007"
+    "T2-002"
   ],
-  "path": "src/app/layout/trainer-avatar/trainer-avatar.component.ts",
-  "kind": "ui",
+  "path": "src/app/layout/toast/toast-host.component.ts",
+  "kind": "component",
   "layer": "layout",
   "feature": null,
-  "export": "TrainerAvatarComponent",
-  "intent": "Presentational hero avatar/media slot for the header: shows img when avatar set, skeleton on loading, placeholder avatar on empty, fallback on error. Public API exactly: TrainerAvatarComponent selector app-trainer-avatar { avatar = input.required<string | null>(); displayName = input<string>(''); state = input<ViewState>('success') }. Imports ViewState."
+  "export": "ToastHostComponent",
+  "intent": "Shell region 'toast-host' (area toast): injects ToastStore. Overlay container with aria-live='polite' rendering stacked toasts with close buttons; states empty|visible."
 }

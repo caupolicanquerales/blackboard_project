@@ -3,13 +3,12 @@
   "targetAgent": "agent-container",
   "stage": 4,
   "dependsOn": [
-    "T1-006",
     "T1-007"
   ],
-  "path": "src/app/shared/ui/chevron-stepper/chevron-stepper.component.ts",
-  "kind": "ui",
+  "path": "src/app/shared/ui/icon.component.ts",
+  "kind": "component",
   "layer": "shared",
   "feature": null,
-  "export": "ChevronStepperComponent",
-  "intent": "Presentational standalone OnPush 4-stage chevron timeline. Public API exactly: ChevronStepperComponent selector app-chevron-stepper { phases = input.required<readonly PhaseProgress[]>(); state = input<ViewState>('success'); activePhaseId = input<string | null>(null); phaseSelected = output<string>() }. Imports PhaseProgress (shared/models/phase-progress.model.ts) and ViewState (shared/models/view-state.model.ts). Renders states loading|empty|error|success; active chevron = activePhaseId or the IN_PROGRESS phase. Imported by dashboard and routines (shared per Rule 1 cond. 3)."
+  "export": "IconComponent",
+  "intent": "Presentational standalone component app-icon: input.required<IconName> name, optional size input; renders custom inline SVG icons (heart, lungs, dumbbell, chevrons, check) with currentColor, aria-hidden=true. Shared justification: imported by dashboard timeline/tiles, routines stepper and layout header (>=2 features, domain-free)."
 }

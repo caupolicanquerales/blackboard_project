@@ -10,6 +10,6 @@
   "kind": "config",
   "layer": "root",
   "feature": null,
-  "export": "main",
-  "intent": "bootstrapApplication(AppComponent, appConfig).catch(console.error) importing AppComponent from ./app/app.component and appConfig from ./app/app.config."
+  "export": "bootstrap",
+  "intent": "bootstrapApplication(AppComponent, appConfig)."
 }

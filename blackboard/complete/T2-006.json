@@ -1,15 +1,16 @@
 {
   "id": "T2-006",
-  "targetAgent": "agent-wiring",
+  "targetAgent": "agent-core",
   "stage": 2,
   "dependsOn": [
     "T2-003",
+    "T2-004",
     "T2-005"
   ],
-  "path": "src/app/core/providers/dev-seed.providers.ts",
+  "path": "src/app/core/stubs/mock-backend.providers.ts",
   "kind": "provider",
   "layer": "core",
   "feature": null,
-  "export": "provideDevSeed",
-  "intent": "Export `provideDevSeed(): EnvironmentProviders` using provideAppInitializer to call TrainerProfileStore.load() and BiometricTelemetryService.loadSnapshot() + startStream() so first paint is populated. Contracts: TrainerProfileStore (providedIn root) { readonly profile: Signal<TrainerProfile | null>; readonly loading: Signal<boolean>; readonly error: Signal<string | null>; load(): void } ; BiometricTelemetryService (providedIn root) { readonly metric: Signal<BiometricMetric | null>; readonly loading: Signal<boolean>; readonly error: Signal<string | null>; loadSnapshot(): void; startStream(): void; stopStream(): void } ."
+  "export": "provideMockBackend",
+  "intent": "Function returning EnvironmentProviders: provideHttpClient(withInterceptors([mockBackendInterceptor])) plus provideAppInitializer that seeds TrainerProfileStore (name, headline 'PERSONAL TRAINER', website URL, avatar data-URI/asset) and triggers WorkoutStore.loadRoutine('default') so first paint is never empty/error. Registered only via app.config.ts (removable seam)."
 }

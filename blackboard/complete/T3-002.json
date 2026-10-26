@@ -3,16 +3,15 @@
   "targetAgent": "agent-core",
   "stage": 3,
   "dependsOn": [
-    "T3-001",
-    "T2-001",
-    "T1-004",
+    "T1-005",
     "T1-006",
-    "T1-008"
+    "T2-002",
+    "T3-001"
   ],
-  "path": "src/app/features/dashboard/data/dashboard.store.ts",
+  "path": "src/app/features/performance-telemetry-dashboard/data/telemetry.store.ts",
   "kind": "store",
   "layer": "features",
-  "feature": "dashboard",
-  "export": "DashboardStore",
-  "intent": "Feature signal store. Injects DashboardApi and ToastStore. load() fetches ratios, phases and steps (routineId 'default') with forkJoin; resetRatios() calls resetTrainingRatios and shows toast 'Comparative metrics reset' ('info'). API contract: DashboardApi (providedIn root) { getTrainingRatios(): Observable<TrainingRatio[]>; resetTrainingRatios(): Observable<TrainingRatio[]>; getPhases(): Observable<PhaseProgress[]>; getSteps(routineId: string): Observable<WorkoutStep[]> } ; ToastStore (providedIn root) { readonly toasts: Signal<readonly Notification[]>; show(message: string, severity: ToastSeverity): string; dismiss(id: string): void; clear(): void }. Public API exactly: DashboardStore (providedIn root) { readonly ratios: Signal<readonly TrainingRatio[]>; readonly phases: Signal<readonly PhaseProgress[]>; readonly steps: Signal<readonly WorkoutStep[]>; readonly loading: Signal<boolean>; readonly error: Signal<string | null>; load(): void; resetRatios(): void }."
+  "feature": "performance-telemetry-dashboard",
+  "export": "TelemetryStore",
+  "intent": "Feature signal store: metric, ratios, status 'loading'|'empty'|'error'|'success'; computed intensity (trainingLoad). Actions: load(); startStream()/stopStream() polling getSnapshot on an interval (live heart rate/respiration, cleanup on destroy); resetRatios(). When heartRate exceeds zone threshold (e.g. >170 bpm) push a warning toast via ToastStore (deduplicated). Injects TelemetryApi and ToastStore."
 }

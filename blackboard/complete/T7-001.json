@@ -5,10 +5,10 @@
   "dependsOn": [
     "T6-001"
   ],
-  "path": "src/app/features/dashboard/dashboard.routes.ts",
+  "path": "src/app/features/performance-telemetry-dashboard/performance-telemetry-dashboard.routes.ts",
   "kind": "route",
   "layer": "features",
-  "feature": "dashboard",
-  "export": "DASHBOARD_ROUTES",
-  "intent": "Export `DASHBOARD_ROUTES: Routes` = [{ path: '', loadComponent: () => import('./feature/dashboard-page.component').then(m => m.DashboardPageComponent) }]."
+  "feature": "performance-telemetry-dashboard",
+  "export": "PERFORMANCE_TELEMETRY_DASHBOARD_ROUTES",
+  "intent": "Routes: { path: '', loadComponent: () => import('./feature/dashboard-page.component').then(m => m.DashboardPageComponent) }."
 }

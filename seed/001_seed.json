@@ -1,332 +1,349 @@
 {
   "project": {
     "name": "fitness-trainer-performance-dashboard",
-    "description": "High-contrast dark athletic telemetry dashboard for trainers and athletes tracking biometrics, completion ratios, phase progression and step-by-step exercise routines.",
-    "target": "Angular 22 (Standalone, Signals, Zoneless)"
+    "description": "High-contrast dark athletic telemetry web app for trainers and athletes to track live biometrics, workout phases and exercise steps.",
+    "target": "Angular 22 (Standalone, Signals, Zoneless)",
+    "platform": "web",
+    "layoutParadigm": "grid",
+    "framework": "angular"
   },
+  "skills": [
+    {
+      "name": "angular-translator",
+      "invocation": "load",
+      "scope": "translation",
+      "when": "always",
+      "reason": "Framework is Angular; apply Angular seed conventions."
+    },
+    {
+      "name": "angular-architect",
+      "invocation": "load",
+      "scope": "architecture",
+      "when": "always",
+      "reason": "Architect must apply Angular structural rules."
+    },
+    {
+      "name": "task-descomposition",
+      "invocation": "load",
+      "scope": "tasks",
+      "when": "always",
+      "reason": "Decompose plan into blackboard queue tasks."
+    }
+  ],
   "global_requirements": {
-    "layout": "Dark app shell with a trainer header banner on top, a routed outlet in the middle and a toast host at the bottom.",
+    "layout": "Single-column app shell: trainer header banner on top, routed outlet in the middle, toast host overlay at the bottom.",
     "theme": {
       "mode": "dark",
       "background": "#121212",
       "accent": "neon orange/red",
       "headingStyle": "bold italic",
-      "iconography": "custom iconography (heart, lungs, dumbbell, arrows)",
-      "notes": "High contrast ratio compliance required"
+      "iconography": "custom icons (heart, lungs, dumbbell, chevron arrows)"
     },
-    "grid": {
-      "display": "grid",
-      "columns": "1fr",
-      "rows": "auto 1fr auto",
-      "gap": "1rem",
-      "areas": "\"header\" \"main\" \"toasts\"",
-      "matrix": [
-        [
-          "header"
-        ],
-        [
-          "main"
-        ],
-        [
-          "toasts"
-        ]
-      ],
-      "regions": [
-        {
-          "name": "trainer-header",
-          "area": "header",
-          "type": "banner",
-          "chart": "none",
-          "layout": "stack-h",
-          "content": "elements: trainer/athlete photo avatar, headline 'PERSONAL TRAINER', website URL link, primary navigation arrow controls (previous arrow, next arrow); data: TrainerProfile avatar, display name, website URL; states: loading (avatar skeleton) | empty (placeholder avatar) | error (fallback headline) | success; interactions: hover and keyboard focus highlight on arrows and link, click arrows navigates; a11y: role=banner, aria-label on arrow buttons, link has discernible text"
-        },
-        {
-          "name": "main-outlet",
-          "area": "main",
-          "type": "outlet",
-          "chart": "none",
-          "layout": "stack-v",
-          "content": "elements: routed slot for /dashboard and /routines; data: router state; states: loading | success; interactions: route navigation; a11y: role=main"
-        },
-        {
-          "name": "toast-host",
-          "area": "toasts",
-          "type": "toast-host",
-          "chart": "none",
-          "layout": "stack-v",
-          "content": "elements: toast stack slot for biometric threshold alerts and exercise step completion notices; data: Notification messages; states: empty | success; interactions: auto-dismiss, click to dismiss; a11y: role=status, aria-live=polite"
-        }
-      ],
-      "responsive": [
-        {
-          "name": "mobile",
-          "maxWidth": "639px",
-          "columns": "1fr",
-          "areas": "\"header\" \"main\" \"toasts\"",
-          "matrix": [
-            [
-              "header"
-            ],
-            [
-              "main"
-            ],
-            [
-              "toasts"
-            ]
-          ]
-        }
-      ]
-    },
-    "core_services": [
-      "Biometric Telemetry Service \u2014 ingests live streams for heart rate (bpm), respiratory/lung capacity and training load/weight volume shown on the dashboard",
-      "Toast & Notification Store \u2014 displays real-time alerts when biometrics exceed zone thresholds or when exercise steps are completed",
-      "Auth & Trainer Profile Store \u2014 manages the current trainer/athlete session profile and avatar media shown in the header"
-    ],
-    "shared_ui": [
-      {
-        "name": "Trainer Header Banner",
-        "purpose": "Hero athlete avatar, headline title, web link and quick action arrows",
-        "type": "banner",
-        "chart": "none",
-        "layout": "stack-h",
-        "grid": {
-          "columns": "auto 1fr auto",
-          "gap": "1rem",
-          "align": "center"
-        },
-        "content": "elements: hero athlete avatar, headline 'PERSONAL TRAINER', website URL link, quick action arrows (previous, next); data: TrainerProfile.avatar, TrainerProfile.websiteUrl; states: loading | empty | error | success; interactions: hover/focus on arrows and link, click navigates; a11y: role=banner, aria-label on arrows",
-        "a11y": "role=banner; arrow buttons have aria-label; focus visible"
-      },
-      {
-        "name": "Biometric Telemetry Tiles",
-        "purpose": "Icon-driven status cards for heart rate, respiratory rate and weight volume",
-        "type": "stat-tile",
-        "chart": "none",
-        "layout": "grid",
-        "grid": {
-          "columns": "repeat(3, minmax(0, 1fr))",
-          "gap": "1rem",
-          "align": "stretch"
-        },
-        "content": "elements: heart icon + label 'Heart Rate' + value BiometricMetric.heartRate bpm + detail label; lungs icon + label 'Respiratory Rate' + value BiometricMetric.respiratoryRate + detail label; dumbbell icon + label 'Weight Volume' + value BiometricMetric.trainingLoad + detail label; data: BiometricMetric.heartRate, respiratoryRate, trainingLoad; states: loading | empty | error | success; interactions: hover highlight, live value updates; a11y: role=group per tile with aria-label",
-        "a11y": "each tile role=group with aria-label combining label and value"
-      },
-      {
-        "name": "Comparison Split Bars",
-        "purpose": "Horizontal percentage split bars comparing training load (e.g. 30%/70% vs 50%/50%)",
-        "type": "progress-bar",
-        "chart": "split-bar",
-        "layout": "stack-v",
-        "grid": {
-          "columns": "1fr",
-          "gap": "1rem",
-          "align": "stretch"
-        },
-        "content": "elements: two horizontal split bars, first 30%/70% and second 50%/50%, segment percentage labels, category label; data: TrainingRatio.primaryPercentage, secondaryPercentage, categoryLabel; states: loading | empty | error | success; interactions: hover tooltip on segments; a11y: role=progressbar with aria-valuenow per segment",
-        "a11y": "role=progressbar; aria-valuenow, aria-valuemin, aria-valuemax and aria-label per bar"
-      },
-      {
-        "name": "Radial Gauge Indicator",
-        "purpose": "Dual circular progress rings showing target progress percentages (e.g. 80% and 20%) with centered step labels",
-        "type": "radial-gauge",
-        "chart": "radial-ring",
-        "layout": "stack-h",
-        "grid": {
-          "columns": "repeat(2, minmax(0, 1fr))",
-          "gap": "1rem",
-          "align": "center"
-        },
-        "content": "elements: two progress rings (80% and 20%), centered percentage text, centered step label per ring; data: PhaseProgress.completionPercentage; states: loading | empty | error | success; interactions: hover tooltip; a11y: role=meter with aria-valuenow per ring",
-        "a11y": "role=meter; aria-valuenow, aria-valuemin, aria-valuemax and aria-label per ring"
-      },
-      {
-        "name": "Chevron Stepper Timeline",
-        "purpose": "4-stage horizontal arrow progress bar representing workout sequence phases",
-        "type": "stepper",
-        "chart": "chevron-timeline",
-        "layout": "stack-h",
-        "grid": {
-          "columns": "repeat(4, minmax(0, 1fr))",
-          "gap": "0.5rem",
-          "align": "center"
-        },
-        "content": "elements: four labeled chevrons 'STEP 01', 'STEP 02', 'STEP 03', 'STEP 04'; data: PhaseProgress.phaseName, status; states: loading | empty | error | success; interactions: hover/focus, click selects phase; a11y: role=list of steps, aria-current=step on active",
-        "a11y": "role=list; aria-current=step on the active chevron; status announced in label"
-      },
-      {
-        "name": "Exercise Step Cards",
-        "purpose": "Stacked vertical cards with sequential workout instructions",
-        "type": "card-list",
-        "chart": "none",
-        "layout": "stack-v",
-        "grid": {
-          "columns": "1fr",
-          "gap": "1rem",
-          "align": "stretch"
-        },
-        "content": "elements: stacked cards labeled 'STEP 01' and 'STEP 02' each with title and instruction body, completion checkmark; data: WorkoutStep.stepNumber, title, description, isCompleted; states: loading | empty | error | success; interactions: keyboard focusable, click/Enter marks details; a11y: role=listitem, tabindex=0",
-        "a11y": "role=list with listitem cards; keyboard focusable with visible focus ring"
-      },
-      {
-        "name": "Statistics Bar Widget",
-        "purpose": "Dual-layered horizontal statistics meter for live workout intensity output",
-        "type": "meter",
-        "chart": "bullet",
-        "layout": "stack-v",
-        "grid": {
-          "columns": "1fr",
-          "gap": "0.5rem",
-          "align": "center"
-        },
-        "content": "elements: label 'Workout Intensity', dual-layer horizontal track (background track plus foreground fill), value percentage; data: BiometricMetric.trainingLoad; states: loading | empty | error | success; interactions: live updates; a11y: role=meter with aria-valuenow",
-        "a11y": "role=meter; aria-valuenow, aria-valuemin, aria-valuemax and aria-label"
-      }
-    ]
-  },
-  "features": [
-    {
-      "name": "dashboard",
-      "route": "/dashboard",
-      "description": "Real-time athletic monitoring summary displaying trainer profile, live health biometrics, comparative training split ratios, circular completion rings, workout phase progress and exercise step lists. Views: dashboard summary grid. States: loading|empty|error|success. Feedback: toast alert on threshold overflow. A11y: high contrast, aria-valuenow on radial gauges. Responsive: 3-column desktop layout, single-column mobile stack.",
+    "layoutSpec": {
+      "paradigm": "grid",
       "grid": {
         "display": "grid",
-        "columns": "repeat(3, minmax(0, 1fr))",
-        "rows": "repeat(5, auto)",
-        "gap": "1rem",
-        "areas": "\"tiles tiles tiles\" \"bars bars gauges\" \"timeline timeline timeline\" \"steps steps steps\" \"stats stats stats\"",
+        "columns": "1fr",
+        "rows": "auto 1fr auto",
+        "gap": "16px",
+        "areas": "\"header\" \"main\" \"toast\"",
         "matrix": [
           [
-            "tiles",
-            "tiles",
-            "tiles"
+            "header"
           ],
           [
-            "bars",
-            "bars",
-            "gauges"
+            "main"
           ],
           [
-            "timeline",
-            "timeline",
-            "timeline"
-          ],
-          [
-            "steps",
-            "steps",
-            "steps"
-          ],
-          [
-            "stats",
-            "stats",
-            "stats"
+            "toast"
           ]
         ],
         "regions": [
           {
-            "name": "biometric-tiles",
-            "area": "tiles",
-            "type": "stat-tile",
+            "name": "trainer-header",
+            "area": "header",
+            "type": "banner",
             "chart": "none",
-            "layout": "grid",
-            "content": "elements: heart icon + 'Heart Rate' + BiometricMetric.heartRate bpm; lungs icon + 'Respiratory Rate' + BiometricMetric.respiratoryRate; dumbbell icon + 'Weight Volume' + BiometricMetric.trainingLoad; detail labels; data: BiometricMetric.heartRate, respiratoryRate, trainingLoad; states: loading | empty | error | success; interactions: hover highlight, live updates; a11y: role=group with aria-label per tile"
-          },
-          {
-            "name": "comparison-split-bars",
-            "area": "bars",
-            "type": "progress-bar",
-            "chart": "split-bar",
-            "layout": "stack-v",
-            "content": "elements: split bar 30%/70% and split bar 50%/50% with segment percentage labels and category label; data: TrainingRatio.primaryPercentage, secondaryPercentage, categoryLabel; states: loading | empty | error | success; interactions: hover tooltip, 'Reset comparative metrics' action; a11y: role=progressbar with aria-valuenow per segment"
-          },
-          {
-            "name": "radial-gauges",
-            "area": "gauges",
-            "type": "radial-gauge",
-            "chart": "radial-ring",
             "layout": "stack-h",
-            "content": "elements: two rings 80% and 20% with centered percentage and step label; data: PhaseProgress.completionPercentage; states: loading | empty | error | success; interactions: hover tooltip; a11y: role=meter with aria-valuenow per ring"
+            "content": "elements: athlete avatar, headline 'PERSONAL TRAINER', website URL, arrow nav controls; data: trainer profile; states: loading | success; interactions: arrow navigation; a11y: nav landmark, labelled arrow buttons"
           },
           {
-            "name": "phase-timeline",
-            "area": "timeline",
-            "type": "stepper",
-            "chart": "chevron-timeline",
-            "layout": "stack-h",
-            "content": "elements: four chevrons 'STEP 01' to 'STEP 04'; data: PhaseProgress.phaseName, status; states: loading | empty | error | success; interactions: hover/focus; a11y: role=list, aria-current=step on active"
-          },
-          {
-            "name": "exercise-step-cards",
-            "area": "steps",
-            "type": "card-list",
+            "name": "main-outlet",
+            "area": "main",
+            "type": "outlet",
             "chart": "none",
             "layout": "stack-v",
-            "content": "elements: vertical cards 'STEP 01' and 'STEP 02' with title and instruction text; data: WorkoutStep.stepNumber, title, description; states: loading | empty | error | success; interactions: hover highlight; a11y: role=list with listitem cards"
+            "content": "elements: router outlet for /dashboard and /routines; data: none; states: loading | success; interactions: lazy route navigation; a11y: main landmark"
           },
           {
-            "name": "statistics-bar",
-            "area": "stats",
-            "type": "meter",
-            "chart": "bullet",
-            "layout": "stack-v",
-            "content": "elements: bottom statistics bar with dual-layer horizontal track, label 'Workout Intensity' and percentage value; data: BiometricMetric.trainingLoad; states: loading | empty | error | success; interactions: live updates; a11y: role=meter with aria-valuenow"
+            "name": "toast-host",
+            "area": "toast",
+            "type": "toast-host",
+            "chart": "none",
+            "layout": "overlay",
+            "content": "elements: stacked toast alerts; data: notification store; states: empty | visible; interactions: auto-dismiss, close; a11y: aria-live polite"
           }
         ],
         "responsive": [
           {
             "name": "tablet",
-            "maxWidth": "1023px",
-            "columns": "repeat(2, minmax(0, 1fr))",
-            "areas": "\"tiles tiles\" \"bars gauges\" \"timeline timeline\" \"steps steps\" \"stats stats\"",
-            "matrix": [
-              [
-                "tiles",
-                "tiles"
-              ],
-              [
-                "bars",
-                "gauges"
-              ],
-              [
-                "timeline",
-                "timeline"
-              ],
-              [
-                "steps",
-                "steps"
-              ],
-              [
-                "stats",
-                "stats"
-              ]
-            ]
-          },
-          {
-            "name": "mobile",
-            "maxWidth": "639px",
+            "maxWidth": "1024px",
             "columns": "1fr",
-            "areas": "\"tiles\" \"bars\" \"gauges\" \"timeline\" \"steps\" \"stats\"",
+            "areas": "\"header\" \"main\" \"toast\"",
             "matrix": [
               [
-                "tiles"
+                "header"
               ],
               [
-                "bars"
+                "main"
               ],
               [
-                "gauges"
-              ],
-              [
-                "timeline"
-              ],
-              [
-                "steps"
-              ],
-              [
-                "stats"
+                "toast"
               ]
             ]
           }
         ]
+      }
+    },
+    "core_services": [
+      "Biometric Telemetry Service \u2014 ingests live heart rate (bpm), respiratory/lung capacity and training load streams shown in tiles and gauges",
+      "Toast & Notification Store \u2014 shows real-time alerts when biometrics exceed zone thresholds or exercise steps are completed",
+      "Auth & Trainer Profile Store \u2014 manages trainer/athlete session profile and avatar media shown in the header"
+    ],
+    "shared_ui": [
+      {
+        "name": "trainer-header-banner",
+        "purpose": "Hero header with athlete avatar, headline title, web link and quick action arrows.",
+        "type": "banner",
+        "primitive": "header",
+        "layoutSpec": {
+          "paradigm": "grid",
+          "grid": {
+            "columns": "auto 1fr auto",
+            "gap": "16px",
+            "align": "center"
+          }
+        },
+        "content": "elements: avatar image, 'PERSONAL TRAINER' headline, website URL link, prev/next arrow buttons; data: trainer profile; states: loading | success; interactions: arrow click navigation; a11y: aria-labels on arrows, alt text on avatar",
+        "a11y": "Header landmark, labelled arrow buttons, high contrast text."
+      },
+      {
+        "name": "biometric-telemetry-tiles",
+        "purpose": "Icon-driven status cards for heart rate, respiratory rate and weight volume.",
+        "type": "stat-tile",
+        "primitive": "card",
+        "layoutSpec": {
+          "paradigm": "grid",
+          "grid": {
+            "columns": "repeat(3, 1fr)",
+            "gap": "16px",
+            "align": "stretch"
+          }
+        },
+        "content": "elements: heart icon tile, lungs icon tile, dumbbell icon tile, detail labels; data: BiometricMetric; states: loading | empty | error | success; interactions: none; a11y: aria-label with value and unit",
+        "a11y": "Each tile exposes value and unit via aria-label."
+      },
+      {
+        "name": "comparison-split-bars",
+        "purpose": "Horizontal bars showing percentage splits (e.g. 30/70 vs 50/50) of training load.",
+        "type": "progress-bar",
+        "primitive": "progressbar",
+        "layoutSpec": {
+          "paradigm": "grid",
+          "grid": {
+            "columns": "1fr",
+            "gap": "12px",
+            "align": "center"
+          }
+        },
+        "content": "elements: two split bars with primary/secondary segments and labels; data: TrainingRatio; states: loading | empty | error | success; interactions: none; a11y: role progressbar with aria-valuenow",
+        "a11y": "role=progressbar with aria-valuenow/min/max and text labels."
+      },
+      {
+        "name": "radial-gauge-indicator",
+        "purpose": "Dual circular progress rings showing target completion percentages.",
+        "type": "radial-gauge",
+        "primitive": "svg-ring",
+        "layoutSpec": {
+          "paradigm": "grid",
+          "grid": {
+            "columns": "repeat(2, 1fr)",
+            "gap": "16px",
+            "align": "center"
+          }
+        },
+        "content": "elements: two radial rings (e.g. 80% and 20%) with centered step labels; data: completion percentages; states: loading | success; interactions: none; a11y: aria-valuenow on each gauge",
+        "a11y": "role=progressbar with aria-valuenow and aria-label per ring."
+      },
+      {
+        "name": "chevron-stepper-timeline",
+        "purpose": "4-stage horizontal arrow progress bar for workout phases.",
+        "type": "stepper",
+        "primitive": "ol",
+        "layoutSpec": {
+          "paradigm": "grid",
+          "grid": {
+            "columns": "repeat(4, 1fr)",
+            "gap": "4px",
+            "align": "center"
+          }
+        },
+        "content": "elements: four chevron steps STEP 01..STEP 04; data: PhaseProgress; states: pending | in-progress | completed; interactions: none; a11y: aria-current on active step",
+        "a11y": "Ordered list with aria-current=step on active phase."
+      },
+      {
+        "name": "exercise-step-cards",
+        "purpose": "Stacked vertical cards with sequential workout instructions.",
+        "type": "card-list",
+        "primitive": "card",
+        "layoutSpec": {
+          "paradigm": "grid",
+          "grid": {
+            "columns": "1fr",
+            "gap": "12px",
+            "align": "stretch"
+          }
+        },
+        "content": "elements: cards titled STEP 01, STEP 02 with instructions and completion check; data: WorkoutStep; states: loading | empty | error | success; interactions: focus, mark complete; a11y: keyboard focusable",
+        "a11y": "Cards are focusable (tabindex 0) with visible focus ring."
+      },
+      {
+        "name": "statistics-bar-widget",
+        "purpose": "Dual-layered horizontal meter for live workout intensity output.",
+        "type": "meter",
+        "primitive": "meter",
+        "layoutSpec": {
+          "paradigm": "grid",
+          "grid": {
+            "columns": "1fr",
+            "gap": "8px",
+            "align": "center"
+          }
+        },
+        "content": "elements: two overlaid horizontal bar layers with labels; data: live intensity; states: loading | success; interactions: none; a11y: role meter with aria-valuenow",
+        "a11y": "role=meter with aria-valuenow/min/max and labels."
+      }
+    ]
+  },
+  "features": [
+    {
+      "name": "performance-telemetry-dashboard",
+      "route": "/dashboard",
+      "description": "Real-time athletic monitoring summary displaying trainer profile, live biometrics, comparative training split ratios, circular completion rings, workout phase progress and exercise step lists. States: loading | empty | error | success; toast alert on threshold overflow; 3-column desktop, single-column mobile.",
+      "layoutSpec": {
+        "paradigm": "grid",
+        "grid": {
+          "display": "grid",
+          "columns": "repeat(3, 1fr)",
+          "rows": "auto auto auto auto auto",
+          "gap": "16px",
+          "areas": "\"tiles tiles tiles\" \"bars bars gauges\" \"timeline timeline timeline\" \"cards cards cards\" \"stats stats stats\"",
+          "matrix": [
+            [
+              "tiles",
+              "tiles",
+              "tiles"
+            ],
+            [
+              "bars",
+              "bars",
+              "gauges"
+            ],
+            [
+              "timeline",
+              "timeline",
+              "timeline"
+            ],
+            [
+              "cards",
+              "cards",
+              "cards"
+            ],
+            [
+              "stats",
+              "stats",
+              "stats"
+            ]
+          ],
+          "regions": [
+            {
+              "name": "biometric-tiles",
+              "area": "tiles",
+              "type": "stat-tile",
+              "chart": "none",
+              "layout": "grid",
+              "content": "elements: heart rate, respiratory rate, weight volume tiles; data: BiometricMetric; states: loading | empty | error | success; interactions: live stream updates; a11y: aria-label per tile"
+            },
+            {
+              "name": "comparison-bars",
+              "area": "bars",
+              "type": "progress-bar",
+              "chart": "split-bar",
+              "layout": "stack-v",
+              "content": "elements: dual comparison split bars; data: TrainingRatio; states: loading | empty | error | success; interactions: reset comparative metrics; a11y: aria-valuenow on bars"
+            },
+            {
+              "name": "radial-gauges",
+              "area": "gauges",
+              "type": "radial-gauge",
+              "chart": "radial-ring",
+              "layout": "grid",
+              "content": "elements: dual radial progress rings; data: completion percentages; states: loading | success; interactions: none; a11y: aria-valuenow on gauges"
+            },
+            {
+              "name": "phase-timeline",
+              "area": "timeline",
+              "type": "stepper",
+              "chart": "chevron-timeline",
+              "layout": "stack-h",
+              "content": "elements: 4-step chevron timeline STEP 01-04; data: PhaseProgress; states: loading | success; interactions: none; a11y: aria-current on active step"
+            },
+            {
+              "name": "exercise-cards",
+              "area": "cards",
+              "type": "card-list",
+              "chart": "none",
+              "layout": "stack-v",
+              "content": "elements: vertical exercise step cards; data: WorkoutStep; states: loading | empty | error | success; interactions: focus; a11y: keyboard focusable"
+            },
+            {
+              "name": "statistics-bar",
+              "area": "stats",
+              "type": "meter",
+              "chart": "bullet",
+              "layout": "stack-v",
+              "content": "elements: dual-layered intensity meter; data: live workout intensity; states: loading | success; interactions: none; a11y: role meter with aria-valuenow"
+            }
+          ],
+          "responsive": [
+            {
+              "name": "mobile",
+              "maxWidth": "768px",
+              "columns": "1fr",
+              "areas": "\"tiles\" \"bars\" \"gauges\" \"timeline\" \"cards\" \"stats\"",
+              "matrix": [
+                [
+                  "tiles"
+                ],
+                [
+                  "bars"
+                ],
+                [
+                  "gauges"
+                ],
+                [
+                  "timeline"
+                ],
+                [
+                  "cards"
+                ],
+                [
+                  "stats"
+                ]
+              ]
+            }
+          ]
+        }
       },
       "entities": [
         {
@@ -356,86 +373,73 @@
       ]
     },
     {
-      "name": "routines",
+      "name": "workout-progression-routines",
       "route": "/routines",
-      "description": "Workout execution feature where users view and track multi-phase training sessions (STEP 01 to STEP 04) and execute detailed step-by-step exercise routines. Views: list, detail, stepper view. States: loading|empty|error|success. Feedback: inline completion checkmarks and phase transition feedback. A11y: keyboard focusable step cards. Responsive: stacked card layout on smaller screens.",
-      "grid": {
-        "display": "grid",
-        "columns": "repeat(2, minmax(0, 1fr))",
-        "rows": "repeat(2, auto)",
-        "gap": "1rem",
-        "areas": "\"phases phases\" \"steps detail\"",
-        "matrix": [
-          [
-            "phases",
-            "phases"
+      "description": "Workout execution feature to view and track multi-phase training sessions (STEP 01 to STEP 04) and execute step-by-step routines. Views: list, detail, stepper; states: loading | empty | error | success; inline completion checkmarks and phase transition feedback; stacked cards on small screens.",
+      "layoutSpec": {
+        "paradigm": "grid",
+        "grid": {
+          "display": "grid",
+          "columns": "1fr 2fr",
+          "rows": "auto 1fr",
+          "gap": "16px",
+          "areas": "\"stepper stepper\" \"steps detail\"",
+          "matrix": [
+            [
+              "stepper",
+              "stepper"
+            ],
+            [
+              "steps",
+              "detail"
+            ]
           ],
-          [
-            "steps",
-            "detail"
+          "regions": [
+            {
+              "name": "phase-stepper",
+              "area": "stepper",
+              "type": "stepper",
+              "chart": "chevron-timeline",
+              "layout": "stack-h",
+              "content": "elements: 4-phase chevron stepper; data: PhaseProgress; states: loading | success; interactions: advance to next phase; a11y: aria-current on active phase"
+            },
+            {
+              "name": "step-list",
+              "area": "steps",
+              "type": "card-list",
+              "chart": "none",
+              "layout": "stack-v",
+              "content": "elements: keyboard focusable workout step cards with completion checkmarks; data: WorkoutStep; states: loading | empty | error | success; interactions: select, mark completed; a11y: focusable cards"
+            },
+            {
+              "name": "step-detail",
+              "area": "detail",
+              "type": "detail-panel",
+              "chart": "none",
+              "layout": "stack-v",
+              "content": "elements: selected step title, description, complete button; data: WorkoutStep; states: empty | success; interactions: mark step completed; a11y: labelled region"
+            }
+          ],
+          "responsive": [
+            {
+              "name": "mobile",
+              "maxWidth": "768px",
+              "columns": "1fr",
+              "areas": "\"stepper\" \"steps\" \"detail\"",
+              "matrix": [
+                [
+                  "stepper"
+                ],
+                [
+                  "steps"
+                ],
+                [
+                  "detail"
+                ]
+              ]
+            }
           ]
-        ],
-        "regions": [
-          {
-            "name": "phase-stepper",
-            "area": "phases",
-            "type": "stepper",
-            "chart": "chevron-timeline",
-            "layout": "stack-h",
-            "content": "elements: four chevrons 'STEP 01' to 'STEP 04', phase transition feedback, advance-to-next-phase button; data: PhaseProgress.phaseName, completionPercentage, status; states: loading | empty | error | success; interactions: click advances phase, keyboard focus; a11y: role=list, aria-current=step on active"
-          },
-          {
-            "name": "step-cards",
-            "area": "steps",
-            "type": "card-list",
-            "chart": "none",
-            "layout": "stack-v",
-            "content": "elements: stacked cards with STEP label, title, instruction text, inline completion checkmark, 'Mark step as completed' button; data: WorkoutStep.stepNumber, title, description, isCompleted; states: loading | empty | error | success; interactions: click selects step, Enter/Space activates, mark complete; a11y: keyboard focusable cards (tabindex=0), role=listitem"
-          },
-          {
-            "name": "step-detail",
-            "area": "detail",
-            "type": "detail-panel",
-            "chart": "none",
-            "layout": "stack-v",
-            "content": "elements: selected step title, step number, detailed instruction description, completion status indicator; data: WorkoutStep.title, description, isCompleted; states: loading | empty | error | success; interactions: mark complete; a11y: role=region with aria-labelledby"
-          }
-        ],
-        "responsive": [
-          {
-            "name": "tablet",
-            "maxWidth": "1023px",
-            "columns": "repeat(2, minmax(0, 1fr))",
-            "areas": "\"phases phases\" \"steps detail\"",
-            "matrix": [
-              [
-                "phases",
-                "phases"
-              ],
-              [
-                "steps",
-                "detail"
-              ]
-            ]
-          },
-          {
-            "name": "mobile",
-            "maxWidth": "639px",
-            "columns": "1fr",
-            "areas": "\"phases\" \"steps\" \"detail\"",
-            "matrix": [
-              [
-                "phases"
-              ],
-              [
-                "steps"
-              ],
-              [
-                "detail"
-              ]
-            ]
-          }
-        ]
+        }
       },
       "entities": [
         {

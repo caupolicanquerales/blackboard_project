@@ -3,10 +3,10 @@
   "targetAgent": "agent-model",
   "stage": 1,
   "dependsOn": [],
-  "path": "src/app/shared/models/view-state.model.ts",
+  "path": "src/app/shared/models/icon-name.model.ts",
   "kind": "model",
   "layer": "shared",
   "feature": null,
-  "export": "ViewState",
-  "intent": "Declare and export exactly: type ViewState = 'loading' | 'empty' | 'error' | 'success'. Single producer of the UI state union."
+  "export": "IconName",
+  "intent": "export type IconName = 'heart' | 'lungs' | 'dumbbell' | 'chevron-left' | 'chevron-right' | 'chevron-step' | 'check'. Domain-free; single producer of this union."
 }

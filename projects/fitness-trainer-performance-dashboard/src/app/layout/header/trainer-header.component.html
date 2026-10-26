@@ -1,0 +1,22 @@
+<header class="trainer-header" [attr.data-state]="status()" [attr.aria-busy]="isLoading()">
+  @if (profile(); as p) {
+    <img class="trainer-header__avatar" [src]="p.avatarUrl" [alt]="p.avatarAlt" />
+    <div class="trainer-header__info">
+      <h1 class="trainer-header__headline">{{ headline }}</h1>
+      <a class="trainer-header__link" [href]="p.websiteUrl" target="_blank" rel="noopener noreferrer">{{ p.websiteUrl }}</a>
+    </div>
+  } @else {
+    <div class="trainer-header__avatar trainer-header__avatar--placeholder" role="status" aria-label="Loading trainer profile"></div>
+    <div class="trainer-header__info">
+      <h1 class="trainer-header__headline">{{ headline }}</h1>
+    </div>
+  }
+  <nav class="trainer-header__nav" aria-label="Section navigation">
+    <button type="button" class="trainer-header__arrow" aria-label="Previous section" (click)="goPrevious()">
+      <app-icon name="chevron-left" />
+    </button>
+    <button type="button" class="trainer-header__arrow" aria-label="Next section" (click)="goNext()">
+      <app-icon name="chevron-right" />
+    </button>
+  </nav>
+</header>

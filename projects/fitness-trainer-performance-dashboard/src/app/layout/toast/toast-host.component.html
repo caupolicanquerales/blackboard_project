@@ -1,0 +1,8 @@
+<div class="toast-host" [attr.data-state]="state()" aria-live="polite" role="region" aria-label="Notifications">
+  @for (toast of toasts(); track toast.id) {
+    <div class="toast" [attr.data-severity]="toast.severity" role="status">
+      <span class="toast__message">{{ toast.message }}</span>
+      <button type="button" class="toast__close" aria-label="Close notification" (click)="close(toast.id)">&times;</button>
+    </div>
+  }
+</div>
