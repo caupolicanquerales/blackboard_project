@@ -3,10 +3,10 @@
   "targetAgent": "agent-model",
   "stage": 1,
   "dependsOn": [],
-  "path": "src/app/core/models/phase-progress.model.ts",
+  "path": "src/core/models/athlete-profile.ts",
   "kind": "model",
   "layer": "core",
   "feature": null,
-  "export": "PhaseProgress",
-  "intent": "interface PhaseProgress {id: string; phaseName: string; completionPercentage: number; status: PhaseStatus}; also export type PhaseStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' in this file only (single producer). Consumed by core and both features, hence core."
+  "export": "AthleteProfile",
+  "intent": "framework=react-native; platform=mobile; skill=react-model; Type AthleteProfile: id: string; displayName: string; role: 'ATHLETE' | 'COACH'; avatarUri: string; activeSport: string; weightKg: number; restingHeartRate: number; maxHeartRate: number; ftpWatts: number. Pure type, no UI imports."
 }

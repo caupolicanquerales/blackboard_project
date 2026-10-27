@@ -1,15 +1,15 @@
 {
   "id": "T5-007",
-  "targetAgent": "agent-container",
+  "targetAgent": "agent-ui",
   "stage": 5,
   "dependsOn": [
-    "T1-001",
-    "T4-001"
+    "T2-005",
+    "T4-007"
   ],
-  "path": "src/app/features/performance-telemetry-dashboard/ui/phase-timeline.component.ts",
-  "kind": "component",
-  "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "PhaseTimelineComponent",
-  "intent": "Presentational (region 'phase-timeline', area 'timeline'): input phases (PhaseProgress[]); ordered list (ol) of 4 chevron steps STEP 01-04, aria-current='step' on IN_PROGRESS phase; statuses pending|in-progress|completed."
+  "path": "src/shared/components/BottomActionBar/index.tsx",
+  "kind": "ux",
+  "layer": "shared",
+  "feature": null,
+  "export": "BottomActionBar",
+  "intent": "framework=react-native; platform=mobile; skill=react-ui; Apply layout, design tokens (import from src/shared/theme/tokens.ts) and accessibility to BottomActionBar keeping export and prop types unchanged. Component layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"row\", \"justify\": \"space-around\", \"align\": \"center\", \"gap\": 12, \"padding\": 12}}. Region layoutSpec (verbatim): [{\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 16, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"biometric-telemetry-cards\", \"comparison-split-bars\", \"radial-gauge-indicator\", \"horizontal-stepper-timeline\", \"interval-exercise-cards\", \"bottom-action-bar\"], \"scroll\": \"vertical with RefreshControl\"}}, {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 12, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"horizontal-stepper-timeline\", \"interval-exercise-cards\", \"bottom-action-bar\"], \"stickyBottom\": \"bottom-action-bar\"}}]. project={\"platform\": \"mobile\", \"layoutParadigm\": \"flexbox\", \"framework\": \"react-native\"}. theme={\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"#FF3B30\", \"headingStyle\": \"bold italic uppercase athletic headers\", \"iconography\": \"native vector icons (heart, lightning, pedal/runner)\"}. Content: elements: primary action button, secondary controls; data: workout state; states: enabled | disabled; interactions: tap; a11y: accessibilityRole button, min 44x44pt, accessibilityLabel and accessibilityState disabled. Purpose: Persistent bottom bar with workout controls in thumb zone"
 }

@@ -3,15 +3,16 @@
   "targetAgent": "agent-container",
   "stage": 6,
   "dependsOn": [
-    "T2-004",
-    "T5-014",
-    "T5-016",
-    "T5-018"
+    "T1-009",
+    "T3-009",
+    "T5-007",
+    "T5-008",
+    "T5-009"
   ],
-  "path": "src/app/features/workout-progression-routines/feature/routines-page.component.ts",
-  "kind": "container",
+  "path": "src/features/routines/screens/ActiveExecutionScreen/index.tsx",
+  "kind": "screen",
   "layer": "features",
-  "feature": "workout-progression-routines",
-  "export": "RoutinesPageComponent",
-  "intent": "Route target for /routines (container). Injects WorkoutStore only. Composes app-phase-stepper, app-step-list, app-step-detail in areas stepper/steps/detail; wires selectStep, completeStep, advancePhase."
+  "feature": "routines",
+  "export": "ActiveExecutionScreen",
+  "intent": "framework=react-native; platform=mobile; skill=react-container; Active execution drill-down: HorizontalStepperTimeline, current step card list and sticky BottomActionBar (complete step / advance phase) with haptic feedback via useRoutineExecution; phase transition alerts. Container: uses navigation hooks typed by RoutinesStackParamList etc. from src/core/navigation/types.ts. Create index.tsx, types and test. Feature layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 12, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"horizontal-stepper-timeline\", \"interval-exercise-cards\", \"bottom-action-bar\"], \"stickyBottom\": \"bottom-action-bar\"}}. project={\"platform\": \"mobile\", \"layoutParadigm\": \"flexbox\", \"framework\": \"react-native\"}. theme={\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"#FF3B30\", \"headingStyle\": \"bold italic uppercase athletic headers\", \"iconography\": \"native vector icons (heart, lightning, pedal/runner)\"}. SafeAreaView root, states loading|empty|error|success, a11y per react-ui skill."
 }

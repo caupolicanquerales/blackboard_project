@@ -1,15 +1,15 @@
 {
   "id": "T5-005",
-  "targetAgent": "agent-container",
+  "targetAgent": "agent-ui",
   "stage": 5,
   "dependsOn": [
-    "T1-004",
-    "T4-001"
+    "T2-005",
+    "T4-005"
   ],
-  "path": "src/app/features/performance-telemetry-dashboard/ui/exercise-step-cards.component.ts",
-  "kind": "component",
-  "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "ExerciseStepCardsComponent",
-  "intent": "Presentational (region 'exercise-cards', area 'cards'): input steps (WorkoutStep[]), input status; output stepCompleted(id); cards titled STEP 0N with instructions and completion check, tabindex=0; states loading|empty|error|success."
+  "path": "src/layout/AthleteHeaderBanner/index.tsx",
+  "kind": "ux",
+  "layer": "layout",
+  "feature": null,
+  "export": "AthleteHeaderBanner",
+  "intent": "framework=react-native; platform=mobile; skill=react-ui; Apply layout, design tokens (import from src/shared/theme/tokens.ts) and accessibility to AthleteHeaderBanner keeping export and prop types unchanged. Component layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"row\", \"justify\": \"space-between\", \"align\": \"center\", \"gap\": 12, \"padding\": 16}}. Region layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 12, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"header-banner\", \"content-outlet\", \"bottom-tab-bar\"], \"safeArea\": true, \"responsive\": {\"compact\": \"single column phone layout\", \"medium\": \"row wrap of cards for tablet/landscape via useWindowDimensions\"}}}. project={\"platform\": \"mobile\", \"layoutParadigm\": \"flexbox\", \"framework\": \"react-native\"}. theme={\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"#FF3B30\", \"headingStyle\": \"bold italic uppercase athletic headers\", \"iconography\": \"native vector icons (heart, lightning, pedal/runner)\"}. Content: elements: avatar image, title 'ENDURANCE TELEMETRY', active sport indicator, quick sync action buttons; data: athlete profile; states: loading | success | error; interactions: tap sync, tap avatar; a11y: accessibilityRole header, buttons min 44x44pt with accessibilityLabel. Purpose: Top safe-area header with athlete avatar, title and quick sync actions"
 }

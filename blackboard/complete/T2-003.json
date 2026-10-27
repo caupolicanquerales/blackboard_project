@@ -1,14 +1,12 @@
 {
   "id": "T2-003",
-  "targetAgent": "agent-core",
+  "targetAgent": "agent-wiring",
   "stage": 2,
-  "dependsOn": [
-    "T1-003"
-  ],
-  "path": "src/app/core/state/trainer-profile.store.ts",
-  "kind": "store",
+  "dependsOn": [],
+  "path": "src/core/config.ts",
+  "kind": "config",
   "layer": "core",
   "feature": null,
-  "export": "TrainerProfileStore",
-  "intent": "Signal store (root): profile = readonly signal<TrainerProfile|null>, status signal 'loading'|'success'; setProfile(profile). Seeded by the mock providers; consumed by the layout header."
+  "export": "config",
+  "intent": "framework=react-native; platform=mobile; skill=react-wiring; Single app config module: API_BASE_URL, DEFAULT_ROUTINE_ID ('routine-default'), TELEMETRY_STREAM_CHANNEL ('telemetry'), zone thresholds (MAX_HEART_RATE_BPM, MAX_POWER_WATTS), TOAST_DEFAULT_TIMEOUT_MS, SENSOR_STALE_MS. Typed constants only; all other modules read config through this file."
 }

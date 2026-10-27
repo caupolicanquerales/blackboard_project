@@ -1,0 +1,15 @@
+{
+  "id": "T3-004",
+  "targetAgent": "agent-core",
+  "stage": 3,
+  "dependsOn": [
+    "T1-001",
+    "T3-001"
+  ],
+  "path": "src/core/store/athlete-profile.store.ts",
+  "kind": "store",
+  "layer": "core",
+  "feature": null,
+  "export": "useAthleteProfileStore",
+  "intent": "framework=react-native; platform=mobile; skill=react-core; Zustand store: { profile: AthleteProfile | null; status: 'idle'|'loading'|'success'|'error'; error?: string; loadProfile(); setProfile(p); signOut() } using athleteService. Auth & Athlete Profile Store (athlete/coach session, metrics, avatar)."
+}

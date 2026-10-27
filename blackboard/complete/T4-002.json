@@ -1,14 +1,15 @@
 {
   "id": "T4-002",
-  "targetAgent": "agent-ui",
+  "targetAgent": "agent-container",
   "stage": 4,
   "dependsOn": [
-    "T4-001"
+    "T1-007",
+    "T1-011"
   ],
-  "path": "src/app/shared/ui/icon.component.ts",
-  "kind": "ux",
-  "layer": "shared",
-  "feature": null,
-  "export": "IconComponent",
-  "intent": "Platform=web; layoutParadigm=grid; framework=angular (Angular 22 (Standalone, Signals, Zoneless)). Theme tokens: {\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"neon orange/red\", \"headingStyle\": \"bold italic\", \"iconography\": \"custom icons (heart, lungs, dumbbell, chevron arrows)\"}. Style: inline-flex, size via CSS var, stroke/fill currentColor, crisp athletic geometry, no layout grid needed."
+  "path": "src/features/dashboard/components/ComparisonSplitBars/index.tsx",
+  "kind": "component",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "ComparisonSplitBars",
+  "intent": "framework=react-native; platform=mobile; skill=react-container; Props: ratios: TrainingRatio[]; status: LoadStatus. Dual horizontal split bars (e.g. 30/70 vs 50/50). Presentational only (props in, callbacks out; no stores/navigation/services). Create folder with index.tsx, ComparisonSplitBars.types.ts, ComparisonSplitBars.test.tsx (@testing-library/react-native). StyleSheet.create at bottom; leave styling refinement to agent-ui. Data via props only."
 }

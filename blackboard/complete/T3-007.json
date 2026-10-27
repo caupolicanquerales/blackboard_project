@@ -1,0 +1,17 @@
+{
+  "id": "T3-007",
+  "targetAgent": "agent-core",
+  "stage": 3,
+  "dependsOn": [
+    "T1-006",
+    "T1-008",
+    "T3-003",
+    "T3-005"
+  ],
+  "path": "src/core/store/workout.store.ts",
+  "kind": "store",
+  "layer": "core",
+  "feature": null,
+  "export": "useWorkoutStore",
+  "intent": "framework=react-native; platform=mobile; skill=react-core; Zustand store: { steps: WorkoutStep[]; phases: PhaseProgress[]; status; load(routineId); completeStep(stepId); advancePhase() }. Pushes an interval/phase transition toast via useNotificationStore on advance. Shared by dashboard and routines (>=2 consumers -> core)."
+}

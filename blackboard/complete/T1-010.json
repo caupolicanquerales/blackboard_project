@@ -1,0 +1,12 @@
+{
+  "id": "T1-010",
+  "targetAgent": "agent-model",
+  "stage": 1,
+  "dependsOn": [],
+  "path": "src/shared/models/interval-card-item.ts",
+  "kind": "model",
+  "layer": "shared",
+  "feature": null,
+  "export": "IntervalCardItem",
+  "intent": "framework=react-native; platform=mobile; skill=react-model; UI view-model type IntervalCardItem: id: string; stepNumber: number; title: string; description: string; targetZone: string; isDone: boolean. Domain-free presentational contract for shared components (shared must not import core); containers map WorkoutStep -> IntervalCardItem."
+}

@@ -3,15 +3,16 @@
   "targetAgent": "agent-core",
   "stage": 3,
   "dependsOn": [
-    "T1-005",
-    "T1-006",
+    "T1-002",
+    "T1-007",
+    "T2-001",
     "T2-002",
-    "T3-001"
+    "T2-003"
   ],
-  "path": "src/app/features/performance-telemetry-dashboard/data/telemetry.store.ts",
-  "kind": "store",
-  "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "TelemetryStore",
-  "intent": "Feature signal store: metric, ratios, status 'loading'|'empty'|'error'|'success'; computed intensity (trainingLoad). Actions: load(); startStream()/stopStream() polling getSnapshot on an interval (live heart rate/respiration, cleanup on destroy); resetRatios(). When heartRate exceeds zone threshold (e.g. >170 bpm) push a warning toast via ToastStore (deduplicated). Injects TelemetryApi and ToastStore."
+  "path": "src/core/services/telemetry.service.ts",
+  "kind": "service",
+  "layer": "core",
+  "feature": null,
+  "export": "telemetryService",
+  "intent": "framework=react-native; platform=mobile; skill=react-core; Biometric Telemetry Service: fetchSnapshot(): Promise<BiometricMetric>; fetchRatios(): Promise<TrainingRatio[]>; resetRatios(): Promise<TrainingRatio[]> (POST /telemetry/reset); subscribe(onMetric): () => void over the 'telemetry' stream (heart rate bpm, power watts, cadence rpm, training load). Typed, UI-free."
 }

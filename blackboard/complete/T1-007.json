@@ -3,10 +3,10 @@
   "targetAgent": "agent-model",
   "stage": 1,
   "dependsOn": [],
-  "path": "src/app/shared/models/icon-name.model.ts",
+  "path": "src/core/models/training-ratio.ts",
   "kind": "model",
-  "layer": "shared",
+  "layer": "core",
   "feature": null,
-  "export": "IconName",
-  "intent": "export type IconName = 'heart' | 'lungs' | 'dumbbell' | 'chevron-left' | 'chevron-right' | 'chevron-step' | 'check'. Domain-free; single producer of this union."
+  "export": "TrainingRatio",
+  "intent": "framework=react-native; platform=mobile; skill=react-model; Type TrainingRatio: id: string; primaryPercentage: number; secondaryPercentage: number; categoryLabel: string."
 }

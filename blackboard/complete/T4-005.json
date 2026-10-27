@@ -1,0 +1,15 @@
+{
+  "id": "T4-005",
+  "targetAgent": "agent-container",
+  "stage": 4,
+  "dependsOn": [
+    "T1-001",
+    "T1-011"
+  ],
+  "path": "src/layout/AthleteHeaderBanner/index.tsx",
+  "kind": "component",
+  "layer": "layout",
+  "feature": null,
+  "export": "AthleteHeaderBanner",
+  "intent": "framework=react-native; platform=mobile; skill=react-container; Props: profile: AthleteProfile | null; status: LoadStatus; onPressSync(); onPressAvatar(). Title 'ENDURANCE TELEMETRY' and active sport indicator. Presentational only (props in, callbacks out; no stores/navigation/services). Create folder with index.tsx, AthleteHeaderBanner.types.ts, AthleteHeaderBanner.test.tsx (@testing-library/react-native). StyleSheet.create at bottom; leave styling refinement to agent-ui. Data via props only."
+}

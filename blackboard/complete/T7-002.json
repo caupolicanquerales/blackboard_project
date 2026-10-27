@@ -3,12 +3,13 @@
   "targetAgent": "agent-wiring",
   "stage": 7,
   "dependsOn": [
-    "T6-003"
+    "T1-009",
+    "T6-001"
   ],
-  "path": "src/app/features/workout-progression-routines/workout-progression-routines.routes.ts",
-  "kind": "route",
+  "path": "src/features/dashboard/dashboard.navigator.tsx",
+  "kind": "navigator",
   "layer": "features",
-  "feature": "workout-progression-routines",
-  "export": "WORKOUT_PROGRESSION_ROUTINES_ROUTES",
-  "intent": "Routes: { path: '', loadComponent: () => import('./feature/routines-page.component').then(m => m.RoutinesPageComponent) }."
+  "feature": "dashboard",
+  "export": "DashboardNavigator",
+  "intent": "framework=react-native; platform=mobile; skill=react-wiring; Native stack navigator typed by DashboardStackParamList from src/core/navigation/types.ts exposing the dashboard screen only through this navigator."
 }

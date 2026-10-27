@@ -1,0 +1,15 @@
+{
+  "id": "T4-003",
+  "targetAgent": "agent-container",
+  "stage": 4,
+  "dependsOn": [
+    "T1-002",
+    "T1-011"
+  ],
+  "path": "src/features/dashboard/components/LiveTelemetryStatisticsBar/index.tsx",
+  "kind": "component",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "LiveTelemetryStatisticsBar",
+  "intent": "framework=react-native; platform=mobile; skill=react-container; Props: metric: BiometricMetric | null; status: LoadStatus; maxHeartRate/maxPower numbers. Two layered horizontal meters. Presentational only (props in, callbacks out; no stores/navigation/services). Create folder with index.tsx, LiveTelemetryStatisticsBar.types.ts, LiveTelemetryStatisticsBar.test.tsx (@testing-library/react-native). StyleSheet.create at bottom; leave styling refinement to agent-ui. Data via props only."
+}

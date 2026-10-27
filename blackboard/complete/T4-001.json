@@ -3,12 +3,13 @@
   "targetAgent": "agent-container",
   "stage": 4,
   "dependsOn": [
-    "T1-007"
+    "T1-002",
+    "T1-011"
   ],
-  "path": "src/app/shared/ui/icon.component.ts",
+  "path": "src/features/dashboard/components/BiometricTelemetryCards/index.tsx",
   "kind": "component",
-  "layer": "shared",
-  "feature": null,
-  "export": "IconComponent",
-  "intent": "Presentational standalone component app-icon: input.required<IconName> name, optional size input; renders custom inline SVG icons (heart, lungs, dumbbell, chevrons, check) with currentColor, aria-hidden=true. Shared justification: imported by dashboard timeline/tiles, routines stepper and layout header (>=2 features, domain-free)."
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "BiometricTelemetryCards",
+  "intent": "framework=react-native; platform=mobile; skill=react-container; Props: metric: BiometricMetric | null; status: LoadStatus; onPressMetric(kind). Heart, lightning and pedal/runner icon cards via @expo/vector-icons. Presentational only (props in, callbacks out; no stores/navigation/services). Create folder with index.tsx, BiometricTelemetryCards.types.ts, BiometricTelemetryCards.test.tsx (@testing-library/react-native). StyleSheet.create at bottom; leave styling refinement to agent-ui. Data via props only."
 }

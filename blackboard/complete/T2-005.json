@@ -1,15 +1,12 @@
 {
   "id": "T2-005",
-  "targetAgent": "agent-core",
+  "targetAgent": "agent-ui",
   "stage": 2,
-  "dependsOn": [
-    "T1-001",
-    "T1-004"
-  ],
-  "path": "src/app/core/stubs/mock-backend.interceptor.ts",
-  "kind": "interceptor",
-  "layer": "core",
+  "dependsOn": [],
+  "path": "src/shared/theme/tokens.ts",
+  "kind": "theme",
+  "layer": "shared",
   "feature": null,
-  "export": "mockBackendInterceptor",
-  "intent": "Dev data-provisioning (Rule 6): functional HttpInterceptorFn answering exactly these endpoints with in-memory fixtures and short latency, no pass-through: GET /api/telemetry/snapshot -> BiometricMetric (heartRate ~120-185 varying, respiratoryRate, trainingLoad 0-100); GET /api/telemetry/ratios -> TrainingRatio[] (30/70 and 50/50); POST /api/telemetry/ratios/reset; GET /api/routines/:id/steps -> 4 WorkoutStep (STEP 01-04); POST /api/steps/:id/complete; GET /api/phases -> 4 PhaseProgress (STEP 01 COMPLETED, STEP 02 IN_PROGRESS, others PENDING); POST /api/phases/advance. Fixtures are inline (core must not import features): declare local structural shapes matching BiometricMetric/TrainingRatio without importing them."
+  "export": "theme",
+  "intent": "framework=react-native; platform=mobile; skill=react-ui; Design tokens object consumed by every component: colors (background #121212, surface, accent #FF3B30, text/muted, success/warning with contrast >= 4.5:1), spacing scale (gap 4/6/8/12/16), radii, minTouchTarget 44, typography (headingStyle: bold italic uppercase athletic). global_requirements.theme passed unchanged: {\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"#FF3B30\", \"headingStyle\": \"bold italic uppercase athletic headers\", \"iconography\": \"native vector icons (heart, lightning, pedal/runner)\"}. Export a typed `theme` const and `Theme` type from this file."
 }

@@ -1,15 +1,15 @@
 {
   "id": "T7-003",
-  "targetAgent": "agent-container",
+  "targetAgent": "agent-wiring",
   "stage": 7,
   "dependsOn": [
-    "T2-003",
-    "T4-001"
+    "T1-009",
+    "T6-002"
   ],
-  "path": "src/app/layout/header/trainer-header.component.ts",
-  "kind": "component",
-  "layer": "layout",
-  "feature": null,
-  "export": "TrainerHeaderComponent",
-  "intent": "Shell region 'trainer-header' (area header): injects TrainerProfileStore and Router (2 deps). Header landmark with avatar img (alt), headline 'PERSONAL TRAINER', website link, prev/next arrow buttons (app-icon chevrons, aria-labels) navigating between /dashboard and /routines; states loading|success."
+  "path": "src/features/profile/profile.navigator.tsx",
+  "kind": "navigator",
+  "layer": "features",
+  "feature": "profile",
+  "export": "ProfileNavigator",
+  "intent": "framework=react-native; platform=mobile; skill=react-wiring; Native stack navigator typed by ProfileStackParamList from src/core/navigation/types.ts exposing the profile screen only through this navigator."
 }

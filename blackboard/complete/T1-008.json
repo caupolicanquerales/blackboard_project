@@ -1,0 +1,12 @@
+{
+  "id": "T1-008",
+  "targetAgent": "agent-model",
+  "stage": 1,
+  "dependsOn": [],
+  "path": "src/core/models/workout-step.ts",
+  "kind": "model",
+  "layer": "core",
+  "feature": null,
+  "export": "WorkoutStep",
+  "intent": "framework=react-native; platform=mobile; skill=react-model; Type WorkoutStep: id: string; stepNumber: number; title: string; description: string; targetZone: string; isCompleted: boolean."
+}

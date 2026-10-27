@@ -1,14 +1,18 @@
 {
   "id": "T7-005",
-  "targetAgent": "agent-container",
+  "targetAgent": "agent-wiring",
   "stage": 7,
   "dependsOn": [
-    "T2-002"
+    "T1-009",
+    "T2-005",
+    "T7-002",
+    "T7-003",
+    "T7-004"
   ],
-  "path": "src/app/layout/toast/toast-host.component.ts",
-  "kind": "component",
+  "path": "src/layout/navigation/root.navigator.tsx",
+  "kind": "navigator",
   "layer": "layout",
   "feature": null,
-  "export": "ToastHostComponent",
-  "intent": "Shell region 'toast-host' (area toast): injects ToastStore. Overlay container with aria-live='polite' rendering stacked toasts with close buttons; states empty|visible."
+  "export": "RootNavigator",
+  "intent": "framework=react-native; platform=mobile; skill=react-wiring; Bottom tab navigator typed by RootTabParamList (Dashboard, Routines, Profile) with vector icons (heart, lightning, runner), dark theme tokens, mounting ONLY the three <f>.navigator.tsx as nested navigators (Rule 5). Tab bar items min 44pt with accessibilityLabel."
 }

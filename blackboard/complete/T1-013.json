@@ -1,0 +1,14 @@
+{
+  "id": "T1-013",
+  "targetAgent": "agent-model",
+  "stage": 1,
+  "dependsOn": [
+    "T1-012"
+  ],
+  "path": "src/shared/models/timeline-step.ts",
+  "kind": "model",
+  "layer": "shared",
+  "feature": null,
+  "export": "TimelineStep",
+  "intent": "framework=react-native; platform=mobile; skill=react-model; UI view-model type TimelineStep: id: string; label: string (e.g. 'STEP 01'); state: StepState (import from ./step-state)."
+}

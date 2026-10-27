@@ -1,0 +1,12 @@
+{
+  "id": "T4-007",
+  "targetAgent": "agent-container",
+  "stage": 4,
+  "dependsOn": [],
+  "path": "src/shared/components/BottomActionBar/index.tsx",
+  "kind": "component",
+  "layer": "shared",
+  "feature": null,
+  "export": "BottomActionBar",
+  "intent": "framework=react-native; platform=mobile; skill=react-container; Props: primaryLabel; onPrimary(); secondaryActions: {id,label,onPress,disabled?}[]; primaryDisabled?: boolean. Domain-free; used by dashboard and routines. Presentational only (props in, callbacks out; no stores/navigation/services). Create folder with index.tsx, BottomActionBar.types.ts, BottomActionBar.test.tsx (@testing-library/react-native). StyleSheet.create at bottom; leave styling refinement to agent-ui. Data via props only."
+}

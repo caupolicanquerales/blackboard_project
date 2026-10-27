@@ -1,5 +1,5 @@
 ---
-description: "Universal component/container worker. Loads framework-specific skills dynamically (e.g., angular-container) and runs platform-appropriate Stage 0 bootstrap and scaffolding. UX/UI styling owned by UI agents. Routed by orchestrator."
+description: "Universal component/container worker. Loads the container skill matching the project framework dynamically and runs platform-appropriate Stage 0 bootstrap and scaffolding. UX/UI styling owned by UI agents. Routed by orchestrator."
 mode: subagent
 temperature: 0.1
 permission:
@@ -24,9 +24,10 @@ You are a blackboard worker. The orchestrator hands you exactly ONE task as JSON
 
 ## Dynamic Skill Injection
 
-1. Read task and project context (seed if available). Detect framework/platform from task/seed (`project.framework`, `project.platform`, `target`).
-2. Load framework-specific container/component skill dynamically (e.g., `angular-container`, `react-container`, `flutter-container`) via the `skill` tool.
-3. Follow loaded skill rules. Fallback to universal generic scaffolding if no skill loaded.
+1. Resolve the framework: use `project.framework` and `project.platform` from `seed/*_seed.json`. A `framework=<value>; skill=<id>` stamp in the task `intent` takes precedence. If neither exists, infer it from the project's manifest files.
+2. Build the skill id `<stack>-<role>`, where `<stack>` is the framework identifier and `<role>` is this agent's role (`container`). If the stamp gives `skill=<id>`, use that id.
+3. Load exactly that skill via the `skill` tool. If it does not exist, list the available skills and load only one whose description matches the framework. If none matches, fail the task and report the missing skill. Never fall back to another framework's skill.
+4. Follow the loaded skill rules. Never write imports, packages, or syntax from a framework not declared in `project.framework`.
 
 ## Contract
 

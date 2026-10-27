@@ -3,10 +3,10 @@
   "targetAgent": "agent-model",
   "stage": 1,
   "dependsOn": [],
-  "path": "src/app/core/models/trainer-profile.model.ts",
+  "path": "src/core/models/notification-severity.ts",
   "kind": "model",
   "layer": "core",
   "feature": null,
-  "export": "TrainerProfile",
-  "intent": "interface TrainerProfile {id: string; displayName: string; headline: string; websiteUrl: string; avatarUrl: string; avatarAlt: string}."
+  "export": "ToastSeverity",
+  "intent": "framework=react-native; platform=mobile; skill=react-model; Union type ToastSeverity = 'info' | 'warning' | 'alert'. Single producer of this union."
 }

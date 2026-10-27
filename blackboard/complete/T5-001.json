@@ -1,15 +1,15 @@
 {
   "id": "T5-001",
-  "targetAgent": "agent-container",
+  "targetAgent": "agent-ui",
   "stage": 5,
   "dependsOn": [
-    "T1-005",
+    "T2-005",
     "T4-001"
   ],
-  "path": "src/app/features/performance-telemetry-dashboard/ui/biometric-tiles.component.ts",
-  "kind": "component",
+  "path": "src/features/dashboard/components/BiometricTelemetryCards/index.tsx",
+  "kind": "ux",
   "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "BiometricTilesComponent",
-  "intent": "Presentational (region 'biometric-tiles', area 'tiles'): input metric (BiometricMetric|null) and input status; three stat tiles using app-icon heart/lungs/dumbbell (heart rate bpm, respiratory rate rpm, training load/weight volume); aria-label with value and unit per tile; states loading|empty|error|success via @switch."
+  "feature": "dashboard",
+  "export": "BiometricTelemetryCards",
+  "intent": "framework=react-native; platform=mobile; skill=react-ui; Apply layout, design tokens (import from src/shared/theme/tokens.ts) and accessibility to BiometricTelemetryCards keeping export and prop types unchanged. Component layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"row\", \"wrap\": \"wrap\", \"gap\": 12, \"justify\": \"space-between\", \"align\": \"stretch\"}}. Region layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 16, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"biometric-telemetry-cards\", \"comparison-split-bars\", \"radial-gauge-indicator\", \"horizontal-stepper-timeline\", \"interval-exercise-cards\", \"bottom-action-bar\"], \"scroll\": \"vertical with RefreshControl\"}}. project={\"platform\": \"mobile\", \"layoutParadigm\": \"flexbox\", \"framework\": \"react-native\"}. theme={\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"#FF3B30\", \"headingStyle\": \"bold italic uppercase athletic headers\", \"iconography\": \"native vector icons (heart, lightning, pedal/runner)\"}. Content: elements: heart icon card, lightning icon card, pedal/runner icon card, detail labels; data: BiometricMetric; states: loading | empty | error | success; interactions: tap for detail; a11y: accessibilityRole summary and accessibilityLabel with value and unit. Purpose: Icon-driven status cards for heart rate, power output and cadence"
 }

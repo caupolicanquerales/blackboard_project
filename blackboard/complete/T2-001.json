@@ -3,13 +3,12 @@
   "targetAgent": "agent-core",
   "stage": 2,
   "dependsOn": [
-    "T1-001",
-    "T1-004"
+    "T1-002"
   ],
-  "path": "src/app/core/api/workout.api.ts",
-  "kind": "service",
+  "path": "src/core/api/api-client.ts",
+  "kind": "api",
   "layer": "core",
   "feature": null,
-  "export": "WorkoutApi",
-  "intent": "Injectable root service (inject(HttpClient)). Methods returning Observables: getSteps(routineId): GET /api/routines/:id/steps -> WorkoutStep[]; getPhases(): GET /api/phases -> PhaseProgress[]; completeStep(id): POST /api/steps/:id/complete -> WorkoutStep; advancePhase(): POST /api/phases/advance -> PhaseProgress[]. Import models from core/models only."
+  "export": "apiClient",
+  "intent": "framework=react-native; platform=mobile; skill=react-core; Typed API client singleton using fetch with a pluggable transport adapter: request<T>(method, url, body?) and subscribe<T>(channel, handler): () => void (live stream, returns unsubscribe); setAdapter(adapter) lets the app root install the mock layer. Base URL read from core/config. Central error handling/logging wrapper. No UI imports, no any."
 }

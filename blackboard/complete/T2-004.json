@@ -2,16 +2,11 @@
   "id": "T2-004",
   "targetAgent": "agent-core",
   "stage": 2,
-  "dependsOn": [
-    "T1-001",
-    "T1-004",
-    "T2-001",
-    "T2-002"
-  ],
-  "path": "src/app/core/state/workout.store.ts",
-  "kind": "store",
-  "layer": "core",
+  "dependsOn": [],
+  "path": "src/shared/hooks/useResponsiveLayout.ts",
+  "kind": "hook",
+  "layer": "shared",
   "feature": null,
-  "export": "WorkoutStore",
-  "intent": "Signal store (root) shared by dashboard and routines (>=2 features): steps, phases, selectedStepId, status 'loading'|'empty'|'error'|'success' signals; computed completedCount, activeStep, gauge percentages (completed vs remaining); actions loadRoutine(routineId) (via WorkoutApi), selectStep(id), completeStep(id) (emit success toast via ToastStore), advancePhase() (phase transition toast). Injects WorkoutApi and ToastStore only."
+  "export": "useResponsiveLayout",
+  "intent": "framework=react-native; platform=mobile; skill=react-core; Domain-free hook wrapping useWindowDimensions returning { size: 'compact' | 'medium', isLandscape, columns } (compact = single column phone; medium = row wrap of cards for tablet/landscape). Used by dashboard, routines and layout (>=2 features -> shared). Must not import core/features."
 }

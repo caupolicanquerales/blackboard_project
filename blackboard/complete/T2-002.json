@@ -3,12 +3,17 @@
   "targetAgent": "agent-core",
   "stage": 2,
   "dependsOn": [
-    "T1-002"
+    "T1-001",
+    "T1-002",
+    "T1-006",
+    "T1-007",
+    "T1-008",
+    "T2-001"
   ],
-  "path": "src/app/core/state/toast.store.ts",
-  "kind": "store",
+  "path": "src/core/api/mock-api.ts",
+  "kind": "api",
   "layer": "core",
   "feature": null,
-  "export": "ToastStore",
-  "intent": "Signal store (root): toasts = readonly signal<Toast[]>; show(message, severity, durationMs?) with auto-dismiss via setTimeout; dismiss(id); clear(). Consumed by toast-host, dashboard telemetry and workout store."
+  "export": "createMockAdapter",
+  "intent": "framework=react-native; platform=mobile; skill=react-core; Rule 6 dev data provisioning (no real backend exists). Export createMockAdapter() implementing the api-client adapter with in-memory fixtures answering EXACTLY: GET /athlete/profile -> AthleteProfile; GET /telemetry/snapshot -> BiometricMetric; GET /telemetry/ratios -> TrainingRatio[] (30/70 and 50/50 categories); POST /telemetry/reset -> TrainingRatio[]; GET /routines/:routineId/steps -> WorkoutStep[] (4+ steps STEP 01..); GET /routines/:routineId/phases -> PhaseProgress[] (4 phases, first IN_PROGRESS); POST /routines/:routineId/steps/:stepId/complete -> WorkoutStep; POST /routines/:routineId/advance-phase -> PhaseProgress[]. Also stream channel 'telemetry' emitting a realistic BiometricMetric every ~1s (random walk, occasionally exceeding the zone limits from core/config so toasts fire). Keep it a removable seam; do not modify generated services."
 }

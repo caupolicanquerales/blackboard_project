@@ -1,14 +1,15 @@
 {
   "id": "T5-003",
-  "targetAgent": "agent-container",
+  "targetAgent": "agent-ui",
   "stage": 5,
   "dependsOn": [
-    "T1-006"
+    "T2-005",
+    "T4-003"
   ],
-  "path": "src/app/features/performance-telemetry-dashboard/ui/comparison-split-bars.component.ts",
-  "kind": "component",
+  "path": "src/features/dashboard/components/LiveTelemetryStatisticsBar/index.tsx",
+  "kind": "ux",
   "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "ComparisonSplitBarsComponent",
-  "intent": "Presentational (region 'comparison-bars', area 'bars'): input ratios (TrainingRatio[]), input status; output resetRequested; two split bars (primary/secondary segments, labels) with role=progressbar aria-valuenow/min/max; reset button."
+  "feature": "dashboard",
+  "export": "LiveTelemetryStatisticsBar",
+  "intent": "framework=react-native; platform=mobile; skill=react-ui; Apply layout, design tokens (import from src/shared/theme/tokens.ts) and accessibility to LiveTelemetryStatisticsBar keeping export and prop types unchanged. Component layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"gap\": 6, \"align\": \"stretch\"}}. Region layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 16, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"biometric-telemetry-cards\", \"comparison-split-bars\", \"radial-gauge-indicator\", \"horizontal-stepper-timeline\", \"interval-exercise-cards\", \"bottom-action-bar\"], \"scroll\": \"vertical with RefreshControl\"}}. project={\"platform\": \"mobile\", \"layoutParadigm\": \"flexbox\", \"framework\": \"react-native\"}. theme={\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"#FF3B30\", \"headingStyle\": \"bold italic uppercase athletic headers\", \"iconography\": \"native vector icons (heart, lightning, pedal/runner)\"}. Content: elements: two layered horizontal meter bars; data: BiometricMetric live stream; states: loading | success | error; interactions: none; a11y: accessibilityRole progressbar with accessibilityValue. Purpose: Dual-layered horizontal meter for real-time intensity output"
 }

@@ -1,0 +1,14 @@
+{
+  "id": "T4-004",
+  "targetAgent": "agent-container",
+  "stage": 4,
+  "dependsOn": [
+    "T1-011"
+  ],
+  "path": "src/features/dashboard/components/RadialGaugeIndicator/index.tsx",
+  "kind": "component",
+  "layer": "features",
+  "feature": "dashboard",
+  "export": "RadialGaugeIndicator",
+  "intent": "framework=react-native; platform=mobile; skill=react-container; Props: targetLoadPct: number; intervalPct: number; status: LoadStatus. Two radial rings drawn with react-native-svg. Presentational only (props in, callbacks out; no stores/navigation/services). Create folder with index.tsx, RadialGaugeIndicator.types.ts, RadialGaugeIndicator.test.tsx (@testing-library/react-native). StyleSheet.create at bottom; leave styling refinement to agent-ui. Data via props only."
+}

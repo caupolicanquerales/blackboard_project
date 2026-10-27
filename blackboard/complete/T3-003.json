@@ -1,0 +1,17 @@
+{
+  "id": "T3-003",
+  "targetAgent": "agent-core",
+  "stage": 3,
+  "dependsOn": [
+    "T1-006",
+    "T1-008",
+    "T2-001",
+    "T2-002"
+  ],
+  "path": "src/core/services/workout.service.ts",
+  "kind": "service",
+  "layer": "core",
+  "feature": null,
+  "export": "workoutService",
+  "intent": "framework=react-native; platform=mobile; skill=react-core; workoutService: fetchSteps(routineId): Promise<WorkoutStep[]>; fetchPhases(routineId): Promise<PhaseProgress[]>; completeStep(routineId, stepId): Promise<WorkoutStep>; advancePhase(routineId): Promise<PhaseProgress[]> using the mock-served endpoints."
+}

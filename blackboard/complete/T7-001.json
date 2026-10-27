@@ -3,12 +3,17 @@
   "targetAgent": "agent-wiring",
   "stage": 7,
   "dependsOn": [
-    "T6-001"
+    "T2-001",
+    "T2-002",
+    "T2-003",
+    "T3-004",
+    "T3-006",
+    "T3-007"
   ],
-  "path": "src/app/features/performance-telemetry-dashboard/performance-telemetry-dashboard.routes.ts",
-  "kind": "route",
-  "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "PERFORMANCE_TELEMETRY_DASHBOARD_ROUTES",
-  "intent": "Routes: { path: '', loadComponent: () => import('./feature/dashboard-page.component').then(m => m.DashboardPageComponent) }."
+  "path": "src/core/providers/seed.provider.tsx",
+  "kind": "provider",
+  "layer": "core",
+  "feature": null,
+  "export": "SeedProvider",
+  "intent": "framework=react-native; platform=mobile; skill=react-wiring; Rule 6 seed provider: on mount, synchronously installs createMockAdapter() on apiClient (removable mock seam), then populates useAthleteProfileStore, useTelemetryStore and useWorkoutStore (default routine from config) before children render, so first paint shows no error/empty state. Renders children after seeding."
 }

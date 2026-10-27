@@ -3,13 +3,14 @@
   "targetAgent": "agent-core",
   "stage": 3,
   "dependsOn": [
-    "T1-005",
-    "T1-006"
+    "T1-001",
+    "T2-001",
+    "T2-002"
   ],
-  "path": "src/app/features/performance-telemetry-dashboard/data/telemetry.api.ts",
+  "path": "src/core/services/athlete.service.ts",
   "kind": "service",
-  "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "TelemetryApi",
-  "intent": "Injectable: getSnapshot(): GET /api/telemetry/snapshot -> BiometricMetric; getRatios(): GET /api/telemetry/ratios -> TrainingRatio[]; resetRatios(): POST /api/telemetry/ratios/reset -> TrainingRatio[]."
+  "layer": "core",
+  "feature": null,
+  "export": "athleteService",
+  "intent": "framework=react-native; platform=mobile; skill=react-core; athleteService.fetchProfile(): Promise<AthleteProfile> via apiClient GET /athlete/profile."
 }

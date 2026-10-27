@@ -1,57 +1,67 @@
-# Architecture Plan — fitness-trainer-performance-dashboard
+# Architecture Plan — endurance-multisport-telemetry
 
-Target: Angular 22 (standalone, signals, zoneless), web, grid layout. Skills loaded: task-descomposition, angular-architect (angular-translator per seed).
-All rules (Angular architect 1–6) hold; no violations.
+Framework: react-native (Expo, TypeScript) · platform: mobile · layout: flexbox · theme: dark (#121212, accent #FF3B30)
+Skills loaded: task-descomposition, react-architect (seed also lists react-translator/ui/container/core/model/wiring, referenced in task stamps).
 
-## Bootstrapping
-`angular.json`/`package.json` missing → Stage 0 task T0-001 (`ng new … --directory . --style=scss --routing --ssr=false --skip-git --defaults`, agent-container).
+## Bootstrap (Stage 0)
+Project root has no `package.json`/`app.json` → T0-001: `npx create-expo-app@latest . --template blank-typescript --yes`, normalize, install planned deps (React Navigation, zustand, react-native-svg, expo-haptics, vector icons, jest-expo, testing-library).
 
-## Folder tree (relative to project root)
+## Folder tree
 ```
+App.tsx                                     root, inline providers (wiring, T8)
 src/
-  main.ts  index.html  styles.scss
-  app/
-    app.component.ts  app.config.ts  app.routes.ts
-    core/
-      models/   phase-progress | toast | trainer-profile | workout-step (.model.ts)
-      api/      workout.api.ts
-      state/    toast.store | trainer-profile.store | workout.store
-      stubs/    mock-backend.interceptor.ts  mock-backend.providers.ts   (Rule 6)
-    shared/
-      models/   icon-name.model.ts
-      ui/       icon.component.ts
-    layout/
-      header/trainer-header.component.ts
-      toast/toast-host.component.ts
-      workspace/main-layout.component.ts
-    features/
-      performance-telemetry-dashboard/
-        performance-telemetry-dashboard.routes.ts
-        data/    biometric-metric.model | training-ratio.model | telemetry.api | telemetry.store
-        feature/ dashboard-page.component.ts (container)
-        ui/      biometric-tiles | comparison-split-bars | exercise-step-cards | phase-timeline | radial-gauge-indicator | statistics-bar-widget
-      workout-progression-routines/
-        workout-progression-routines.routes.ts
-        feature/ routines-page.component.ts (container)
-        ui/      phase-stepper | step-detail | step-list
+  core/
+    models/  athlete-profile, biometric-metric, notification-severity, notification,
+             phase-progress-status, phase-progress, training-ratio, workout-step
+    navigation/types.ts                     typed param lists (single producer)
+    api/     api-client.ts, mock-api.ts     (mock = Rule 6 provisioning)
+    config.ts
+    services/ athlete, telemetry, workout
+    store/   athlete-profile, notification, telemetry, workout   (zustand)
+    providers/seed.provider.tsx             (Rule 6 seed provider)
+  shared/
+    models/  interval-card-item, load-status, step-state, timeline-step
+    hooks/useResponsiveLayout.ts
+    theme/tokens.ts
+    components/ BottomActionBar, HorizontalStepperTimeline, IntervalExerciseCards
+  layout/
+    AppShell/ AthleteHeaderBanner/ ToastBannerHost/
+    navigation/root.navigator.tsx           bottom tabs: Dashboard, Routines, Profile
+  features/
+    dashboard/ components/{BiometricTelemetryCards,ComparisonSplitBars,LiveTelemetryStatisticsBar,RadialGaugeIndicator}
+               hooks/useDashboardData.ts  screens/DashboardScreen  dashboard.navigator.tsx
+    routines/  hooks/useRoutineExecution.ts  screens/{RoutinesScreen,WorkoutDetailScreen,ActiveExecutionScreen}
+               routines.navigator.tsx
+    profile/   screens/ProfileScreen  profile.navigator.tsx   (derived from the Profile tab)
 ```
+Every presentational component ships `index.tsx`, `<Name>.types.ts`, `<Name>.test.tsx` as companions (no separate tasks).
 
-## Layer / kind decisions
-- Layout (Rule 1.1): header (container: TrainerProfileStore + Router), toast host (container: ToastStore), shell (presentational host, router-outlet).
-- Core (cond. 2/Rule 4, ≥2 consumers): ToastStore (toast-host, dashboard, workout), TrainerProfileStore, WorkoutStore + WorkoutApi (dashboard and routines both show steps/phases), their models, mock layer.
-- Feature-local: TelemetryApi/Store (dashboard only), BiometricMetric, TrainingRatio.
-- Shared (cond. 3 justification): `IconComponent`/`IconName` only — domain-free and imported by dashboard (tiles, timeline, cards), routines (stepper, list) and layout header. The seed's stepper/step-card shared_ui are domain-typed (core WorkoutStep/PhaseProgress; shared may not import core), so they are feature-local per feature instead of shared.
-- One producer per type: PhaseStatus in phase-progress.model, ToastSeverity in toast.model, IconName in icon-name.model.
-- Presentational UI: creation (agent-container) + one `ux` task (agent-ui) with full layoutSpec verbatim, theme, platform; pages also get a `ux` task for grid-area layout.
+## Layer / kind decisions (Rule 1–2)
+- layout: AppShell (container), AthleteHeaderBanner, ToastBannerHost (presentational), root.navigator.
+- core: models used by stores/services, api client + mock, services, stores (Rule 4: telemetry, notification, athlete, workout are consumed by ≥2 features or the shell), seed provider.
+- shared (condition 3, domain-free and used by dashboard + routines): BottomActionBar, HorizontalStepperTimeline, IntervalExerciseCards, useResponsiveLayout, theme tokens, UI view-models.
+- features: dashboard-only components (4), screens (containers), feature hooks (keep containers ≤3 deps).
 
-## State / route topology
-- `''` → MainLayoutComponent (header / `<main>` outlet / toast host); `''` redirects to `dashboard`.
-- `/dashboard` → lazy `performance-telemetry-dashboard.routes` → DashboardPageComponent (`loadComponent`).
-- `/routines` → lazy `workout-progression-routines.routes` → RoutinesPageComponent.
-- Live telemetry: TelemetryStore polls `/api/telemetry/snapshot`; threshold breach → warning toast.
+## Type ownership (one producer per type)
+Domain types live in `core/models`; because shared may not import core (Rule 3), shared components consume distinct UI view-models (`TimelineStep`, `IntervalCardItem`, `StepState`, `LoadStatus`) mapped by feature hooks (`PhaseStatus → StepState`, `WorkoutStep → IntervalCardItem`). No name has two producers.
+
+## State & navigation topology
+- Stores: telemetry (stream, zone-threshold toasts, sensor disconnect), notification (toast queue), athlete-profile, workout (steps/phases, transition toasts).
+- Navigation: RootNavigator (bottom tabs) mounts only `dashboard.navigator`, `routines.navigator` (RoutinesList → WorkoutDetail / ActiveExecution stack), `profile.navigator` (Rule 5). Route names are screen names, no `/`.
+- Provider order in App.tsx: SafeAreaProvider → NavigationContainer → SeedProvider → AppShell → RootNavigator.
 
 ## Data provisioning (Rule 6)
-`core/stubs/mock-backend.interceptor.ts` answers every declared endpoint (telemetry snapshot/ratios/reset, routine steps, complete step, phases, advance) with in-memory fixtures; `mock-backend.providers.ts` registers it via `provideMockBackend()` in `app.config.ts` and seeds TrainerProfileStore and WorkoutStore at startup. Services stay unchanged (removable seam).
+No backend exists → `core/api/mock-api.ts` answers exactly: GET /athlete/profile, GET /telemetry/snapshot, GET /telemetry/ratios, POST /telemetry/reset, GET /routines/:id/steps, GET /routines/:id/phases, POST /routines/:id/steps/:stepId/complete, POST /routines/:id/advance-phase, plus the `telemetry` live stream. `core/providers/seed.provider.tsx` installs the adapter at the app root and seeds profile/telemetry/workout stores before first paint.
 
-## Task queue
-54 tasks, stages 0–8, emitted from /tmp/tasks via runner_github.py --emit.
+## Stages / tasks
+| Stage | Content | Agents |
+|---|---|---|
+| 0 | T0-001 Expo bootstrap | agent-container |
+| 1 | T1-001..013 models, nav param types | agent-model |
+| 2 | T2-001..005 api client, mock api, config, responsive hook, theme tokens | agent-core, agent-wiring, agent-ui |
+| 3 | T3-001..009 services, stores, feature hooks | agent-core |
+| 4 | T4-001..009 presentational components | agent-container |
+| 5 | T5-001..009 UX/layoutSpec/a11y refinement (verbatim layoutSpec) | agent-ui |
+| 6 | T6-001..006 screens + AppShell | agent-container |
+| 7 | T7-001..005 seed provider, navigators | agent-wiring |
+| 8 | T8-001 App.tsx | agent-wiring |

@@ -2,11 +2,13 @@
   "id": "T1-006",
   "targetAgent": "agent-model",
   "stage": 1,
-  "dependsOn": [],
-  "path": "src/app/features/performance-telemetry-dashboard/data/training-ratio.model.ts",
+  "dependsOn": [
+    "T1-005"
+  ],
+  "path": "src/core/models/phase-progress.ts",
   "kind": "model",
-  "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "TrainingRatio",
-  "intent": "interface TrainingRatio {id: string; primaryPercentage: number; secondaryPercentage: number; categoryLabel: string}."
+  "layer": "core",
+  "feature": null,
+  "export": "PhaseProgress",
+  "intent": "framework=react-native; platform=mobile; skill=react-model; Type PhaseProgress: id: string; phaseName: string; completionPercentage: number; status: PhaseStatus (import from ./phase-progress-status)."
 }

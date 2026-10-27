@@ -1,0 +1,14 @@
+{
+  "id": "T4-006",
+  "targetAgent": "agent-container",
+  "stage": 4,
+  "dependsOn": [
+    "T1-004"
+  ],
+  "path": "src/layout/ToastBannerHost/index.tsx",
+  "kind": "component",
+  "layer": "layout",
+  "feature": null,
+  "export": "ToastBannerHost",
+  "intent": "framework=react-native; platform=mobile; skill=react-container; Props: notifications: ToastNotification[]; onDismiss(id). Shows the head of the queue as a banner with dismiss button, auto-timeout handled by the store. Presentational only (props in, callbacks out; no stores/navigation/services). Create folder with index.tsx, ToastBannerHost.types.ts, ToastBannerHost.test.tsx (@testing-library/react-native). StyleSheet.create at bottom; leave styling refinement to agent-ui. Data via props only."
+}

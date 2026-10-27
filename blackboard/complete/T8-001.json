@@ -2,11 +2,16 @@
   "id": "T8-001",
   "targetAgent": "agent-wiring",
   "stage": 8,
-  "dependsOn": [],
-  "path": "src/app/app.component.ts",
-  "kind": "component",
+  "dependsOn": [
+    "T0-001",
+    "T6-006",
+    "T7-001",
+    "T7-005"
+  ],
+  "path": "App.tsx",
+  "kind": "config",
   "layer": "root",
   "feature": null,
-  "export": "AppComponent",
-  "intent": "Root component (selector app-root) containing only <router-outlet/>; imports RouterOutlet; no standalone flag."
+  "export": "App",
+  "intent": "framework=react-native; platform=mobile; skill=react-wiring; Single root component replacing template markup. Compose providers in fixed order inline: SafeAreaProvider, NavigationContainer, SeedProvider (mock + store seeding), then AppShell wrapping RootNavigator as children. Keep index.ts/registerRootComponent untouched. Dark theme StatusBar. Global layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 12, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"header-banner\", \"content-outlet\", \"bottom-tab-bar\"], \"safeArea\": true, \"responsive\": {\"compact\": \"single column phone layout\", \"medium\": \"row wrap of cards for tablet/landscape via useWindowDimensions\"}}}. theme={\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"#FF3B30\", \"headingStyle\": \"bold italic uppercase athletic headers\", \"iconography\": \"native vector icons (heart, lightning, pedal/runner)\"}"
 }

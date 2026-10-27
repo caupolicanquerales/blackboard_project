@@ -1,12 +1,15 @@
 {
   "id": "T5-009",
-  "targetAgent": "agent-container",
+  "targetAgent": "agent-ui",
   "stage": 5,
-  "dependsOn": [],
-  "path": "src/app/features/performance-telemetry-dashboard/ui/radial-gauge-indicator.component.ts",
-  "kind": "component",
-  "layer": "features",
-  "feature": "performance-telemetry-dashboard",
-  "export": "RadialGaugeIndicatorComponent",
-  "intent": "Presentational (region 'radial-gauges', area 'gauges'): input values (array of {label, percentage}) e.g. 80% and 20%; two SVG rings with role=progressbar aria-valuenow and aria-label; centered step labels."
+  "dependsOn": [
+    "T2-005",
+    "T4-009"
+  ],
+  "path": "src/shared/components/IntervalExerciseCards/index.tsx",
+  "kind": "ux",
+  "layer": "shared",
+  "feature": null,
+  "export": "IntervalExerciseCards",
+  "intent": "framework=react-native; platform=mobile; skill=react-ui; Apply layout, design tokens (import from src/shared/theme/tokens.ts) and accessibility to IntervalExerciseCards keeping export and prop types unchanged. Component layoutSpec (verbatim): {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"gap\": 12, \"align\": \"stretch\"}}. Region layoutSpec (verbatim): [{\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 16, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"biometric-telemetry-cards\", \"comparison-split-bars\", \"radial-gauge-indicator\", \"horizontal-stepper-timeline\", \"interval-exercise-cards\", \"bottom-action-bar\"], \"scroll\": \"vertical with RefreshControl\"}}, {\"paradigm\": \"flexbox\", \"flex\": {\"direction\": \"column\", \"wrap\": \"nowrap\", \"gap\": 12, \"justify\": \"flex-start\", \"align\": \"stretch\", \"items\": [\"horizontal-stepper-timeline\", \"interval-exercise-cards\", \"bottom-action-bar\"], \"stickyBottom\": \"bottom-action-bar\"}}]. project={\"platform\": \"mobile\", \"layoutParadigm\": \"flexbox\", \"framework\": \"react-native\"}. theme={\"mode\": \"dark\", \"background\": \"#121212\", \"accent\": \"#FF3B30\", \"headingStyle\": \"bold italic uppercase athletic headers\", \"iconography\": \"native vector icons (heart, lightning, pedal/runner)\"}. Content: elements: FlatList of step cards (STEP 01, STEP 02) with title, description, target zone, completion checkmark; data: workout step view model; states: loading | empty | error | success; interactions: tap to complete, haptic feedback; a11y: focusable cards with accessibilityLabel; controls min 44x44pt. Purpose: Stacked vertical cards with sequential workout instructions and interval targets"
 }
