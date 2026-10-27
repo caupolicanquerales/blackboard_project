@@ -1,26 +1,18 @@
-# Blackboard — Multi-Agent Angular Application Generator
+# Blackboard — Multi-System, Stack-Agnostic App Generator
 
-> A deterministic, blackboard-pattern orchestrator that turns **one product description** into a
-> **fully scaffolded, compiling Angular 22 application** by coordinating seven specialized AI agents
-> through a typed, dependency-ordered task queue.
-
-<p>
-  <img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&logoColor=white">
-  <img alt="Angular" src="https://img.shields.io/badge/Angular-22-DD0031?logo=angular&logoColor=white">
-  <img alt="Signals" src="https://img.shields.io/badge/signals-zoneless-2E7D32">
-  <img alt="Agents" src="https://img.shields.io/badge/agents-7-6A1B9A">
-  <img alt="OpenTelemetry" src="https://img.shields.io/badge/tracing-OpenTelemetry-F5A800?logo=opentelemetry&logoColor=white">
-  <img alt="Runtimes" src="https://img.shields.io/badge/runtimes-opencode%20%7C%20Copilot%20CLI-0A66C2">
-</p>
+> A deterministic blackboard-pattern orchestrator that turns **one product description** into a **fully scaffolded, compiling application** for the stack named in that description (Angular, React, React Native/Expo, Flutter, and others as skills are added). Specialized AI agents coordinate through a typed, dependency-ordered task queue on the filesystem.
 
 ---
 
 ## What this is
 
-Blackboard is a **code-generation pipeline**, not a chatbot. You describe an application once; the
-orchestrator then drives a fleet of narrowly-scoped agents that each own exactly one file, one
-layer, and one responsibility. Every hand-off travels through the filesystem as a validated JSON
-task, every stage is gated by compilation, and the whole run is observable end-to-end.
+Blackboard is a **code-generation pipeline**, not a chatbot. You describe an application once in `seed/<n>_description.md`. The orchestrator then runs a fleet of narrowly-scoped agents that each own exactly one file, one layer, and one responsibility. Every hand-off travels through the filesystem as a validated JSON task, every stage is gated by a compile check for the detected stack, and the whole run is observable end-to-end.
+
+The pipeline is **not tied to one framework**. Nothing in the agents or the runner hard-codes Angular. Instead:
+
+- The **spec translator** reads the `Framework` section of the description and writes `platform`, `layoutParadigm`, `framework`, and `skills[]` into the seed.
+- The **architect** and **workers** load the skill named by `project.framework` (for example `react-core`, `angular-ui`). The skill name is `<stack>-<role>`, and the stack is stamped into every task `intent`.
+- The **runner** detects the generated project's stack from its config files (see [Verification gate](#verification-gate)) and runs the matching compile check.
 
 The repository ships two interchangeable orchestrators over the **same queue contract**:
 
@@ -29,104 +21,109 @@ The repository ships two interchangeable orchestrators over the **same queue con
 | `runner.py` | [`opencode`](https://opencode.ai) CLI | `.opencode/agents/*.md` |
 | `runner_github.py` | GitHub Copilot CLI (`copilot`) | `.github/agents/*.agent.md` |
 
-The included reference build produces **Fitness & Trainer Performance Dashboard** — a dark,
-high-contrast athletic telemetry SPA with live biometric tiles, comparison bars, radial gauges,
-a chevron phase timeline, and a step-by-step workout runner.
+### Reference builds
+
+| Project | Stack | Platform | Location |
+| --- | --- | --- | --- |
+| Fitness & Trainer Performance Dashboard | Angular 22, standalone, signals, zoneless | Web SPA | `projects/fitness-trainer-performance-dashboard/` |
+| Endurance & Multisport Telemetry | React Native + Expo, TypeScript, functional components | Mobile | `projects/endurance-multisport-telemetry/` |
 
 ---
 
 ## Why it's interesting
 
-- **Deterministic, not vibes-based.** Task ordering is computed, not negotiated. Stage `0→8`,
-  per-stage `(path, kind-rank)` sort, and a `REQUIRES` dependency matrix decide what runs next.
-- **Filesystem as the blackboard.** Agents never talk to each other. They read and write task
-  files in `blackboard/`, so the whole run is inspectable, resumable, and reproducible.
-- **Compile-gated.** After each task the runner type-checks the output and only then advances a
-  task to `complete/`; failures are quarantined in `error/` with the exact reason.
-- **Contracts over improvisation.** Producer and consumer tasks carry identical, character-exact
-  API signatures in their `intent`, so workers bind to a declared interface instead of guessing.
-- **Data-provisioning seam.** When a spec implies remote data with no backend, the architect plans
-  an in-memory `HttpInterceptorFn` + seed provider, registered only through `app.config.ts` — a
-  removable mock layer, never dead endpoints.
+- **Deterministic, not vibes-based.** Task ordering is computed, not negotiated. Stage `0→8`, per-stage `(path, kind-rank)` sort, and a `REQUIRES` matrix decide what runs next.
+- **Filesystem as the blackboard.** Agents never talk to each other. They read and write task files in `blackboard/`, so the whole run is inspectable, resumable, and reproducible.
+- **Compile-gated.** After each task the runner runs the stack's check and only then advances a task to `complete/`. Failures are quarantined in `error/` with the exact reason.
+- **Contracts over improvisation.** Producer and consumer tasks carry identical, character-exact API signatures in their `intent`, so workers bind to a declared interface instead of guessing.
+- **Platform-adaptive layout.** Web specs use CSS Grid. Mobile specs use `stack`, `flex`, or `constraints` layouts. The seed carries the layout spec verbatim into UI tasks.
+- **Data-provisioning seam.** When a spec implies remote data with no backend, the architect plans a removable in-memory mock layer (for example an `HttpInterceptorFn` in Angular, or a seed provider in React), registered only through the app's configuration entry point.
 
 ---
 
 ## Architecture at a glance
 
 ```
-                    ┌──────────────────────────────────────────────────────────────┐
-   human            │                                                            │
- description  ──▶   │  agent-spec-translator ──▶  seed/<n>_seed.json               │
- (markdown)         │        (prose → explicit CSS-grid + spatial spec)            │
-                    │                    │                                        │
-                    │                    ▼                                        │
-                    │  agent-architect  ──▶  complete/architecture-plan.md        │
-                    │        │                 (layer + kind per artifact)        │
-                    │        ▼                                                    │
-                    │  runner --emit  ──▶  blackboard/queue/T*.json               │
-                    └────────────────────┬───────────────────────────────────────┘
-                                         │   deterministic claim loop
-                                         ▼
-        ┌────────────────────────── list of blackboard workers ───────────────────┐
-        │  agent-model      (models)                                             │
-        │  agent-core       (services · stores · apis · guards · interceptors)    │
-        │  agent-container  (bootstrap + component scaffolds)                    │
-        │  agent-ui         (ux refinement · pipes · directives)                 │
-        │  agent-wiring     (routes · providers · config · main · index.html)    │
-        └────────────────────────────────────┬────────────────────────────────────┘
-                                             ▼
-                             projects/<project-name>/  (Angular 22 app)
+  human description (markdown)
+          │
+          ▼
+  agent-spec-translator ──▶ seed/<n>_seed.json
+          │                  (platform, layoutParadigm, framework, skills[], layoutSpec)
+          ▼
+  agent-architect ──▶ blackboard/complete/architecture-plan.md
+          │            (layer + kind per artifact, framework stamp per task)
+          ▼
+  runner --emit ──▶ blackboard/queue/T*.json
+          │
+          ▼   deterministic claim loop
+  ┌──────────────────────── stack-agnostic workers ────────────────────────┐
+  │  agent-model      (models / types)                                     │
+  │  agent-core       (services · stores · APIs · guards · interceptors)   │
+  │  agent-container  (bootstrap + component scaffolds)                    │
+  │  agent-ui         (UX refinement · pipes · directives · styling)       │
+  │  agent-wiring     (routes · providers · config · entry points)         │
+  └────────────────────────────────────────────────────────────────────────┘
+          │   each worker loads <stack>-<role> from the task framework stamp
+          ▼
+  projects/<project-name>/   (generated app for the chosen stack)
 ```
 
-Each worker is handed **exactly one** task JSON plus the absolute project root, and its success
-condition is a single file on disk that implements the task `intent`.
+Each worker is handed **exactly one** task JSON plus the absolute project root. Its success condition is a single file on disk that implements the task `intent`.
 
 ---
 
-## The seven agents
+## The agents
 
 | Agent | Role |
 | --- | --- |
-| `agent-spec-translator` | Converts a human markdown description into the machine-readable JSON **seed** — including an explicit CSS-grid and spatial spec for the shell, every screen, and every widget. |
-| `agent-architect` | Applies the architecture rules to every artifact, writes `architecture-plan.md`, decomposes it into dependency-ordered task JSON, and queues the batch via `--emit`. Never writes app code. |
-| `agent-model` | Authors one TypeScript model/type/enum file. No logic, no cross-layer imports. |
-| `agent-core` | Authors logic: services, stores, APIs, guards, interceptors, resolvers — signals-first, `inject()`, functional. Generates services/APIs via Angular CLI, then implements. |
-| `agent-container` | Executes Stage 0 bootstrap and scaffolds components with Angular CLI, then fills in the functional skeleton (inputs/outputs, injected stores) and keeps specs green. |
-| `agent-ui` | Owns UX/UI: applies the explicit grid spec from the intent, modern corporate styling, accessibility, and template design. Also authors pipes/directives. |
-| `agent-wiring` | Authors routing (`loadChildren`/`loadComponent`), providers, `app.config.ts`, and the document shell (`main.ts`, `index.html`). |
+| `agent-spec-translator` | Converts a human markdown description into the machine-readable JSON **seed**. Detects platform and framework, sets `skills[]`, and writes the explicit layout spec for the shell, screens, and widgets. |
+| `agent-architect` | Loads `task-descomposition` and the `<stack>-architect` skill, writes `architecture-plan.md`, decomposes it into dependency-ordered task JSON, and queues the batch via `--emit`. Never writes app code. |
+| `agent-model` | Authors one model, type, or enum file. No logic, no cross-layer imports. Loads `<stack>-model` (or `typescript-model`). |
+| `agent-core` | Authors logic: services, stores, APIs, guards, interceptors, resolvers. Signals-first or hooks-first, depending on the stack. Loads `<stack>-core`. |
+| `agent-container` | Executes Stage 0 bootstrap and scaffolds components with the stack's CLI or official template, then fills in the functional skeleton. Loads `<stack>-container`. |
+| `agent-ui` | Owns UX/UI: applies the layout spec from the intent, modern styling, accessibility, and template or screen design. Loads `<stack>-ui`. |
+| `agent-wiring` | Authors routing, providers, configuration, and the app entry points. Loads `<stack>-wiring`. |
 
-Tasks parallelize safely because **no two tasks can ever touch the same file**, and the dependency
-graph makes illegal orderings impossible — the reference build enqueued 50 tasks across all 9 stages,
-all of which now sit in `blackboard/complete/`.
+Tasks parallelize safely because **no two tasks can touch the same file**, and the dependency graph makes illegal orderings impossible.
+
+### Stack skills
+
+Skills live in `.opencode/skills/` (canonical; `.github/skills` is a symlink to it). Each stack provides one skill per role.
+
+| Stack | Skills |
+| --- | --- |
+| Angular | `angular-architect`, `angular-translator`, `angular-model`, `angular-core`, `angular-container`, `angular-ui`, `angular-wiring` |
+| React / React Native | `react-architect`, `react-translator`, `react-model`, `react-core`, `react-container`, `react-ui`, `react-wiring` |
+| Language-level | `typescript-model` |
+| Universal | `task-descomposition`, `writer-file`, `command-line-executer` |
+
+To support a new stack, add the matching `<stack>-<role>` skills. The agent profiles do not change.
 
 ---
 
 ## The nine stages
 
-Work is decomposed into nine stages with hard prerequisites:
+Work is decomposed into nine stages with hard prerequisites. The stage meaning is stack-neutral. The concrete paths come from the loaded stack skill.
 
 | Stage | Artifacts | Requires |
 | --- | --- | --- |
-| `0` | project bootstrap (`ng new … --directory .`) | — |
-| `1` | `*.model.ts`, `shared/models/**` | — |
-| `2` | `core/**` | 1 |
-| `3` | `features/<f>/data/**` (incl. `*.model.ts`) | 1, 2 |
-| `4` | rest of `shared/**` | 1 |
-| `5` | `features/<f>/ui/**` | 1, 4 |
-| `6` | `features/<f>/feature/**` (route targets) | 1, 2, 3, 5 |
-| `7` | `features/<f>/<f>.routes.ts`, `layout/**` | 2, 4, 6 |
-| `8` | `app.*.ts`, `main.ts`, `index.html` | 7 |
+| `0` | project bootstrap (official CLI or template, run in the generated project root) | — |
+| `1` | models, types, enums | — |
+| `2` | core logic (services, stores, API clients, guards, interceptors) | 1 |
+| `3` | feature data layer (incl. feature models) | 1, 2 |
+| `4` | rest of shared code (shared UI, shared utilities) | 1 |
+| `5` | feature UI (presentational components, screens' building blocks) | 1, 4 |
+| `6` | feature screens or pages (route targets) | 1, 2, 3, 5 |
+| `7` | routing, layout or navigation shell, feature route registration | 2, 4, 6 |
+| `8` | app entry point, root configuration, document shell | 7 |
 
-A task is **claimable** only when every `dependsOn` id is in `blackboard/complete/` **and** no task
-from a required stage is still sitting in the queue. Presentational components are split into a
-**creation** task (`agent-container`) followed by exactly one **ux** task (`agent-ui`), so structure
-and styling never race.
+A task is **claimable** only when every `dependsOn` id is in `blackboard/complete/` **and** no task from a required stage is still in the queue. Presentational components are split into a **creation** task (`agent-container`) followed by exactly one **ux** task (`agent-ui`), so structure and styling never race.
 
 ---
 
 ## The task schema
 
-Every unit of work is a validated JSON document — the contract between orchestrator and worker:
+Every unit of work is a validated JSON document, the contract between orchestrator and worker. The `intent` begins with the framework stamp.
 
 ```json
 {
@@ -134,46 +131,86 @@ Every unit of work is a validated JSON document — the contract between orchest
   "targetAgent": "agent-ui",
   "stage": 5,
   "dependsOn": ["T5-001"],
-  "path": "src/app/features/orders/ui/orders-table.component.ts",
+  "path": "src/features/orders/ui/orders-table.component.ts",
   "kind": "ux",
   "layer": "features",
   "feature": "orders",
   "export": "OrdersTableComponent",
-  "intent": "Spatial: display=grid; columns=minmax(0,1fr); rows=auto 1fr; gap=1rem; ... Style: modern-corporate tokens, AA contrast, focus-visible, reduced-motion."
+  "intent": "framework=angular; platform=web; skill=angular-ui; Spatial: display=grid; columns=minmax(0,1fr); rows=auto 1fr; gap=1rem; ... Style: modern-corporate tokens, AA contrast, focus-visible, reduced-motion."
 }
 ```
 
-The runner enforces, among other invariants: the id's stage suffix matches `stage`; the `path`
-determines `stage`, `targetAgent`, `kind`, and `layer`; a `features` layer requires a matching
-`feature`; dependencies must resolve and sort strictly before the task. A single violation fails the
-**whole batch** at emit time — you never queue a half-valid plan.
+The runner enforces, among other invariants:
+
+- The id's stage suffix matches `stage`.
+- The `path` determines `stage`, `targetAgent`, `kind`, and `layer`.
+- A `features` layer requires a matching `feature`.
+- Dependencies must resolve and sort strictly before the task.
+- Every `intent` carries the `framework=…; platform=…; skill=<stack>-<role>;` stamp.
+- Task files must not contain stale runtime keys such as `error`. A file with an extra key is rejected with `schema mismatch`, and it returns to `error/`.
+
+A single violation fails the **whole batch** at emit time, so a half-valid plan is never queued.
 
 ---
 
-## The generated reference app
+## Verification gate
 
-`projects/fitness-trainer-performance-dashboard/` is a real, working build produced by the pipeline:
+After each task the runner detects the stack from config files in the generated project root and runs the matching check. The check is selected by the first marker found, in this order:
+
+| Marker file | Stack | `typecheck` (default) | `build` |
+| --- | --- | --- | --- |
+| `pubspec.yaml` | Flutter | `flutter analyze` | `flutter build bundle` |
+| `angular.json` | Angular | `npx tsc --noEmit` | `npx ng build --configuration development` |
+| `package.json` + `tsconfig*.json` | React, React Native, other TypeScript/JS | `npx tsc --noEmit` | `npm run build` |
+| `package.json` (no tsconfig) | Plain JavaScript | none | `npm run build` |
+| `go.mod` | Go | `go vet ./...` | `go build ./...` |
+| `Cargo.toml` | Rust | `cargo check` | `cargo build` |
+| `pyproject.toml`, `setup.py`, `setup.cfg`, `requirements.txt` | Python | `compileall` | `compileall` |
+
+If no marker matches, or `--verify none` is set, the gate is skipped.
+
+Test typings are part of the gate. Test files that use Jest globals (`describe`, `it`, `expect`) need `types: ["jest"]` in `tsconfig.json`, and the matching `@types/jest` package in `devDependencies`. Without them `tsc --noEmit` fails on every task.
+
+When a config file uses a package `exports` path, prefer an explicit file path, for example `expo/tsconfig.base.json`. Editors and the CLI resolve `exports` differently.
+
+---
+
+## The generated reference apps
+
+### Fitness & Trainer Performance Dashboard (Angular 22, web)
+
+`projects/fitness-trainer-performance-dashboard/` is a working build produced by the pipeline.
 
 - **Angular 22** standalone, signals, zoneless, SCSS, Vitest.
-- **Shell** (`layout/`): `trainer-header` banner (hero `trainer-avatar` + headline + nav), a
-  standalone `trainer-avatar` component, and a `toast-host` overlay.
-- **Feature — Dashboard** (`/dashboard`): `biometric-tiles`, `comparison-split-bars`,
-  `radial-gauges`, and a `statistics-bar`.
-- **Feature — Routines** (`/routines`): a `chevron-stepper` timeline, `step-card-list`, and a
-  `step-detail` panel with complete/advance actions.
+- **Shell** (`layout/`): `trainer-header` banner, a standalone `trainer-avatar`, and a `toast-host` overlay.
+- **Feature: Dashboard** (`/dashboard`): `biometric-tiles`, `comparison-split-bars`, `radial-gauges`, and `statistics-bar`.
+- **Feature: Routines** (`/routines`): a `chevron-stepper` timeline, `step-card-list`, and a `step-detail` panel.
 - **Shared** (`shared/ui/`): `chevron-stepper`, `step-card-list`, and `icon`.
-- **Core** (`core/`): telemetry service (`biometrics/`), toast store (`alerts/`), trainer-profile
-  store (`profile/`), a mock HTTP `api/` + interceptor (`mock/`), and dev-seed providers
-  (`providers/`) — the Rule 6 data-provisioning seam.
+- **Core** (`core/`): telemetry service, toast store, trainer-profile store, mock HTTP `api/` with interceptor, and dev-seed providers.
 - **Lazy routing**: `app.routes.ts` → `loadChildren` per feature → `loadComponent` per page.
-
-Run it:
 
 ```bash
 cd projects/fitness-trainer-performance-dashboard
 npm install
 npm start        # ng serve → http://localhost:4200
-npm run build    # production build
+npm run build
+```
+
+### Endurance & Multisport Telemetry (React Native + Expo, mobile)
+
+`projects/endurance-multisport-telemetry/` is a mobile build driven by `seed/002_description.md` and `seed/002_seed.json`.
+
+- **React Native + Expo**, TypeScript, functional components, React Navigation 7, zustand 5.
+- **Layout**: vertical stack and flexbox with safe-area bounds. There is no CSS Grid on mobile.
+- **Navigation**: bottom tabs (Dashboard, Routines, Profile) with stack screens for workout details and active execution.
+- **Testing**: `jest-expo` and `@testing-library/react-native`. `tsconfig.json` extends `expo/tsconfig.base.json` and sets `types: ["jest"]`.
+- **Status**: the Expo template `App.tsx` and `index.ts` remain until the stage 8 entry-point task replaces them.
+
+```bash
+cd projects/endurance-multisport-telemetry
+npm install
+npx expo start
+npx tsc --noEmit
 ```
 
 ---
@@ -183,42 +220,58 @@ npm run build    # production build
 ### 1. Prerequisites
 
 - Python 3.10+
-- Node.js + Angular CLI (for the generated project)
+- The toolchain for the target stack (for example Node.js for Angular, React, or Expo; Flutter SDK for Flutter)
 - One agent backend: the `opencode` CLI, or the GitHub Copilot CLI (`copilot`)
 
-### 2. Generate an app from a description
+### 2. Describe the app
+
+Create `seed/<n>_description.md`. Include a `## Framework` section that names the stack, for example:
+
+```markdown
+## Framework
+React Mobile (Expo, TypeScript, Functional Components)
+```
+
+### 3. Generate an app from the description
 
 ```bash
 python3 runner.py --translate seed/001_description.md
 ```
 
-This runs the spec-translator (markdown → `seed/001_seed.json`), then the architect
-(seed → plan → queued tasks), then drains the queue stage by stage until the project compiles.
+This runs the spec translator (markdown → `seed/001_seed.json`), then the architect (seed → plan → queued tasks), then drains the queue stage by stage until the project passes its verification gate.
 
-### 3. Or start from an existing seed / inline request
+### 4. Or start from an existing seed or inline request
 
 ```bash
 python3 runner.py --seed seed/001_seed.json
 python3 runner.py --architect "Build a dark athletic telemetry dashboard with …"
 ```
 
-### 4. Drive it with GitHub Copilot instead
+### 5. Drive it with GitHub Copilot instead
 
 ```bash
-python3 runner_github.py --translate seed/001_description.md --watch
+python3 runner_github.py --translate seed/002_description.md --watch
 ```
 
 ### Common flags
 
 | Flag | Purpose |
 | --- | --- |
-| `--watch` | Poll the queue continuously (re-queue tasks from another terminal). |
-| `--output DIR` | Where the Angular project is generated (default `projects/<seed name>`). |
-| `--verify {none,typecheck,build}` | Post-task compile gate (default `typecheck`). |
+| `--watch` | Poll the queue continuously. Use it to re-queue tasks from another terminal. |
+| `--output DIR` | Where the generated project is written (default `projects/<seed name>`). |
+| `--verify {none,typecheck,build}` | Post-task gate (default `typecheck`). Stack is auto-detected. |
 | `--verify-scope {task,global}` | Fail only on the task's own file, or on any project error. |
 | `--limit N` | Stop after N tasks. |
 | `--no-auto` | Do not auto-approve opencode tool calls. |
-| `--emit FILE…` | Validate + enqueue task JSON files and exit (used by the architect). |
+| `--emit FILE…` | Validate and enqueue task JSON files, then exit (used by the architect). |
+
+### Recovering failed tasks
+
+Tasks that fail land in `blackboard/error/` with the reason. To retry:
+
+1. Fix the cause (for example the tsconfig typings or the skill rule).
+2. Remove any stale runtime keys such as `error` from the task JSON.
+3. Move the file back: `mv blackboard/error/<id>.json blackboard/queue/`.
 
 ---
 
@@ -236,44 +289,42 @@ python3 runner_github.py --translate seed/001_description.md --watch
 │   ├── complete/                 # finished tasks + architecture-plan.md
 │   └── error/                    # quarantined tasks with failure reason
 ├── seed/
-│   ├── 001_description.md        # human app description (input)
-│   └── 001_seed.json             # machine seed with explicit grid specs (architect input)
-├── .opencode/                    # opencode agents + skills
+│   ├── 001_description.md        # human application description (input)
+│   ├── 001_seed.json             # machine seed (architect input)
+│   ├── 002_description.md        # second application description (mobile example)
+│   └── 002_seed.json
+├── .opencode/
 │   ├── agents/                   # agent-architect, -spec-translator, -container, -core, -model, -ui, -wiring
-│   └── skills/                   # angular-architect, task-descomposition, command-line-executer, writer-file
-├── .github/agents/               # mirrored Copilot agent profiles (*.agent.md)
+│   └── skills/                   # <stack>-<role> skills, typescript-model, task-descomposition, writer-file, command-line-executer
+├── .github/
+│   ├── agents/                   # mirrored Copilot agent profiles (*.agent.md)
+│   └── skills                    # symlink to .opencode/skills
 └── projects/
-    └── fitness-trainer-performance-dashboard/   # generated Angular 22 application
-        └── src/app/                              # core · shared · features/{dashboard,routines} · layout
+    ├── fitness-trainer-performance-dashboard/   # generated Angular 22 web app
+    └── endurance-multisport-telemetry/          # generated React Native + Expo app
 ```
+
+Keep `.github/agents/` and `.opencode/agents/` identical. Edit both together.
 
 ---
 
 ## Design decisions
 
-- **Blackboard over message-passing.** Files are durable, greppable, and replayable. A crashed run
-  resumes where it stopped; a bad plan is diffable.
-- **One file per task.** No merge conflicts between parallel agents, no ambiguity about ownership,
-  and trivially parallelizable stages.
-- **Deterministic scheduling in the runner.** The LLM never decides *what* runs next — it only
-  decides *what the file contains*. Ordering is pure Python.
-- **Compile gate as the completion criterion.** A task is "done" only when its file exists **and**
-  the project type-checks; otherwise it lands in `error/` with the compiler's exact message.
-- **Two runtimes, one contract.** Swapping the agent backend changes neither the queue format nor
-  the orchestration logic — a clean separation between *what* to build and *who* builds it.
+- **Blackboard over message-passing.** Files are durable, greppable, and replayable. A crashed run resumes where it stopped, and a bad plan is diffable.
+- **One file per task.** No merge conflicts between parallel agents, and ownership is unambiguous.
+- **Deterministic scheduling in the runner.** The LLM never decides *what* runs next. It only decides *what the file contains*.
+- **Stack by skill, not by agent.** Agents are generic. The stack lives in the skills and the framework stamp, so adding a stack does not change the orchestration.
+- **Compile gate as the completion criterion.** A task is done only when its file exists and the project passes the stack's check. Otherwise it lands in `error/` with the exact message.
+- **Two runtimes, one contract.** Swapping the agent backend changes neither the queue format nor the orchestration logic.
 
 ---
 
 ## Observability
 
-`telemetry.py` wires optional OpenTelemetry tracing with zero hard dependencies:
+`telemetry.py` wires optional OpenTelemetry tracing with no hard dependencies:
 
-- Spans for `blackboard.architect`, `blackboard.translator`, `blackboard.emit`, `blackboard.agent`,
-  `blackboard.verify`, `blackboard.complete`, `blackboard.error`, and `blackboard.queue` — each
-  tagged with `task.id`, `task.stage`, `task.kind`, `task.target_agent`, and `task.path`.
-- **Disabled by default.** If no endpoint is set or the SDK is absent, every helper is a no-op and
-  the runners behave identically.
-- Bring up a local collector (Arize Phoenix) and watch the run as a trace tree:
+- Spans for `blackboard.architect`, `blackboard.translator`, `blackboard.emit`, `blackboard.agent`, `blackboard.verify`, `blackboard.complete`, `blackboard.error`, and `blackboard.queue`. Each is tagged with `task.id`, `task.stage`, `task.kind`, `task.target_agent`, and `task.path`.
+- **Disabled by default.** Without an endpoint or the SDK, every helper is a no-op.
 
 ```bash
 docker compose -f arize_phoenix.yml up -d
@@ -281,9 +332,7 @@ docker compose -f arize_phoenix.yml up -d
 # OTLP:    4317 (gRPC) · 4318 (HTTP)
 ```
 
-Set `OTEL_EXPORTER_OTLP_ENDPOINT` in `.env` (the collector **base** URL — the exporter appends
-`/v1/traces` itself; shipped default `http://localhost:6006`). The resource also carries an
-`openinference.project.name` attribute so Phoenix groups spans under the service name.
+Set `OTEL_EXPORTER_OTLP_ENDPOINT` in `.env` to the collector base URL. The exporter appends `/v1/traces`. The shipped default is `http://localhost:6006`. The resource carries an `openinference.project.name` attribute so Phoenix groups spans under the service name.
 
 ---
 
@@ -291,9 +340,10 @@ Set `OTEL_EXPORTER_OTLP_ENDPOINT` in `.env` (the collector **base** URL — the 
 
 | Area | Choice |
 | --- | --- |
-| Orchestration | Python 3 (stdlib only — `argparse`, `subprocess`, `threading`, `json`) |
+| Orchestration | Python 3 (stdlib only: `argparse`, `subprocess`, `threading`, `json`) |
 | Agent backends | opencode CLI · GitHub Copilot CLI |
-| Generated app | Angular 22, standalone components, signals, zoneless, SCSS, Vitest |
+| Generated apps | Any stack with a `<stack>-<role>` skill set. Current: Angular 22 (web), React Native + Expo (mobile) |
+| Verification | Auto-detected per stack: `tsc`, `ng build`, `npm run build`, `flutter`, `go`, `cargo`, `compileall` |
 | Observability | OpenTelemetry + Arize Phoenix (optional) |
 | Pattern | Blackboard multi-agent, deterministic scheduler, compile-gated stages |
 
