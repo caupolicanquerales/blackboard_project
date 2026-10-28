@@ -1,0 +1,387 @@
+{
+  "project": {
+    "name": "mediconnect-operations-patient-portal",
+    "description": "Multi-role medical practice and patient engagement mobile app with triage queues, appointments, prescriptions, messaging workflows and OCR expense management.",
+    "target": "React Mobile (Expo, TypeScript, Functional Components, Hooks)",
+    "platform": "mobile",
+    "layoutParadigm": "flexbox",
+    "framework": "react-native"
+  },
+  "skills": [
+    {
+      "name": "react-translator",
+      "invocation": "load",
+      "scope": "translation",
+      "when": "always",
+      "reason": "Framework is React Mobile (Expo, TypeScript); translate description into React Native seed conventions."
+    },
+    {
+      "name": "react-architect",
+      "invocation": "load",
+      "scope": "architecture",
+      "when": "always",
+      "reason": "Structural decisions for the React Native blackboard architecture."
+    },
+    {
+      "name": "react-wiring",
+      "invocation": "load",
+      "scope": "tasks",
+      "when": "always",
+      "reason": "Navigation, providers and entry point wiring with React Navigation."
+    },
+    {
+      "name": "react-ui",
+      "invocation": "load",
+      "scope": "tasks",
+      "when": "always",
+      "reason": "Flexbox layoutSpec and design system application."
+    },
+    {
+      "name": "react-core",
+      "invocation": "load",
+      "scope": "tasks",
+      "when": "always",
+      "reason": "Services, stores and context for ERP, access control, messaging and OCR."
+    },
+    {
+      "name": "react-container",
+      "invocation": "load",
+      "scope": "tasks",
+      "when": "always",
+      "reason": "Screens and components, Expo Stage 0 bootstrap."
+    },
+    {
+      "name": "react-model",
+      "invocation": "load",
+      "scope": "tasks",
+      "when": "always",
+      "reason": "TypeScript entity types."
+    },
+    {
+      "name": "typescript-model",
+      "invocation": "load",
+      "scope": "tasks",
+      "when": "always",
+      "reason": "Base TypeScript model conventions."
+    }
+  ],
+  "global_requirements": {
+    "layout": "Vertical flexbox stack inside SafeAreaView: top header with profile switcher, location and notification badge, role-adaptive bottom tab navigation, stack navigation for drill-down screens, sticky bottom action bar.",
+    "theme": {
+      "mode": "light",
+      "background": "#F8FAFC",
+      "accent": "#0284C7",
+      "headingStyle": "clear, high-contrast, bold hierarchy",
+      "iconography": "custom icons for appointment types, pharmacy dispatches and financial receipts",
+      "statusColors": {
+        "confirmed": "#10B981",
+        "priority": "#F59E0B",
+        "urgent": "#EF4444"
+      }
+    },
+    "layoutSpec": {
+      "paradigm": "flexbox",
+      "flex": {
+        "direction": "column",
+        "wrap": "nowrap",
+        "gap": 12,
+        "justify": "flex-start",
+        "align": "stretch",
+        "items": [
+          "safe-area root (flex: 1)",
+          "role switcher and profile header card",
+          "priority summary metrics row",
+          "segmented tab control",
+          "scrollable content (flex: 1)",
+          "sticky bottom action bar",
+          "bottom tab navigation"
+        ],
+        "responsive": "useWindowDimensions; phone single column, tablet two-column content with numColumns on lists"
+      }
+    },
+    "core_services": [
+      "Hospital ERP Ingestion & Triage Engine \u2014 ingests patient recommendation queues and calculates priority score (0-10) from severity and diagnosis, ranking the queue",
+      "Role & Access Control Service \u2014 manages role sessions (PATIENT_SOCIAL_SECURITY, PATIENT_PRIVATE, DOCTOR, NURSE, SECRETARY) and enforces field-level access, adapting tabs and views",
+      "Omnichannel Messaging Gateway \u2014 dispatches WhatsApp templates and tracks manual doctor follow-up calls",
+      "Financial & OCR Invoice Service \u2014 mock OCR of receipt photos extracting vendor, tax ID, totals and line items; maintains monthly ledger balances"
+    ],
+    "shared_ui": [
+      {
+        "name": "RoleSwitcherHeader",
+        "purpose": "Top safe-area header to toggle between Patient, Doctor and Staff views, showing location and pending notification badge.",
+        "type": "app-bar",
+        "primitive": "safe-area",
+        "layoutSpec": {
+          "paradigm": "flexbox",
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "gap": 8,
+            "justify": "space-between",
+            "align": "center"
+          }
+        },
+        "content": "elements: profile segmented switcher, location indicator, notification badge; data: active role, location, pending notification count; states: patient | doctor | staff; interactions: tap to switch role; a11y: accessibilityRole=button, min 44x44pt targets, badge count announced",
+        "a11y": "accessibilityLabel on switcher options, accessibilityState selected, 44x44pt touch targets."
+      },
+      {
+        "name": "PriorityTriageBadge",
+        "purpose": "Color-coded urgency indicator with raw numeric score.",
+        "type": "badge",
+        "primitive": "row",
+        "layoutSpec": {
+          "paradigm": "flexbox",
+          "flex": {
+            "direction": "row",
+            "wrap": "nowrap",
+            "gap": 4,
+            "justify": "center",
+            "align": "center"
+          }
+        },
+        "content": "elements: rank label, score number; data: severity URGENT|HIGH|MEDIUM|ROUTINE, score 0-10; states: urgent(#EF4444) | high(#F59E0B) | medium | routine; interactions: none; a11y: accessibilityValue announces rank and score",
+        "a11y": "WCAG AA contrast; accessibilityLabel and accessibilityValue announce rank explicitly."
+      },
+      {
+        "name": "AppointmentStatusTimeline",
+        "purpose": "Visual progress tracker of appointment states.",
+        "type": "stepper",
+        "primitive": "row",
+        "layoutSpec": {
+          "paradigm": "flexbox",
+          "flex": {
+            "direction": "row",
+            "wrap": "wrap",
+            "gap": 6,
+            "justify": "flex-start",
+            "align": "center"
+          }
+        },
+        "content": "elements: step nodes, connectors; data: PENDING_TRIAGE, SCHEDULED, WHATSAPP_SENT, CALL_REQUIRED, CONFIRMED, IN_CONSULTATION, COMPLETED; states: completed | current | upcoming; interactions: none; a11y: current step announced",
+        "a11y": "accessibilityRole=progressbar, accessibilityState reflects current step."
+      },
+      {
+        "name": "PrescriptionPharmacyStatusCard",
+        "purpose": "Card showing medication, dosage, issuing doctor and pharmacy dispatch status.",
+        "type": "card",
+        "primitive": "card",
+        "layoutSpec": {
+          "paradigm": "flexbox",
+          "flex": {
+            "direction": "column",
+            "wrap": "nowrap",
+            "gap": 6,
+            "justify": "flex-start",
+            "align": "stretch"
+          }
+        },
+        "content": "elements: medication name, dosage, doctor, status chip; data: ISSUED | DISPATCHED_TO_PHARMACY | READY_FOR_PICKUP; states: issued | dispatched | ready; interactions: tap to open prescription detail; a11y: status announced",
+        "a11y": "accessibilityRole=button, accessibilityLabel combining medication and status."
+      },
+      {
+        "name": "OcrScanPreview",
+        "purpose": "Camera viewfinder container with bounding box overlays of extracted receipt fields.",
+        "type": "section",
+        "primitive": "scroll-view",
+        "layoutSpec": {
+          "paradigm": "flexbox",
+          "flex": {
+            "direction": "column",
+            "wrap": "nowrap",
+            "gap": 8,
+            "justify": "center",
+            "align": "stretch"
+          }
+        },
+        "content": "elements: viewfinder frame, bounding box overlays, extracted field labels; data: vendor, tax ID, totals, line items, confidence; states: idle | scanning_ocr | verified; interactions: capture, edit extracted fields; a11y: extracted fields read out",
+        "a11y": "accessibilityLabel describing extracted fields and confidence; editable fields with labels."
+      }
+    ]
+  },
+  "features": [
+    {
+      "name": "clinical-agenda",
+      "route": "clinical-agenda",
+      "description": "Central operational dashboard for doctors, nurses and secretaries: ERP-prioritized patient queue, doctor availability slots, consultations versus surgical procedures. Views: vertical priority list, calendar day/week, appointment modifier modal. States: loading | empty | error | success. Toast on new high-priority patient, confirmation dialogs on schedule override, swipeable cards (Send WhatsApp, Require Call, Reschedule), pull-to-refresh.",
+      "layoutSpec": {
+        "paradigm": "flexbox",
+        "flex": {
+          "direction": "column",
+          "wrap": "nowrap",
+          "gap": 12,
+          "justify": "flex-start",
+          "align": "stretch"
+        }
+      },
+      "entities": [
+        {
+          "name": "Appointment",
+          "fields": [
+            "id: string",
+            "patientId: string",
+            "patientName: string",
+            "patientType: 'SOCIAL_SECURITY' | 'PRIVATE'",
+            "doctorId: string",
+            "appointmentType: 'CONSULTATION' | 'SURGICAL_PROCEDURE'",
+            "status: string",
+            "priorityScore: number",
+            "severityLevel: 'URGENT' | 'HIGH' | 'MEDIUM' | 'ROUTINE'",
+            "scheduledTime: string",
+            "durationMinutes: number"
+          ]
+        },
+        {
+          "name": "DoctorSchedule",
+          "fields": [
+            "doctorId: string",
+            "doctorName: string",
+            "availableSlots: string[]",
+            "blockedSlots: string[]"
+          ]
+        }
+      ],
+      "actions": [
+        "Fetch priority-ranked queue from hospital ERP",
+        "Assign available time slot based on priority score",
+        "Modify appointment time or reassign doctor",
+        "Switch view filter between consultations and surgical procedures"
+      ]
+    },
+    {
+      "name": "patient-portal",
+      "route": "patient-portal",
+      "description": "Patient-facing self-service for appointment requests, history, active prescriptions, pharmacy dispatch notifications, specialist referrals and lab requests. Views: patient dashboard stack, prescription detail, test order list. States: loading | empty | error | success. Banner notifications; bottom tabs My Appointments, Prescriptions, Exams/Referrals; high-contrast simplified layouts.",
+      "layoutSpec": {
+        "paradigm": "flexbox",
+        "flex": {
+          "direction": "column",
+          "wrap": "nowrap",
+          "gap": 12,
+          "justify": "flex-start",
+          "align": "stretch"
+        }
+      },
+      "entities": [
+        {
+          "name": "PatientRecord",
+          "fields": [
+            "id: string",
+            "fullName: string",
+            "insuranceType: 'SOCIAL_SECURITY' | 'PRIVATE'",
+            "insuranceNumber: string"
+          ]
+        },
+        {
+          "name": "Prescription",
+          "fields": [
+            "id: string",
+            "patientId: string",
+            "medicationName: string",
+            "dosage: string",
+            "instructions: string",
+            "pharmacyStatus: 'PENDING' | 'SENT_TO_PHARMACY' | 'READY_FOR_PICKUP'",
+            "issuedAt: string"
+          ]
+        },
+        {
+          "name": "MedicalOrder",
+          "fields": [
+            "id: string",
+            "patientId: string",
+            "orderType: 'SPECIALIST_REFERRAL' | 'LAB_EXAM'",
+            "description: string",
+            "targetSpecialty: string | undefined",
+            "status: 'REQUESTED' | 'SCHEDULED' | 'COMPLETED'"
+          ]
+        }
+      ],
+      "actions": [
+        "Request new appointment slot",
+        "Fetch active prescriptions and pharmacy status",
+        "View pending specialist referrals and lab exam requests",
+        "Toggle reminder notifications (24h before / day of appointment)"
+      ]
+    },
+    {
+      "name": "messaging-hub",
+      "route": "messaging-hub",
+      "description": "Coordinates automated and manual outreach: WhatsApp confirmations to patients and doctor call alerts for high-priority or surgical appointments. Views: staff action item list, call queue detail bar. States: idle | dispatching | sent | call_pending | call_completed. Delivery checkmarks, persistent pending-call badge, one-tap native WhatsApp or phone dialer.",
+      "layoutSpec": {
+        "paradigm": "flexbox",
+        "flex": {
+          "direction": "column",
+          "wrap": "nowrap",
+          "gap": 12,
+          "justify": "flex-start",
+          "align": "stretch"
+        }
+      },
+      "entities": [
+        {
+          "name": "NotificationLog",
+          "fields": [
+            "id: string",
+            "appointmentId: string",
+            "channel: 'WHATSAPP' | 'DOCTOR_CALL'",
+            "recipientPhone: string",
+            "messageTemplate: string",
+            "status: 'PENDING' | 'SENT' | 'FAILED' | 'CALL_REQUIRED' | 'CALL_COMPLETED'",
+            "timestamp: string"
+          ]
+        }
+      ],
+      "actions": [
+        "Trigger automated WhatsApp notification",
+        "Log doctor call execution status",
+        "Resend failed delivery notifications"
+      ]
+    },
+    {
+      "name": "financial-ledger",
+      "route": "financial-ledger",
+      "description": "Financial module for monthly invoices and practice expenses; register costs manually or by photographing a receipt with mock OCR. Views: financial summary dashboard, expense itemizer list, receipt scanner. States: loading | scanning_ocr | verified | saving | error. Editable OCR-extracted fields, FAB to scan, horizontal swipe to delete manual entries, readout of totals and tax.",
+      "layoutSpec": {
+        "paradigm": "flexbox",
+        "flex": {
+          "direction": "column",
+          "wrap": "nowrap",
+          "gap": 12,
+          "justify": "flex-start",
+          "align": "stretch"
+        }
+      },
+      "entities": [
+        {
+          "name": "FinancialSummary",
+          "fields": [
+            "periodMonth: string",
+            "totalInvoicedAmount: number",
+            "totalExpensesAmount: number",
+            "netBalance: number"
+          ]
+        },
+        {
+          "name": "ExpenseEntry",
+          "fields": [
+            "id: string",
+            "entryType: 'OCR_IMAGE' | 'MANUAL'",
+            "vendorName: string",
+            "invoiceNumber: string",
+            "amount: number",
+            "taxAmount: number",
+            "category: string",
+            "receiptImageUrl: string | undefined",
+            "confidenceScore: number | undefined",
+            "registeredAt: string"
+          ]
+        }
+      ],
+      "actions": [
+        "Fetch monthly financial overview (issued invoices vs expenses)",
+        "Process receipt image via mock OCR parser",
+        "Save verified expense entry to accounting ledger",
+        "Manually create or edit financial expense record"
+      ]
+    }
+  ]
+}

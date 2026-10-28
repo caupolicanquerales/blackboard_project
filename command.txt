@@ -1,1 +1,1 @@
-python3 runner_github.py --translate seed/002_description.md --watch
+python3 runner_github.py --translate seed/003_description.md --watch

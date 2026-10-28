@@ -16,7 +16,7 @@ One primary source artifact = one **creation** task = `blackboard/queue/<id>.jso
 
 General ordering (adapt by platform): models/types → core/shared → data/state → UI presentational → containers/pages/screens → routing/navigation/config → app bootstrap/config.
 
-Emit sorted by `(stage, path, kind-rank)` ascending; `dependsOn` only to tasks sorting before.
+Emit sorted by `(stage, dependency order, path, kind-rank)` ascending. Within a stage, a task that imports from another task's `path` MUST list that task in `dependsOn` even when it is in the same stage; sort the providers before the consumers (topological order), and use `path` only as a tie-breaker. Never omit a dependency because the sibling sorts later by path.
 
 ## 2. Universal Target Agent Mapping (by logical role)
 
@@ -71,7 +71,7 @@ The task's `path` points to the **primary source artifact**. Workers must create
 - `id`: `^T[0-8]-\d{3}$`; middle number = `stage`; ordinal = position after sorting by `(path, kind-rank)`; unique.
 - `targetAgent`/`stage`: §§2/1.
 - `path`: under project root as appropriate for platform; Stage 0 synthetic if needed.
-- `dependsOn`: ids sorting before; `[]` if independent.
+- `dependsOn`: ids of every task whose output this file imports (same stage or earlier), all sorted before it; `[]` if independent. A same-stage import without a `dependsOn` entry causes a verification failure (TS2307).
 - `kind`: platform-appropriate (e.g., model/service/store/component/screen/widget/route/provider/config/ux etc.)
 - `layer`: `core|shared|features|layout|root`
 - `feature`: name iff `layer=="features"` else `null`

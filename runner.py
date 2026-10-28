@@ -224,9 +224,25 @@ def validate(task, index):
         dep_task = index.get(dep)
         if dep_task is None or not isinstance(dep_task.get("stage"), int) or not isinstance(dep_task.get("path"), str):
             return f"dependsOn {dep} not resolvable in queue or complete"
-        if task_sort_key(dep_task) >= current:
-            return f"dependsOn {dep} does not sort before this task"
+        if dep_task["stage"] > task["stage"]:
+            return f"dependsOn {dep} is in a later stage than this task"
+        if depends_transitively(dep, task["id"], index):
+            return f"dependsOn {dep} creates a dependency cycle"
     return None
+
+
+def depends_transitively(start, target, index, seen=None):
+    """True if `start` (directly or indirectly) depends on `target`."""
+    seen = set() if seen is None else seen
+    if start == target:
+        return True
+    if start in seen:
+        return False
+    seen.add(start)
+    node = index.get(start)
+    if not node or not isinstance(node.get("dependsOn"), list):
+        return False
+    return any(depends_transitively(dep, target, index, seen) for dep in node["dependsOn"])
 
 
 def claimable(task, queued, complete_ids):
